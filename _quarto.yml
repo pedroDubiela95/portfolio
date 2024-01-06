@@ -3,16 +3,55 @@ project:
   output-dir: ./docs
 
 website:
-  title: "portfolio"
+  title: "Pedro Gasparine Dubiela"
+  search: false
+
+  # Header
   navbar:
+    background: "#1a3d4a"
+    foreground: "white"
+    pinned: true
+    right: 
+      - icon: github
+        href: https://github.com/pedroDubiela95
+      - icon: linkedin 
+        href: https://www.linkedin.com/in/pedro-gasparine-dubiela-478430147/ 
     left:
-      - href: index.qmd
-        text: Home
-      - about.qmd
+      - text: "Home"
+        file: index.qmd
+      - text: "Projects"
+        file: projects.qmd
+      - text: "Reference"
+        file: reference.qmd
+
+  # Foot
+  page-footer:
+    background: "#1a3d4a"
+    foreground: "white"
+    center: "Copyright 2024" 
+    border: true
+
+  # Barra
+  sidebar:
+  - title: "Projects"
+    style: "docked"
+    border: true
+    background: "#1a3d4a"
+    foreground: "white"
+    contents:
+      - projects.qmd
+      - projects1.qmd
+      - projects2.qmd
+
+  - title: "Reference teste"
+    contents:
+      - referece.qmd
 
 format:
   html:
-    theme: cosmo
+    theme:
+      - cosmo
+      - custom.scss
     css: styles.css
     toc: true
 
