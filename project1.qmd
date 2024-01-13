@@ -1,0 +1,375 @@
+---
+title: "Project: Bank Customer Churn Prediction"
+---
+
+# Introduction
+
+<p>
+O problema de churn, ou rotatividade de clientes, representa um desafio significativo para instituições bancárias. Refere-se à taxa na qual os clientes encerram seus relacionamentos com o banco, migrando para outras instituições financeiras ou até mesmo abandonando serviços financeiros. Este fenômeno pode ser impulsionado por diversos fatores, como insatisfação com serviços, concorrência acirrada, mudanças nas condições econômicas e até mesmo avanços tecnológicos.
+</p>
+
+<p>
+Dessa forma, a retenção de clientes torna-se uma prioridade estratégica para os bancos, que buscam constantemente inovar, oferecer experiências mais atrativas e personalizadas, a fim de mitigar o churn e manter uma base sólida de clientes leais.
+</p>
+
+<p>
+Diante desse cenário, torna-se de extrema valia a capacidade de identificar os clientes mais propensos ao churn, possibilitando que a instituição financeira aja de maneira antecipada, oferecendo planos e serviços atrativos que impeçam a fuga do cliente.
+</p>
+
+# Business Problem
+Temos uma base de dados do ABC Multistate Bank, a qual está hospedada em <https://www.kaggle.com/datasets/gauravtopre/bank-customer-churn-dataset/data>. Essa base de dados contém informações anonimizadas de 10.000 clientes, onde o problema de negócio em questão resume-se a construirmos um modelo capaz de predizer a ocorrência ou não de churn para um dado cliente, com base nas informações disponíveis.
+
+
+## Approach
+layout de estração
+EDA
+Bivariada
+Modelo
+
+# Resolução do Problema
+
+```{python}
+#| echo: false
+#| output: false
+#| warning: false
+
+import numpy as np
+import pandas as pd
+import warnings
+warnings.filterwarnings('ignore')
+
+from scipy.stats import shapiro
+from functions import (
+    create_table_categorical,
+    create_graph_categorical,
+    create_table_numeric_continuous,
+    create_graph_numeric_continuous,
+    bivariate
+    )
+```
+
+## Análise Exploratória dos Dados
+O objetivo desta etapa é investigar e entender os dados disponíveis, a fim de extrair informações preliminares, identificar padrões, tendências, anomalias e insights relevantes.
+
+```{python}
+#| echo: false
+#| output: false
+
+# Read files
+file_name = "Bank Customer Churn Prediction"
+df = pd.read_csv(f"./source/{file_name}.csv")
+
+
+# -> there is no duplciated customer
+df.duplicated("customer_id").sum()
+
+# -> there is no missing values
+df.isna().sum()
+
+# -> remove cols not useful
+df.drop("customer_id", axis = 1, inplace = True)
+
+# -> preprocessing
+df_base = df.copy()
+
+# "products_number"
+df["products_number"] = np.where(df["products_number"] >= 4 , ">=4", df["products_number"].astype(int).astype(str))
+
+# tenure
+var_name = 'tenure'
+c1 = df[var_name].between(0,  2,      inclusive = "both")
+c2 = df[var_name].between(2,  4,      inclusive = "right")
+c3 = df[var_name].between(4,  6,      inclusive = "right")
+c4 = df[var_name].between(6,  8,      inclusive = "right")
+c5 = df[var_name].between(8,  10,     inclusive = "right")
+c6 = df[var_name].between(10, np.inf, inclusive = "neither")
+
+df[var_name] = np.where(
+    c1, '[0, 2]', np.where(
+        c2, '(2, 4]', np.where(
+            c3, '(4, 6]', np.where(
+                c4, '(6, 8]', np.where(
+                    c5, '(8, 10]', '>10' 
+                    )
+                )
+            )
+        )
+    ) 
+```
+
+### Churn
+Essa variável denota a ocorrência (1) ou não ocorrência (0) do evento de churn.
+
+**Evaluation**: <span style="color: green;"> OK. </span>
+<ul>
+  <li>Variável target.</li>
+  <li>Temos 20% de ocorrência do evento.</li>
+  <li>Temos 80% de não ocorrência do evento.</li>
+</ul>
+
+```{python}
+#| fig-align: center
+create_table_categorical("churn", df)
+```
+
+```{python}
+#| fig-align: center
+create_graph_categorical("churn", df)
+```
+
+<hr>
+
+### Country
+Pais do cliente.
+
+**Evaluation**: <span style="color: green;"> OK. </span>
+<ul>
+  <li>Variável categórica.</li>
+  <li>Não possui nenhum valor faltante.</li>
+  <li>França representa 50%.</li>
+  <li>Alemanha e Espanha representam 25% cada.</li>
+</ul>
+
+```{python}
+#| fig-align: center
+create_table_categorical("country", df)
+```
+
+```{python}
+#| fig-align: center
+create_graph_categorical("country", df)
+```
+
+<hr>
+
+### Gender
+Gênero do cliente.
+
+**Evaluation**: <span style="color: green;"> OK. </span>
+<ul>
+  <li>Variável categórica.</li>
+  <li>Não possui nenhum valor faltante.</li>
+  <li>55% Homens.</li>
+  <li>45% Mulheres.</li>
+</ul>
+
+```{python}
+#| fig-align: center
+create_table_categorical("gender", df)
+```
+```{python}
+#| fig-align: center
+create_graph_categorical("gender", df)
+```
+
+<hr>
+
+### Credit Card
+Se o cliente utiliza cartão de crédito.
+
+**Evaluation**: <span style="color: green;"> OK. </span>
+<ul>
+  <li>Variável categórica.</li>
+  <li>Não possui nenhum valor faltante.</li>
+  <li>71% utiliza cartão de cŕedito.</li>
+  <li>29% não utiliza.</li>
+</ul>
+
+```{python}
+#| fig-align: center
+create_table_categorical("credit_card", df)
+```
+```{python}
+#| fig-align: center
+create_graph_categorical("credit_card", df)
+```
+
+<hr>
+
+### Active Member
+Denota se um cliente é ativo ou não.
+
+**Evaluation**: <span style="color: green;"> OK. </span>
+<ul>
+  <li>Variável categórica.</li>
+  <li>Não possui nenhum valor faltante.</li>
+  <li>Praticamente metade dos clientes são ativos e a outra metade é inativo.</li>
+</ul>
+
+```{python}
+#| fig-align: center
+create_table_categorical("active_member", df)
+```
+```{python}
+#| fig-align: center
+create_graph_categorical("active_member", df)
+```
+
+<hr>
+
+### Products Number
+Número de produtos adiquiridos pelo cliente.
+
+**Evaluation**: <span style="color: green;"> OK. </span>
+<ul>
+  <li>Variável categórica.</li>
+  <li>Não possui nenhum valor faltante.</li>
+  <li>~50% dos cliente utilizam somente um produto.</li>
+  <li>~46% dos cliente utilizam 2 produtos.</li>
+</ul>
+
+```{python}
+#| fig-align: center
+create_table_categorical("products_number", df, ['1', '2', '3', '>=4'])
+```
+```{python}
+#| fig-align: center
+create_graph_categorical("products_number", df, ['1', '2', '3', '>=4'])
+```
+
+<hr>
+
+### Tenure
+Mensura a quantidde em anos que é cliente
+
+**Evaluation**: <span style="color: green;"> OK. </span>
+<ul>
+  <li>Variável categóricas.</li>
+  <li>Não possui nenhum valor faltante.</li>
+  <li>25% de 0 a 2 anos.</li>
+  <li>15% de 8 a 10 anos.</li>
+  <li>As demais classes estão bem distribuídos em torno de 20%.</li>
+</ul>
+
+```{python}
+#| fig-align: center
+#fazer a mesma ordenção de baixo aqui
+create_table_categorical("tenure", df, ['[0, 2]', '(2, 4]', '(4, 6]', '(6, 8]', '(8, 10]'])
+```
+```{python}
+#| fig-align: center
+create_graph_categorical("tenure", df, ['[0, 2]', '(2, 4]', '(4, 6]', '(6, 8]', '(8, 10]'])
+```
+
+<hr>
+
+### Credit Score
+É uma medida da probabilidade de um indivíduo pagar suas dívidas com base em seu histórico de crédito passado.
+
+**Evaluation**: <span style="color: green;"> OK. </span>
+<ul>
+  <li>Variável numérica.</li>
+  <li>Não possui nenhum valor faltante.</li>
+  <li>Possui distribuição aproximadamente normal, com média = 650.</li>
+</ul>
+
+```{python}
+#| fig-align: center
+create_table_numeric_continuous("credit_score", df)
+```
+```{python}
+#| fig-align: center
+create_graph_numeric_continuous("credit_score", df)
+```
+
+<hr>
+
+### Age
+Idade em anos do cliente.
+
+**Evaluation**: <span style="color: green;"> OK. </span>
+<ul>
+  <li>Variável numérica.</li>
+  <li>Não possui nenhum valor faltante.</li>
+  <li>Possui distribuição assimétrica á direita.</li>
+  <li>Possui distribuição assimétrica á direita.</li>
+  <li>Cliente mais novo tem 18 anos.</li>
+  <li>Cliente mais velho tem 92 anos.</li>
+  <li>O valor mediano da idade do cliente é de 37 anos.</li>
+
+</ul>
+
+```{python}
+#| fig-align: center
+create_table_numeric_continuous("age", df)
+```
+```{python}
+#| fig-align: center
+create_graph_numeric_continuous("age", df)
+```
+
+<hr>
+
+### Balance
+Saldo bancário do cliente
+
+**Evaluation**: <span style="color: green;"> OK. </span>
+<ul>
+  <li>Variável numérica.</li>
+  <li>Não possui nenhum valor faltante.</li>
+  <li>Variável com distribuição assimétrica.</li>
+  <li>Alta concetração de cliente com saldo entre 0 e 25 mil.</li>
+</ul>
+
+```{python}
+#| fig-align: center
+create_table_numeric_continuous("balance", df)
+```
+```{python}
+#| fig-align: center
+create_graph_numeric_continuous("balance", df)
+```
+
+<hr>
+
+### Estimated Salary
+Salario estimado.
+
+**Evaluation**: <span style="color: green;"> OK. </span>
+<ul>
+  <li>Variável numérica.</li>
+  <li>Não possui nenhum valor faltante.</li>
+  <li>Variável com distribuição uniforme.</li>
+</ul>
+
+```{python}
+#| fig-align: center
+create_table_numeric_continuous("estimated_salary", df)
+```
+```{python}
+#| fig-align: center
+create_graph_numeric_continuous("estimated_salary", df)
+```
+
+## Análise Bivariada dos Dados
+
+```{python}
+numerical_variables = [
+    "products_number",
+    "tenure",
+    "credit_score",
+    "age",
+    "balance",
+    "estimated_salary"
+    ]
+
+categorical_variables = [
+    "country", 
+    "gender", 
+    "credit_card",
+    "active_member"
+    ]
+
+target_variable = 'churn'
+
+df = df_base
+
+df_bivariate = bivariate(
+    df,
+    numerical_variables,
+    categorical_variables,
+    target_variable)
+df_bivariate
+```
+# próximos passos
+- imprimir certinho os gráficos da bivariada
