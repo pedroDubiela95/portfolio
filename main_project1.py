@@ -9,7 +9,11 @@ from functions import (
     create_graph_categorical,
     create_table_numeric_continuous,
     create_graph_numeric_continuous,
-    bivariate
+    bivariate,
+    create_table_bivariate_summary,
+    create_table_bivariate_html,
+    create_graph_bivariate_html,
+    create_graph_h_bivariate_html
     )
 
 
@@ -82,10 +86,19 @@ df_bivariate = bivariate(
     categorical_variables,
     target_variable)
 
+df_bivariate.rename(columns = {"Indicador":"Feature"}, inplace = True)
+df = (
+  df_bivariate[["Feature", "Cramer's V", "Discriminância"]]
+  .drop_duplicates()
+  .sort_values(by = ["Cramer's V", "Feature"], ascending = False)
+  .reset_index(drop = True)
+  )
 #df_bivariate.to_excel("./bivariate.xlsx", index=False)
     
+create_table_bivariate_summary(df, cols_float = ["Cramer's V"])
 
-
+var = "age"
+create_table_bivariate_html(df_bivariate, var)
 
 
 

@@ -3,17 +3,22 @@ import matplotlib.pyplot as plt
 import pandas            as pd
 import re
 
+from matplotlib.ticker import FuncFormatter
 from optbinning  import BinningProcess
 from scipy       import stats as st
 from scipy.stats import chi2_contingency
 
 
-LINE = "--"
-ROTATION = 30
-FONT_SIZE = 9
-WIDTH     = 8
-HEIGHT    = 2
-COLOR     = "#001820"
+
+LINE       = "--"
+ROTATION   = 30
+FONT_SIZE  = 9
+WIDTH      = 8*1.3
+HEIGHT     = 2*1.3
+COLOR      = "#001820"
+COLOR_BAR  = "#429e53"
+COLOR_LINE = "white"
+COLOR_DOT  = "#001820"
 
 
 def sep(s, thou=",", dec="."):
@@ -452,7 +457,7 @@ def bivariate(df, numerical_variables, categorical_variables, target_variable):
 
         df_res1 = pd.concat([total, event, non_event], axis=1).reset_index()
         df_res1.columns = ['Categoria', 'Total', 'Evento', 'Nao_evento']
-        df_res1["Indicador"] = var_name
+        df_res1["Feature"] = var_name
 
         # 3 - Cramers'V -----------------------------------------------------------
         var_x = var_name
@@ -468,7 +473,7 @@ def bivariate(df, numerical_variables, categorical_variables, target_variable):
 
     # Create metrics 2
     df_res['% Resposta'] = (df_res['Evento'] / (df_res['Total']))*100
-    qtd_growers = df_res.groupby(['Indicador']).agg({'Total': 'sum'})
+    qtd_growers = df_res.groupby(['Feature']).agg({'Total': 'sum'})
     df_res['% Categoria'] = (df_res['Total'] / qtd_growers.iloc[0, 0])*100
 
     # Classifying
@@ -480,7 +485,7 @@ def bivariate(df, numerical_variables, categorical_variables, target_variable):
         sum(df_res['Evento']) / sum(df_res['Total']))*100
 
     # Sort
-    df_res = df_res[['Indicador', 'Categoria',	'Nao_evento', 'Evento',	'Total',
+    df_res = df_res[['Feature', 'Categoria',	'Nao_evento', 'Evento',	'Total',
                      '% Media da base', '% Resposta',	'% Categoria',
                      "Cramer's V",	'Discriminância']]
 
@@ -488,3 +493,139 @@ def bivariate(df, numerical_variables, categorical_variables, target_variable):
     # df_res.to_excel("bivariate.xlsx", index = False)
 
     return df_res
+
+
+def create_table_bivariate_summary(df, cols_float = None):
+
+
+    blank_index = [''] * len(df)
+    df.index = blank_index
+
+    if cols_float != None:
+        df[cols_float] = df[cols_float].applymap(
+            lambda x: "{:.2f}".format(np.round(x, 2))).copy()
+
+    df_styled = (
+        df.style
+        # Cor do header e index
+        .set_table_styles([{
+            'selector': 'th:not(.index_name)',
+            'props': f'background-color: {COLOR}; color: white;'
+        }])
+    )
+
+    return df_styled
+
+
+def create_table_bivariate_html(df, var):
+
+    df = df.loc[df["Feature"] == var].copy()
+
+    cols = ['Categoria', 'Nao_evento', 'Evento', 'Total',
+            '% Resposta', '% Categoria']
+
+    # cols = ['Categoria', 'Nao_evento', 'Evento', 'Total',
+    #        '% Resposta', '% Categoria', "Cramer's V", "Discriminância"]
+
+    cols_float = ['% Resposta', '% Categoria']
+
+    blank_index = [''] * len(df)
+    df.index = blank_index
+
+    df[cols_float] = df[cols_float].applymap(
+        lambda x: "{:.2f}".format(np.round(x, 2))).copy()
+
+    df = df[cols]
+
+    df.rename(columns={"Nao_evento": "Não Churn",
+                       "Evento": "Churn",
+                       "% Resposta": "% Churn",
+                       }, inplace=True)
+
+    df_styled = (
+        df.style
+        # Cor do header e index
+        .set_table_styles([{
+            'selector': 'th:not(.index_name)',
+            'props': f'background-color: {COLOR}; color: white;'
+        }])
+    )
+    return df_styled
+
+
+def create_graph_bivariate_html(df, var):
+
+    df = df.loc[df["Feature"] == var]
+
+    mean = df["% Media da base"].mean()
+
+    fig, ax1 = plt.subplots(figsize=(WIDTH, HEIGHT), facecolor="#93a7b8")
+
+    # Barra no primeiro eixo y (à esquerda)
+    ax1.bar(df['Categoria'], df['% Resposta'],
+            color=COLOR_BAR, alpha=0.7, label='% Churn')
+
+    ax1.axhline(y=mean, color=COLOR_LINE, linestyle='--',
+                label='% Média de Churn')
+
+    for bars in ax1.containers:
+        # f'{x:.4}%'
+        ax1.bar_label(
+            bars, labels=[f'{round(x, 2)}%' for x in bars.datavalues])
+
+    ax1.scatter(df['Categoria'], df['% Categoria'],
+                color=COLOR_DOT, marker='o', label='% Categoria')
+
+    # Fixar os limites dos eixos y
+    ax1.set_ylim(0, 100)
+
+    plt.title(f"{var} - Porcentagem de Churn por Categoria")
+
+    # Adicionar o símbolo de porcentagem
+    ax1.yaxis.set_major_formatter(FuncFormatter(lambda x, _: f'{int(x)}%'))
+
+    ax1.legend(loc='upper right')
+    plt.legend(facecolor = "#becad4") 
+
+    ax1.set_facecolor("#93a7b8")
+    plt.rc('legend',fontsize = FONT_SIZE)
+    plt.rc('font', size = FONT_SIZE)
+    plt.xticks(rotation=ROTATION)
+    plt.show()
+
+
+def create_graph_h_bivariate_html(df, var):
+
+    df   = df.loc[df["Feature"] == var]
+    mean = df["% Media da base"].mean()
+
+
+    fig, ax = plt.subplots(figsize=(WIDTH, HEIGHT), facecolor="#93a7b8")
+    ax.barh(df['Categoria'], df['% Resposta'],
+            color=COLOR_BAR, alpha=0.7, label='% Churn')
+
+    ax.axvline(x=mean, color=COLOR_LINE, linestyle='--',
+               label='% Média de Churn')
+
+    for bars in ax.containers:
+        # f'{x:.4}%'
+        ax.bar_label(bars, labels=[f'{round(x, 2)}%' for x in bars.datavalues])
+
+    ax.scatter(df['% Categoria'], df['Categoria'],
+               color=COLOR_DOT, marker='o', label='% Categoria')
+
+    # Fixar os limites dos eixos y
+    ax.set_xlim(0, 100)
+
+    plt.title(f"{var} - Porcentagem de Churn por Categoria")
+
+    # Adicionar o símbolo de porcentagem
+    ax.xaxis.set_major_formatter(FuncFormatter(lambda x, _: f'{int(x)}%'))
+
+    ax.legend(loc='upper right')
+    plt.legend(facecolor = "#becad4") 
+
+    ax.set_facecolor("#93a7b8")
+    plt.rc('legend',fontsize = FONT_SIZE)
+    plt.rc('font', size = FONT_SIZE)
+    plt.show()

@@ -38,7 +38,11 @@ from functions import (
     create_graph_categorical,
     create_table_numeric_continuous,
     create_graph_numeric_continuous,
-    bivariate
+    bivariate,
+    create_table_bivariate_summary,
+    create_table_bivariate_html,
+    create_graph_bivariate_html,
+    create_graph_h_bivariate_html
     )
 ```
 
@@ -348,6 +352,7 @@ create_graph_numeric_continuous("estimated_salary", df)
 ## Análise Bivariada dos Dados
 
 ```{python}
+#| fig-align: center
 numerical_variables = [
     "products_number",
     "tenure",
@@ -373,5 +378,138 @@ df_bivariate = bivariate(
     numerical_variables,
     categorical_variables,
     target_variable)
-#df_bivariate
+
+df_bivariate.rename(columns = {"Indicador":"Feature"}, inplace = True)
+
+df = (
+  df_bivariate[["Feature", "Cramer's V", "Discriminância"]]
+  .drop_duplicates()
+  .sort_values(by = ["Cramer's V", "Feature"], ascending = False)
+  .reset_index(drop = True)
+  )
+    
+create_table_bivariate_summary(df, cols_float = ["Cramer's V"])
+```
+
+### Country
+```{python}
+#| fig-align: center
+var = "country"
+create_table_bivariate_html(df_bivariate, var)
+```
+
+```{python}
+#| fig-align: center
+create_graph_bivariate_html(df_bivariate, var)
+```
+
+### Gender
+```{python}
+#| fig-align: center
+var = "gender"
+create_table_bivariate_html(df_bivariate, var)
+```
+
+```{python}
+#| fig-align: center
+create_graph_bivariate_html(df_bivariate, var)
+```
+
+### Credit Card
+```{python}
+#| fig-align: center
+var = "credit_card"
+create_table_bivariate_html(df_bivariate, var)
+```
+
+```{python}
+#| fig-align: center
+create_graph_bivariate_html(df_bivariate, var)
+```
+
+### Active Member
+```{python}
+#| fig-align: center
+var = "active_member"
+create_table_bivariate_html(df_bivariate, var)
+```
+
+```{python}
+#| fig-align: center
+create_graph_bivariate_html(df_bivariate, var)
+```
+
+
+### Products Number
+```{python}
+#| fig-align: center
+var = "products_number"
+create_table_bivariate_html(df_bivariate, var)
+```
+
+```{python}
+#| fig-align: center
+create_graph_bivariate_html(df_bivariate, var)
+```
+
+### Tenure
+```{python}
+#| fig-align: center
+var = "tenure"
+create_table_bivariate_html(df_bivariate, var)
+```
+
+```{python}
+#| fig-align: center
+create_graph_bivariate_html(df_bivariate, var)
+```
+
+
+### Credit Score
+```{python}
+#| fig-align: center
+var = "credit_score"
+create_table_bivariate_html(df_bivariate, var)
+```
+
+```{python}
+#| fig-align: center
+create_graph_bivariate_html(df_bivariate, var)
+```
+
+### Age
+```{python}
+#| fig-align: center
+var = "age"
+create_table_bivariate_html(df_bivariate, var)
+```
+
+```{python}
+#| fig-align: center
+create_graph_bivariate_html(df_bivariate, var)
+```
+
+
+### Balance
+```{python}
+#| fig-align: center
+var = "balance"
+create_table_bivariate_html(df_bivariate, var)
+```
+
+```{python}
+#| fig-align: center
+create_graph_bivariate_html(df_bivariate, var)
+```
+
+### Estimated Salary
+```{python}
+#| fig-align: center
+var = "estimated_salary"
+create_table_bivariate_html(df_bivariate, var)
+```
+
+```{python}
+#| fig-align: center
+create_graph_bivariate_html(df_bivariate, var)
 ```
