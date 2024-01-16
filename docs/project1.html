@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Pedro Gasparine Dubiela - Project: Bank Customer Churn Prediction</title>
+<title>Pedro Gasparine Dubiela - Projeto: Previsão de Rotatividade de Clientes Bancários</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -112,11 +112,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </li>  
   <li class="nav-item">
     <a class="nav-link active" href="./projects.html" rel="" target="" aria-current="page">
- <span class="menu-text">Projects</span></a>
-  </li>  
-  <li class="nav-item">
-    <a class="nav-link" href="./reference.html" rel="" target="">
- <span class="menu-text">Reference</span></a>
+ <span class="menu-text">Projetos</span></a>
   </li>  
 </ul>
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
@@ -141,7 +137,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./project1.html">Project: Bank Customer Churn Prediction</a></li></ol></nav>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./project1.html">Projeto: Previsão de Rotatividade de Clientes Bancários</a></li></ol></nav>
       <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
       </a>
     </div>
@@ -156,19 +152,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./projects.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Projects</span></a>
+ <span class="menu-text">Projetos</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./project1.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text">Project: Bank Customer Churn Prediction</span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./project2.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Projects2</span></a>
+ <span class="menu-text">Projeto: Previsão de Rotatividade de Clientes Bancários</span></a>
   </div>
 </li>
     </ul>
@@ -181,11 +171,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
-  <li><a href="#business-problem" id="toc-business-problem" class="nav-link" data-scroll-target="#business-problem">Business Problem</a>
-  <ul class="collapse">
-  <li><a href="#approach" id="toc-approach" class="nav-link" data-scroll-target="#approach">Approach</a></li>
-  </ul></li>
+  <li><a href="#introdução" id="toc-introdução" class="nav-link active" data-scroll-target="#introdução">Introdução</a></li>
+  <li><a href="#problema-de-negócio" id="toc-problema-de-negócio" class="nav-link" data-scroll-target="#problema-de-negócio">Problema de Negócio</a></li>
   <li><a href="#resolução-do-problema" id="toc-resolução-do-problema" class="nav-link" data-scroll-target="#resolução-do-problema">Resolução do Problema</a>
   <ul class="collapse">
   <li><a href="#análise-exploratória-dos-dados" id="toc-análise-exploratória-dos-dados" class="nav-link" data-scroll-target="#análise-exploratória-dos-dados">Análise Exploratória dos Dados</a>
@@ -204,7 +191,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </ul></li>
   <li><a href="#análise-bivariada-dos-dados" id="toc-análise-bivariada-dos-dados" class="nav-link" data-scroll-target="#análise-bivariada-dos-dados">Análise Bivariada dos Dados</a></li>
   </ul></li>
-  <li><a href="#próximos-passos" id="toc-próximos-passos" class="nav-link" data-scroll-target="#próximos-passos">próximos passos</a></li>
   </ul>
 </nav>
     </div>
@@ -213,7 +199,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Project: Bank Customer Churn Prediction</h1>
+<h1 class="title">Projeto: Previsão de Rotatividade de Clientes Bancários</h1>
 </div>
 
 
@@ -228,8 +214,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 </header>
 
-<section id="introduction" class="level1">
-<h1>Introduction</h1>
+<section id="introdução" class="level1">
+<h1>Introdução</h1>
 <p>
 O problema de churn, ou rotatividade de clientes, representa um desafio significativo para instituições bancárias. Refere-se à taxa na qual os clientes encerram seus relacionamentos com o banco, migrando para outras instituições financeiras ou até mesmo abandonando serviços financeiros. Este fenômeno pode ser impulsionado por diversos fatores, como insatisfação com serviços, concorrência acirrada, mudanças nas condições econômicas e até mesmo avanços tecnológicos.
 </p>
@@ -240,23 +226,30 @@ Dessa forma, a retenção de clientes torna-se uma prioridade estratégica para 
 Diante desse cenário, torna-se de extrema valia a capacidade de identificar os clientes mais propensos ao churn, possibilitando que a instituição financeira aja de maneira antecipada, oferecendo planos e serviços atrativos que impeçam a fuga do cliente.
 </p>
 </section>
-<section id="business-problem" class="level1">
-<h1>Business Problem</h1>
+<section id="problema-de-negócio" class="level1">
+<h1>Problema de Negócio</h1>
 <p>Temos uma base de dados do ABC Multistate Bank, a qual está hospedada em <a href="https://www.kaggle.com/datasets/gauravtopre/bank-customer-churn-dataset/data" class="uri">https://www.kaggle.com/datasets/gauravtopre/bank-customer-churn-dataset/data</a>. Essa base de dados contém informações anonimizadas de 10.000 clientes, onde o problema de negócio em questão resume-se a construirmos um modelo capaz de predizer a ocorrência ou não de churn para um dado cliente, com base nas informações disponíveis.</p>
-<section id="approach" class="level2">
-<h2 class="anchored" data-anchor-id="approach">Approach</h2>
-<p>layout de estração EDA Bivariada Modelo</p>
-</section>
 </section>
 <section id="resolução-do-problema" class="level1">
 <h1>Resolução do Problema</h1>
 <section id="análise-exploratória-dos-dados" class="level2">
 <h2 class="anchored" data-anchor-id="análise-exploratória-dos-dados">Análise Exploratória dos Dados</h2>
-<p>O objetivo desta etapa é investigar e entender os dados disponíveis, a fim de extrair informações preliminares, identificar padrões, tendências, anomalias e insights relevantes.</p>
+<p>
+O objetivo desta etapa é investigar e entender os dados disponíveis, a fim de extrair informações preliminares, identificar padrões, tendências, anomalias e insights relevantes.
+</p>
+<p>
+</p><p>Verificaremos que, ao término dessa análise, todas as variáveis apresentam comportamento adequado para prosseguirem no estudo, pois:</p>
+<ul>
+<li>Não possuem valores faltantes.</li>
+<li>Não têm valores inesperados.</li>
+<li>Não exibem alta concentração em um único valor.</li>
+</ul>
+<p></p>
+<hr>
 <section id="churn" class="level3">
 <h3 class="anchored" data-anchor-id="churn">Churn</h3>
 <p>Essa variável denota a ocorrência (1) ou não ocorrência (0) do evento de churn.</p>
-<strong>Evaluation</strong>: <span style="color: green;"> OK. </span>
+<strong>Avaliação</strong>: <span style="color: green;"> OK. </span>
 <ul>
 <li>
 Variável target.
@@ -275,39 +268,39 @@ Temos 80% de não ocorrência do evento.
 </details>
 <div class="cell-output cell-output-display" data-execution_count="3">
 <style type="text/css">
-#T_a132b th:not(.index_name) {
+#T_4b3b6 th:not(.index_name) {
   background-color: #001820;
   color: white;
 }
 </style>
 
-<table id="T_a132b" data-quarto-postprocess="true" class="table table-sm table-striped small">
+<table id="T_4b3b6" data-quarto-postprocess="true" class="table table-sm table-striped small">
 <thead>
 <tr class="header">
 <th class="blank level0" data-quarto-table-cell-role="th">&nbsp;</th>
-<th id="T_a132b_level0_col0" class="col_heading level0 col0" data-quarto-table-cell-role="th">Class</th>
-<th id="T_a132b_level0_col1" class="col_heading level0 col1" data-quarto-table-cell-role="th">Abs. Freq.</th>
-<th id="T_a132b_level0_col2" class="col_heading level0 col2" data-quarto-table-cell-role="th">Acc. Abs. Freq.</th>
-<th id="T_a132b_level0_col3" class="col_heading level0 col3" data-quarto-table-cell-role="th">Rel. Freq.</th>
-<th id="T_a132b_level0_col4" class="col_heading level0 col4" data-quarto-table-cell-role="th">Acc. Rel. Freq.</th>
+<th id="T_4b3b6_level0_col0" class="col_heading level0 col0" data-quarto-table-cell-role="th">Class</th>
+<th id="T_4b3b6_level0_col1" class="col_heading level0 col1" data-quarto-table-cell-role="th">Abs. Freq.</th>
+<th id="T_4b3b6_level0_col2" class="col_heading level0 col2" data-quarto-table-cell-role="th">Acc. Abs. Freq.</th>
+<th id="T_4b3b6_level0_col3" class="col_heading level0 col3" data-quarto-table-cell-role="th">Rel. Freq.</th>
+<th id="T_4b3b6_level0_col4" class="col_heading level0 col4" data-quarto-table-cell-role="th">Acc. Rel. Freq.</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td id="T_a132b_level0_row0" class="row_heading level0 row0" data-quarto-table-cell-role="th"></td>
-<td id="T_a132b_row0_col0" class="data row0 col0">0</td>
-<td id="T_a132b_row0_col1" class="data row0 col1">7963</td>
-<td id="T_a132b_row0_col2" class="data row0 col2">7963</td>
-<td id="T_a132b_row0_col3" class="data row0 col3">0.80</td>
-<td id="T_a132b_row0_col4" class="data row0 col4">0.80</td>
+<td id="T_4b3b6_level0_row0" class="row_heading level0 row0" data-quarto-table-cell-role="th"></td>
+<td id="T_4b3b6_row0_col0" class="data row0 col0">0</td>
+<td id="T_4b3b6_row0_col1" class="data row0 col1">7963</td>
+<td id="T_4b3b6_row0_col2" class="data row0 col2">7963</td>
+<td id="T_4b3b6_row0_col3" class="data row0 col3">0.80</td>
+<td id="T_4b3b6_row0_col4" class="data row0 col4">0.80</td>
 </tr>
 <tr class="even">
-<td id="T_a132b_level0_row1" class="row_heading level0 row1" data-quarto-table-cell-role="th"></td>
-<td id="T_a132b_row1_col0" class="data row1 col0">1</td>
-<td id="T_a132b_row1_col1" class="data row1 col1">2037</td>
-<td id="T_a132b_row1_col2" class="data row1 col2">10000</td>
-<td id="T_a132b_row1_col3" class="data row1 col3">0.20</td>
-<td id="T_a132b_row1_col4" class="data row1 col4">1.00</td>
+<td id="T_4b3b6_level0_row1" class="row_heading level0 row1" data-quarto-table-cell-role="th"></td>
+<td id="T_4b3b6_row1_col0" class="data row1 col0">1</td>
+<td id="T_4b3b6_row1_col1" class="data row1 col1">2037</td>
+<td id="T_4b3b6_row1_col2" class="data row1 col2">10000</td>
+<td id="T_4b3b6_row1_col3" class="data row1 col3">0.20</td>
+<td id="T_4b3b6_row1_col4" class="data row1 col4">1.00</td>
 </tr>
 </tbody>
 </table>
@@ -330,8 +323,8 @@ Temos 80% de não ocorrência do evento.
 </section>
 <section id="country" class="level3">
 <h3 class="anchored" data-anchor-id="country">Country</h3>
-<p>Pais do cliente.</p>
-<strong>Evaluation</strong>: <span style="color: green;"> OK. </span>
+<p>País do cliente.</p>
+<strong>Avaliação</strong>: <span style="color: green;"> OK. </span>
 <ul>
 <li>
 Variável categórica.
@@ -353,47 +346,47 @@ Alemanha e Espanha representam 25% cada.
 </details>
 <div class="cell-output cell-output-display" data-execution_count="5">
 <style type="text/css">
-#T_3d6bc th:not(.index_name) {
+#T_a045f th:not(.index_name) {
   background-color: #001820;
   color: white;
 }
 </style>
 
-<table id="T_3d6bc" data-quarto-postprocess="true" class="table table-sm table-striped small">
+<table id="T_a045f" data-quarto-postprocess="true" class="table table-sm table-striped small">
 <thead>
 <tr class="header">
 <th class="blank level0" data-quarto-table-cell-role="th">&nbsp;</th>
-<th id="T_3d6bc_level0_col0" class="col_heading level0 col0" data-quarto-table-cell-role="th">Class</th>
-<th id="T_3d6bc_level0_col1" class="col_heading level0 col1" data-quarto-table-cell-role="th">Abs. Freq.</th>
-<th id="T_3d6bc_level0_col2" class="col_heading level0 col2" data-quarto-table-cell-role="th">Acc. Abs. Freq.</th>
-<th id="T_3d6bc_level0_col3" class="col_heading level0 col3" data-quarto-table-cell-role="th">Rel. Freq.</th>
-<th id="T_3d6bc_level0_col4" class="col_heading level0 col4" data-quarto-table-cell-role="th">Acc. Rel. Freq.</th>
+<th id="T_a045f_level0_col0" class="col_heading level0 col0" data-quarto-table-cell-role="th">Class</th>
+<th id="T_a045f_level0_col1" class="col_heading level0 col1" data-quarto-table-cell-role="th">Abs. Freq.</th>
+<th id="T_a045f_level0_col2" class="col_heading level0 col2" data-quarto-table-cell-role="th">Acc. Abs. Freq.</th>
+<th id="T_a045f_level0_col3" class="col_heading level0 col3" data-quarto-table-cell-role="th">Rel. Freq.</th>
+<th id="T_a045f_level0_col4" class="col_heading level0 col4" data-quarto-table-cell-role="th">Acc. Rel. Freq.</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td id="T_3d6bc_level0_row0" class="row_heading level0 row0" data-quarto-table-cell-role="th"></td>
-<td id="T_3d6bc_row0_col0" class="data row0 col0">France</td>
-<td id="T_3d6bc_row0_col1" class="data row0 col1">5014</td>
-<td id="T_3d6bc_row0_col2" class="data row0 col2">5014</td>
-<td id="T_3d6bc_row0_col3" class="data row0 col3">0.50</td>
-<td id="T_3d6bc_row0_col4" class="data row0 col4">0.50</td>
+<td id="T_a045f_level0_row0" class="row_heading level0 row0" data-quarto-table-cell-role="th"></td>
+<td id="T_a045f_row0_col0" class="data row0 col0">France</td>
+<td id="T_a045f_row0_col1" class="data row0 col1">5014</td>
+<td id="T_a045f_row0_col2" class="data row0 col2">5014</td>
+<td id="T_a045f_row0_col3" class="data row0 col3">0.50</td>
+<td id="T_a045f_row0_col4" class="data row0 col4">0.50</td>
 </tr>
 <tr class="even">
-<td id="T_3d6bc_level0_row1" class="row_heading level0 row1" data-quarto-table-cell-role="th"></td>
-<td id="T_3d6bc_row1_col0" class="data row1 col0">Germany</td>
-<td id="T_3d6bc_row1_col1" class="data row1 col1">2509</td>
-<td id="T_3d6bc_row1_col2" class="data row1 col2">7523</td>
-<td id="T_3d6bc_row1_col3" class="data row1 col3">0.25</td>
-<td id="T_3d6bc_row1_col4" class="data row1 col4">0.75</td>
+<td id="T_a045f_level0_row1" class="row_heading level0 row1" data-quarto-table-cell-role="th"></td>
+<td id="T_a045f_row1_col0" class="data row1 col0">Germany</td>
+<td id="T_a045f_row1_col1" class="data row1 col1">2509</td>
+<td id="T_a045f_row1_col2" class="data row1 col2">7523</td>
+<td id="T_a045f_row1_col3" class="data row1 col3">0.25</td>
+<td id="T_a045f_row1_col4" class="data row1 col4">0.75</td>
 </tr>
 <tr class="odd">
-<td id="T_3d6bc_level0_row2" class="row_heading level0 row2" data-quarto-table-cell-role="th"></td>
-<td id="T_3d6bc_row2_col0" class="data row2 col0">Spain</td>
-<td id="T_3d6bc_row2_col1" class="data row2 col1">2477</td>
-<td id="T_3d6bc_row2_col2" class="data row2 col2">10000</td>
-<td id="T_3d6bc_row2_col3" class="data row2 col3">0.25</td>
-<td id="T_3d6bc_row2_col4" class="data row2 col4">1.00</td>
+<td id="T_a045f_level0_row2" class="row_heading level0 row2" data-quarto-table-cell-role="th"></td>
+<td id="T_a045f_row2_col0" class="data row2 col0">Spain</td>
+<td id="T_a045f_row2_col1" class="data row2 col1">2477</td>
+<td id="T_a045f_row2_col2" class="data row2 col2">10000</td>
+<td id="T_a045f_row2_col3" class="data row2 col3">0.25</td>
+<td id="T_a045f_row2_col4" class="data row2 col4">1.00</td>
 </tr>
 </tbody>
 </table>
@@ -417,7 +410,7 @@ Alemanha e Espanha representam 25% cada.
 <section id="gender" class="level3">
 <h3 class="anchored" data-anchor-id="gender">Gender</h3>
 <p>Gênero do cliente.</p>
-<strong>Evaluation</strong>: <span style="color: green;"> OK. </span>
+<strong>Avaliação</strong>: <span style="color: green;"> OK. </span>
 <ul>
 <li>
 Variável categórica.
@@ -439,39 +432,39 @@ Não possui nenhum valor faltante.
 </details>
 <div class="cell-output cell-output-display" data-execution_count="7">
 <style type="text/css">
-#T_1869b th:not(.index_name) {
+#T_6ec1a th:not(.index_name) {
   background-color: #001820;
   color: white;
 }
 </style>
 
-<table id="T_1869b" data-quarto-postprocess="true" class="table table-sm table-striped small">
+<table id="T_6ec1a" data-quarto-postprocess="true" class="table table-sm table-striped small">
 <thead>
 <tr class="header">
 <th class="blank level0" data-quarto-table-cell-role="th">&nbsp;</th>
-<th id="T_1869b_level0_col0" class="col_heading level0 col0" data-quarto-table-cell-role="th">Class</th>
-<th id="T_1869b_level0_col1" class="col_heading level0 col1" data-quarto-table-cell-role="th">Abs. Freq.</th>
-<th id="T_1869b_level0_col2" class="col_heading level0 col2" data-quarto-table-cell-role="th">Acc. Abs. Freq.</th>
-<th id="T_1869b_level0_col3" class="col_heading level0 col3" data-quarto-table-cell-role="th">Rel. Freq.</th>
-<th id="T_1869b_level0_col4" class="col_heading level0 col4" data-quarto-table-cell-role="th">Acc. Rel. Freq.</th>
+<th id="T_6ec1a_level0_col0" class="col_heading level0 col0" data-quarto-table-cell-role="th">Class</th>
+<th id="T_6ec1a_level0_col1" class="col_heading level0 col1" data-quarto-table-cell-role="th">Abs. Freq.</th>
+<th id="T_6ec1a_level0_col2" class="col_heading level0 col2" data-quarto-table-cell-role="th">Acc. Abs. Freq.</th>
+<th id="T_6ec1a_level0_col3" class="col_heading level0 col3" data-quarto-table-cell-role="th">Rel. Freq.</th>
+<th id="T_6ec1a_level0_col4" class="col_heading level0 col4" data-quarto-table-cell-role="th">Acc. Rel. Freq.</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td id="T_1869b_level0_row0" class="row_heading level0 row0" data-quarto-table-cell-role="th"></td>
-<td id="T_1869b_row0_col0" class="data row0 col0">Female</td>
-<td id="T_1869b_row0_col1" class="data row0 col1">4543</td>
-<td id="T_1869b_row0_col2" class="data row0 col2">4543</td>
-<td id="T_1869b_row0_col3" class="data row0 col3">0.45</td>
-<td id="T_1869b_row0_col4" class="data row0 col4">0.45</td>
+<td id="T_6ec1a_level0_row0" class="row_heading level0 row0" data-quarto-table-cell-role="th"></td>
+<td id="T_6ec1a_row0_col0" class="data row0 col0">Female</td>
+<td id="T_6ec1a_row0_col1" class="data row0 col1">4543</td>
+<td id="T_6ec1a_row0_col2" class="data row0 col2">4543</td>
+<td id="T_6ec1a_row0_col3" class="data row0 col3">0.45</td>
+<td id="T_6ec1a_row0_col4" class="data row0 col4">0.45</td>
 </tr>
 <tr class="even">
-<td id="T_1869b_level0_row1" class="row_heading level0 row1" data-quarto-table-cell-role="th"></td>
-<td id="T_1869b_row1_col0" class="data row1 col0">Male</td>
-<td id="T_1869b_row1_col1" class="data row1 col1">5457</td>
-<td id="T_1869b_row1_col2" class="data row1 col2">10000</td>
-<td id="T_1869b_row1_col3" class="data row1 col3">0.55</td>
-<td id="T_1869b_row1_col4" class="data row1 col4">1.00</td>
+<td id="T_6ec1a_level0_row1" class="row_heading level0 row1" data-quarto-table-cell-role="th"></td>
+<td id="T_6ec1a_row1_col0" class="data row1 col0">Male</td>
+<td id="T_6ec1a_row1_col1" class="data row1 col1">5457</td>
+<td id="T_6ec1a_row1_col2" class="data row1 col2">10000</td>
+<td id="T_6ec1a_row1_col3" class="data row1 col3">0.55</td>
+<td id="T_6ec1a_row1_col4" class="data row1 col4">1.00</td>
 </tr>
 </tbody>
 </table>
@@ -495,7 +488,7 @@ Não possui nenhum valor faltante.
 <section id="credit-card" class="level3">
 <h3 class="anchored" data-anchor-id="credit-card">Credit Card</h3>
 <p>Se o cliente utiliza cartão de crédito.</p>
-<strong>Evaluation</strong>: <span style="color: green;"> OK. </span>
+<strong>Avaliação</strong>: <span style="color: green;"> OK. </span>
 <ul>
 <li>
 Variável categórica.
@@ -517,39 +510,39 @@ Não possui nenhum valor faltante.
 </details>
 <div class="cell-output cell-output-display" data-execution_count="9">
 <style type="text/css">
-#T_70ba1 th:not(.index_name) {
+#T_9603d th:not(.index_name) {
   background-color: #001820;
   color: white;
 }
 </style>
 
-<table id="T_70ba1" data-quarto-postprocess="true" class="table table-sm table-striped small">
+<table id="T_9603d" data-quarto-postprocess="true" class="table table-sm table-striped small">
 <thead>
 <tr class="header">
 <th class="blank level0" data-quarto-table-cell-role="th">&nbsp;</th>
-<th id="T_70ba1_level0_col0" class="col_heading level0 col0" data-quarto-table-cell-role="th">Class</th>
-<th id="T_70ba1_level0_col1" class="col_heading level0 col1" data-quarto-table-cell-role="th">Abs. Freq.</th>
-<th id="T_70ba1_level0_col2" class="col_heading level0 col2" data-quarto-table-cell-role="th">Acc. Abs. Freq.</th>
-<th id="T_70ba1_level0_col3" class="col_heading level0 col3" data-quarto-table-cell-role="th">Rel. Freq.</th>
-<th id="T_70ba1_level0_col4" class="col_heading level0 col4" data-quarto-table-cell-role="th">Acc. Rel. Freq.</th>
+<th id="T_9603d_level0_col0" class="col_heading level0 col0" data-quarto-table-cell-role="th">Class</th>
+<th id="T_9603d_level0_col1" class="col_heading level0 col1" data-quarto-table-cell-role="th">Abs. Freq.</th>
+<th id="T_9603d_level0_col2" class="col_heading level0 col2" data-quarto-table-cell-role="th">Acc. Abs. Freq.</th>
+<th id="T_9603d_level0_col3" class="col_heading level0 col3" data-quarto-table-cell-role="th">Rel. Freq.</th>
+<th id="T_9603d_level0_col4" class="col_heading level0 col4" data-quarto-table-cell-role="th">Acc. Rel. Freq.</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td id="T_70ba1_level0_row0" class="row_heading level0 row0" data-quarto-table-cell-role="th"></td>
-<td id="T_70ba1_row0_col0" class="data row0 col0">0</td>
-<td id="T_70ba1_row0_col1" class="data row0 col1">2945</td>
-<td id="T_70ba1_row0_col2" class="data row0 col2">2945</td>
-<td id="T_70ba1_row0_col3" class="data row0 col3">0.29</td>
-<td id="T_70ba1_row0_col4" class="data row0 col4">0.29</td>
+<td id="T_9603d_level0_row0" class="row_heading level0 row0" data-quarto-table-cell-role="th"></td>
+<td id="T_9603d_row0_col0" class="data row0 col0">0</td>
+<td id="T_9603d_row0_col1" class="data row0 col1">2945</td>
+<td id="T_9603d_row0_col2" class="data row0 col2">2945</td>
+<td id="T_9603d_row0_col3" class="data row0 col3">0.29</td>
+<td id="T_9603d_row0_col4" class="data row0 col4">0.29</td>
 </tr>
 <tr class="even">
-<td id="T_70ba1_level0_row1" class="row_heading level0 row1" data-quarto-table-cell-role="th"></td>
-<td id="T_70ba1_row1_col0" class="data row1 col0">1</td>
-<td id="T_70ba1_row1_col1" class="data row1 col1">7055</td>
-<td id="T_70ba1_row1_col2" class="data row1 col2">10000</td>
-<td id="T_70ba1_row1_col3" class="data row1 col3">0.71</td>
-<td id="T_70ba1_row1_col4" class="data row1 col4">1.00</td>
+<td id="T_9603d_level0_row1" class="row_heading level0 row1" data-quarto-table-cell-role="th"></td>
+<td id="T_9603d_row1_col0" class="data row1 col0">1</td>
+<td id="T_9603d_row1_col1" class="data row1 col1">7055</td>
+<td id="T_9603d_row1_col2" class="data row1 col2">10000</td>
+<td id="T_9603d_row1_col3" class="data row1 col3">0.71</td>
+<td id="T_9603d_row1_col4" class="data row1 col4">1.00</td>
 </tr>
 </tbody>
 </table>
@@ -573,7 +566,7 @@ Não possui nenhum valor faltante.
 <section id="active-member" class="level3">
 <h3 class="anchored" data-anchor-id="active-member">Active Member</h3>
 <p>Denota se um cliente é ativo ou não.</p>
-<strong>Evaluation</strong>: <span style="color: green;"> OK. </span>
+<strong>Avaliação</strong>: <span style="color: green;"> OK. </span>
 <ul>
 <li>
 Variável categórica.
@@ -592,39 +585,39 @@ Praticamente metade dos clientes são ativos e a outra metade é inativo.
 </details>
 <div class="cell-output cell-output-display" data-execution_count="11">
 <style type="text/css">
-#T_f8b32 th:not(.index_name) {
+#T_ae779 th:not(.index_name) {
   background-color: #001820;
   color: white;
 }
 </style>
 
-<table id="T_f8b32" data-quarto-postprocess="true" class="table table-sm table-striped small">
+<table id="T_ae779" data-quarto-postprocess="true" class="table table-sm table-striped small">
 <thead>
 <tr class="header">
 <th class="blank level0" data-quarto-table-cell-role="th">&nbsp;</th>
-<th id="T_f8b32_level0_col0" class="col_heading level0 col0" data-quarto-table-cell-role="th">Class</th>
-<th id="T_f8b32_level0_col1" class="col_heading level0 col1" data-quarto-table-cell-role="th">Abs. Freq.</th>
-<th id="T_f8b32_level0_col2" class="col_heading level0 col2" data-quarto-table-cell-role="th">Acc. Abs. Freq.</th>
-<th id="T_f8b32_level0_col3" class="col_heading level0 col3" data-quarto-table-cell-role="th">Rel. Freq.</th>
-<th id="T_f8b32_level0_col4" class="col_heading level0 col4" data-quarto-table-cell-role="th">Acc. Rel. Freq.</th>
+<th id="T_ae779_level0_col0" class="col_heading level0 col0" data-quarto-table-cell-role="th">Class</th>
+<th id="T_ae779_level0_col1" class="col_heading level0 col1" data-quarto-table-cell-role="th">Abs. Freq.</th>
+<th id="T_ae779_level0_col2" class="col_heading level0 col2" data-quarto-table-cell-role="th">Acc. Abs. Freq.</th>
+<th id="T_ae779_level0_col3" class="col_heading level0 col3" data-quarto-table-cell-role="th">Rel. Freq.</th>
+<th id="T_ae779_level0_col4" class="col_heading level0 col4" data-quarto-table-cell-role="th">Acc. Rel. Freq.</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td id="T_f8b32_level0_row0" class="row_heading level0 row0" data-quarto-table-cell-role="th"></td>
-<td id="T_f8b32_row0_col0" class="data row0 col0">0</td>
-<td id="T_f8b32_row0_col1" class="data row0 col1">4849</td>
-<td id="T_f8b32_row0_col2" class="data row0 col2">4849</td>
-<td id="T_f8b32_row0_col3" class="data row0 col3">0.48</td>
-<td id="T_f8b32_row0_col4" class="data row0 col4">0.48</td>
+<td id="T_ae779_level0_row0" class="row_heading level0 row0" data-quarto-table-cell-role="th"></td>
+<td id="T_ae779_row0_col0" class="data row0 col0">0</td>
+<td id="T_ae779_row0_col1" class="data row0 col1">4849</td>
+<td id="T_ae779_row0_col2" class="data row0 col2">4849</td>
+<td id="T_ae779_row0_col3" class="data row0 col3">0.48</td>
+<td id="T_ae779_row0_col4" class="data row0 col4">0.48</td>
 </tr>
 <tr class="even">
-<td id="T_f8b32_level0_row1" class="row_heading level0 row1" data-quarto-table-cell-role="th"></td>
-<td id="T_f8b32_row1_col0" class="data row1 col0">1</td>
-<td id="T_f8b32_row1_col1" class="data row1 col1">5151</td>
-<td id="T_f8b32_row1_col2" class="data row1 col2">10000</td>
-<td id="T_f8b32_row1_col3" class="data row1 col3">0.52</td>
-<td id="T_f8b32_row1_col4" class="data row1 col4">1.00</td>
+<td id="T_ae779_level0_row1" class="row_heading level0 row1" data-quarto-table-cell-role="th"></td>
+<td id="T_ae779_row1_col0" class="data row1 col0">1</td>
+<td id="T_ae779_row1_col1" class="data row1 col1">5151</td>
+<td id="T_ae779_row1_col2" class="data row1 col2">10000</td>
+<td id="T_ae779_row1_col3" class="data row1 col3">0.52</td>
+<td id="T_ae779_row1_col4" class="data row1 col4">1.00</td>
 </tr>
 </tbody>
 </table>
@@ -648,7 +641,7 @@ Praticamente metade dos clientes são ativos e a outra metade é inativo.
 <section id="products-number" class="level3">
 <h3 class="anchored" data-anchor-id="products-number">Products Number</h3>
 <p>Número de produtos adiquiridos pelo cliente.</p>
-<strong>Evaluation</strong>: <span style="color: green;"> OK. </span>
+<strong>Avaliação</strong>: <span style="color: green;"> OK. </span>
 <ul>
 <li>
 Variável categórica.
@@ -670,55 +663,55 @@ Não possui nenhum valor faltante.
 </details>
 <div class="cell-output cell-output-display" data-execution_count="13">
 <style type="text/css">
-#T_52120 th:not(.index_name) {
+#T_19e2b th:not(.index_name) {
   background-color: #001820;
   color: white;
 }
 </style>
 
-<table id="T_52120" data-quarto-postprocess="true" class="table table-sm table-striped small">
+<table id="T_19e2b" data-quarto-postprocess="true" class="table table-sm table-striped small">
 <thead>
 <tr class="header">
 <th class="blank level0" data-quarto-table-cell-role="th">&nbsp;</th>
-<th id="T_52120_level0_col0" class="col_heading level0 col0" data-quarto-table-cell-role="th">Class</th>
-<th id="T_52120_level0_col1" class="col_heading level0 col1" data-quarto-table-cell-role="th">Abs. Freq.</th>
-<th id="T_52120_level0_col2" class="col_heading level0 col2" data-quarto-table-cell-role="th">Acc. Abs. Freq.</th>
-<th id="T_52120_level0_col3" class="col_heading level0 col3" data-quarto-table-cell-role="th">Rel. Freq.</th>
-<th id="T_52120_level0_col4" class="col_heading level0 col4" data-quarto-table-cell-role="th">Acc. Rel. Freq.</th>
+<th id="T_19e2b_level0_col0" class="col_heading level0 col0" data-quarto-table-cell-role="th">Class</th>
+<th id="T_19e2b_level0_col1" class="col_heading level0 col1" data-quarto-table-cell-role="th">Abs. Freq.</th>
+<th id="T_19e2b_level0_col2" class="col_heading level0 col2" data-quarto-table-cell-role="th">Acc. Abs. Freq.</th>
+<th id="T_19e2b_level0_col3" class="col_heading level0 col3" data-quarto-table-cell-role="th">Rel. Freq.</th>
+<th id="T_19e2b_level0_col4" class="col_heading level0 col4" data-quarto-table-cell-role="th">Acc. Rel. Freq.</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td id="T_52120_level0_row0" class="row_heading level0 row0" data-quarto-table-cell-role="th"></td>
-<td id="T_52120_row0_col0" class="data row0 col0">1</td>
-<td id="T_52120_row0_col1" class="data row0 col1">5084</td>
-<td id="T_52120_row0_col2" class="data row0 col2">5084</td>
-<td id="T_52120_row0_col3" class="data row0 col3">0.51</td>
-<td id="T_52120_row0_col4" class="data row0 col4">0.51</td>
+<td id="T_19e2b_level0_row0" class="row_heading level0 row0" data-quarto-table-cell-role="th"></td>
+<td id="T_19e2b_row0_col0" class="data row0 col0">1</td>
+<td id="T_19e2b_row0_col1" class="data row0 col1">5084</td>
+<td id="T_19e2b_row0_col2" class="data row0 col2">5084</td>
+<td id="T_19e2b_row0_col3" class="data row0 col3">0.51</td>
+<td id="T_19e2b_row0_col4" class="data row0 col4">0.51</td>
 </tr>
 <tr class="even">
-<td id="T_52120_level0_row1" class="row_heading level0 row1" data-quarto-table-cell-role="th"></td>
-<td id="T_52120_row1_col0" class="data row1 col0">2</td>
-<td id="T_52120_row1_col1" class="data row1 col1">4590</td>
-<td id="T_52120_row1_col2" class="data row1 col2">9674</td>
-<td id="T_52120_row1_col3" class="data row1 col3">0.46</td>
-<td id="T_52120_row1_col4" class="data row1 col4">0.97</td>
+<td id="T_19e2b_level0_row1" class="row_heading level0 row1" data-quarto-table-cell-role="th"></td>
+<td id="T_19e2b_row1_col0" class="data row1 col0">2</td>
+<td id="T_19e2b_row1_col1" class="data row1 col1">4590</td>
+<td id="T_19e2b_row1_col2" class="data row1 col2">9674</td>
+<td id="T_19e2b_row1_col3" class="data row1 col3">0.46</td>
+<td id="T_19e2b_row1_col4" class="data row1 col4">0.97</td>
 </tr>
 <tr class="odd">
-<td id="T_52120_level0_row2" class="row_heading level0 row2" data-quarto-table-cell-role="th"></td>
-<td id="T_52120_row2_col0" class="data row2 col0">3</td>
-<td id="T_52120_row2_col1" class="data row2 col1">266</td>
-<td id="T_52120_row2_col2" class="data row2 col2">9940</td>
-<td id="T_52120_row2_col3" class="data row2 col3">0.03</td>
-<td id="T_52120_row2_col4" class="data row2 col4">0.99</td>
+<td id="T_19e2b_level0_row2" class="row_heading level0 row2" data-quarto-table-cell-role="th"></td>
+<td id="T_19e2b_row2_col0" class="data row2 col0">3</td>
+<td id="T_19e2b_row2_col1" class="data row2 col1">266</td>
+<td id="T_19e2b_row2_col2" class="data row2 col2">9940</td>
+<td id="T_19e2b_row2_col3" class="data row2 col3">0.03</td>
+<td id="T_19e2b_row2_col4" class="data row2 col4">0.99</td>
 </tr>
 <tr class="even">
-<td id="T_52120_level0_row3" class="row_heading level0 row3" data-quarto-table-cell-role="th"></td>
-<td id="T_52120_row3_col0" class="data row3 col0">&gt;=4</td>
-<td id="T_52120_row3_col1" class="data row3 col1">60</td>
-<td id="T_52120_row3_col2" class="data row3 col2">10000</td>
-<td id="T_52120_row3_col3" class="data row3 col3">0.01</td>
-<td id="T_52120_row3_col4" class="data row3 col4">1.00</td>
+<td id="T_19e2b_level0_row3" class="row_heading level0 row3" data-quarto-table-cell-role="th"></td>
+<td id="T_19e2b_row3_col0" class="data row3 col0">&gt;=4</td>
+<td id="T_19e2b_row3_col1" class="data row3 col1">60</td>
+<td id="T_19e2b_row3_col2" class="data row3 col2">10000</td>
+<td id="T_19e2b_row3_col3" class="data row3 col3">0.01</td>
+<td id="T_19e2b_row3_col4" class="data row3 col4">1.00</td>
 </tr>
 </tbody>
 </table>
@@ -741,8 +734,8 @@ Não possui nenhum valor faltante.
 </section>
 <section id="tenure" class="level3">
 <h3 class="anchored" data-anchor-id="tenure">Tenure</h3>
-<p>Mensura a quantidde em anos que é cliente</p>
-<strong>Evaluation</strong>: <span style="color: green;"> OK. </span>
+<p>Mensura a quantidde em anos que é cliente do banco.</p>
+<strong>Avaliação</strong>: <span style="color: green;"> OK. </span>
 <ul>
 <li>
 Variável categóricas.
@@ -768,63 +761,63 @@ As demais classes estão bem distribuídos em torno de 20%.
 </details>
 <div class="cell-output cell-output-display" data-execution_count="15">
 <style type="text/css">
-#T_4e835 th:not(.index_name) {
+#T_1a948 th:not(.index_name) {
   background-color: #001820;
   color: white;
 }
 </style>
 
-<table id="T_4e835" data-quarto-postprocess="true" class="table table-sm table-striped small">
+<table id="T_1a948" data-quarto-postprocess="true" class="table table-sm table-striped small">
 <thead>
 <tr class="header">
 <th class="blank level0" data-quarto-table-cell-role="th">&nbsp;</th>
-<th id="T_4e835_level0_col0" class="col_heading level0 col0" data-quarto-table-cell-role="th">Class</th>
-<th id="T_4e835_level0_col1" class="col_heading level0 col1" data-quarto-table-cell-role="th">Abs. Freq.</th>
-<th id="T_4e835_level0_col2" class="col_heading level0 col2" data-quarto-table-cell-role="th">Acc. Abs. Freq.</th>
-<th id="T_4e835_level0_col3" class="col_heading level0 col3" data-quarto-table-cell-role="th">Rel. Freq.</th>
-<th id="T_4e835_level0_col4" class="col_heading level0 col4" data-quarto-table-cell-role="th">Acc. Rel. Freq.</th>
+<th id="T_1a948_level0_col0" class="col_heading level0 col0" data-quarto-table-cell-role="th">Class</th>
+<th id="T_1a948_level0_col1" class="col_heading level0 col1" data-quarto-table-cell-role="th">Abs. Freq.</th>
+<th id="T_1a948_level0_col2" class="col_heading level0 col2" data-quarto-table-cell-role="th">Acc. Abs. Freq.</th>
+<th id="T_1a948_level0_col3" class="col_heading level0 col3" data-quarto-table-cell-role="th">Rel. Freq.</th>
+<th id="T_1a948_level0_col4" class="col_heading level0 col4" data-quarto-table-cell-role="th">Acc. Rel. Freq.</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td id="T_4e835_level0_row0" class="row_heading level0 row0" data-quarto-table-cell-role="th"></td>
-<td id="T_4e835_row0_col0" class="data row0 col0">[0, 2]</td>
-<td id="T_4e835_row0_col1" class="data row0 col1">2496</td>
-<td id="T_4e835_row0_col2" class="data row0 col2">2496</td>
-<td id="T_4e835_row0_col3" class="data row0 col3">0.25</td>
-<td id="T_4e835_row0_col4" class="data row0 col4">0.25</td>
+<td id="T_1a948_level0_row0" class="row_heading level0 row0" data-quarto-table-cell-role="th"></td>
+<td id="T_1a948_row0_col0" class="data row0 col0">[0, 2]</td>
+<td id="T_1a948_row0_col1" class="data row0 col1">2496</td>
+<td id="T_1a948_row0_col2" class="data row0 col2">2496</td>
+<td id="T_1a948_row0_col3" class="data row0 col3">0.25</td>
+<td id="T_1a948_row0_col4" class="data row0 col4">0.25</td>
 </tr>
 <tr class="even">
-<td id="T_4e835_level0_row1" class="row_heading level0 row1" data-quarto-table-cell-role="th"></td>
-<td id="T_4e835_row1_col0" class="data row1 col0">(2, 4]</td>
-<td id="T_4e835_row1_col1" class="data row1 col1">1998</td>
-<td id="T_4e835_row1_col2" class="data row1 col2">4494</td>
-<td id="T_4e835_row1_col3" class="data row1 col3">0.20</td>
-<td id="T_4e835_row1_col4" class="data row1 col4">0.45</td>
+<td id="T_1a948_level0_row1" class="row_heading level0 row1" data-quarto-table-cell-role="th"></td>
+<td id="T_1a948_row1_col0" class="data row1 col0">(2, 4]</td>
+<td id="T_1a948_row1_col1" class="data row1 col1">1998</td>
+<td id="T_1a948_row1_col2" class="data row1 col2">4494</td>
+<td id="T_1a948_row1_col3" class="data row1 col3">0.20</td>
+<td id="T_1a948_row1_col4" class="data row1 col4">0.45</td>
 </tr>
 <tr class="odd">
-<td id="T_4e835_level0_row2" class="row_heading level0 row2" data-quarto-table-cell-role="th"></td>
-<td id="T_4e835_row2_col0" class="data row2 col0">(4, 6]</td>
-<td id="T_4e835_row2_col1" class="data row2 col1">1979</td>
-<td id="T_4e835_row2_col2" class="data row2 col2">6473</td>
-<td id="T_4e835_row2_col3" class="data row2 col3">0.20</td>
-<td id="T_4e835_row2_col4" class="data row2 col4">0.65</td>
+<td id="T_1a948_level0_row2" class="row_heading level0 row2" data-quarto-table-cell-role="th"></td>
+<td id="T_1a948_row2_col0" class="data row2 col0">(4, 6]</td>
+<td id="T_1a948_row2_col1" class="data row2 col1">1979</td>
+<td id="T_1a948_row2_col2" class="data row2 col2">6473</td>
+<td id="T_1a948_row2_col3" class="data row2 col3">0.20</td>
+<td id="T_1a948_row2_col4" class="data row2 col4">0.65</td>
 </tr>
 <tr class="even">
-<td id="T_4e835_level0_row3" class="row_heading level0 row3" data-quarto-table-cell-role="th"></td>
-<td id="T_4e835_row3_col0" class="data row3 col0">(6, 8]</td>
-<td id="T_4e835_row3_col1" class="data row3 col1">2053</td>
-<td id="T_4e835_row3_col2" class="data row3 col2">8526</td>
-<td id="T_4e835_row3_col3" class="data row3 col3">0.21</td>
-<td id="T_4e835_row3_col4" class="data row3 col4">0.85</td>
+<td id="T_1a948_level0_row3" class="row_heading level0 row3" data-quarto-table-cell-role="th"></td>
+<td id="T_1a948_row3_col0" class="data row3 col0">(6, 8]</td>
+<td id="T_1a948_row3_col1" class="data row3 col1">2053</td>
+<td id="T_1a948_row3_col2" class="data row3 col2">8526</td>
+<td id="T_1a948_row3_col3" class="data row3 col3">0.21</td>
+<td id="T_1a948_row3_col4" class="data row3 col4">0.85</td>
 </tr>
 <tr class="odd">
-<td id="T_4e835_level0_row4" class="row_heading level0 row4" data-quarto-table-cell-role="th"></td>
-<td id="T_4e835_row4_col0" class="data row4 col0">(8, 10]</td>
-<td id="T_4e835_row4_col1" class="data row4 col1">1474</td>
-<td id="T_4e835_row4_col2" class="data row4 col2">10000</td>
-<td id="T_4e835_row4_col3" class="data row4 col3">0.15</td>
-<td id="T_4e835_row4_col4" class="data row4 col4">1.00</td>
+<td id="T_1a948_level0_row4" class="row_heading level0 row4" data-quarto-table-cell-role="th"></td>
+<td id="T_1a948_row4_col0" class="data row4 col0">(8, 10]</td>
+<td id="T_1a948_row4_col1" class="data row4 col1">1474</td>
+<td id="T_1a948_row4_col2" class="data row4 col2">10000</td>
+<td id="T_1a948_row4_col3" class="data row4 col3">0.15</td>
+<td id="T_1a948_row4_col4" class="data row4 col4">1.00</td>
 </tr>
 </tbody>
 </table>
@@ -848,7 +841,7 @@ As demais classes estão bem distribuídos em torno de 20%.
 <section id="credit-score" class="level3">
 <h3 class="anchored" data-anchor-id="credit-score">Credit Score</h3>
 <p>É uma medida da probabilidade de um indivíduo pagar suas dívidas com base em seu histórico de crédito passado.</p>
-<strong>Evaluation</strong>: <span style="color: green;"> OK. </span>
+<strong>Avaliação</strong>: <span style="color: green;"> OK. </span>
 <ul>
 <li>
 Variável numérica.
@@ -867,51 +860,51 @@ Possui distribuição aproximadamente normal, com média = 650.
 </details>
 <div class="cell-output cell-output-display" data-execution_count="17">
 <style type="text/css">
-#T_3a74b th:not(.index_name) {
+#T_7ee7b th:not(.index_name) {
   background-color: #001820;
   color: white;
 }
 </style>
 
-<table id="T_3a74b" data-quarto-postprocess="true" class="table table-sm table-striped small">
+<table id="T_7ee7b" data-quarto-postprocess="true" class="table table-sm table-striped small">
 <thead>
 <tr class="header">
 <th class="blank level0" data-quarto-table-cell-role="th">&nbsp;</th>
-<th id="T_3a74b_level0_col0" class="col_heading level0 col0" data-quarto-table-cell-role="th">SUM</th>
-<th id="T_3a74b_level0_col1" class="col_heading level0 col1" data-quarto-table-cell-role="th">CNT</th>
-<th id="T_3a74b_level0_col2" class="col_heading level0 col2" data-quarto-table-cell-role="th">AVG</th>
-<th id="T_3a74b_level0_col3" class="col_heading level0 col3" data-quarto-table-cell-role="th">STDEV</th>
-<th id="T_3a74b_level0_col4" class="col_heading level0 col4" data-quarto-table-cell-role="th">PERC_zeros</th>
-<th id="T_3a74b_level0_col5" class="col_heading level0 col5" data-quarto-table-cell-role="th">PERC_negatives</th>
-<th id="T_3a74b_level0_col6" class="col_heading level0 col6" data-quarto-table-cell-role="th">MIN</th>
-<th id="T_3a74b_level0_col7" class="col_heading level0 col7" data-quarto-table-cell-role="th">P1</th>
-<th id="T_3a74b_level0_col8" class="col_heading level0 col8" data-quarto-table-cell-role="th">P25</th>
-<th id="T_3a74b_level0_col9" class="col_heading level0 col9" data-quarto-table-cell-role="th">P50</th>
-<th id="T_3a74b_level0_col10" class="col_heading level0 col10" data-quarto-table-cell-role="th">P75</th>
-<th id="T_3a74b_level0_col11" class="col_heading level0 col11" data-quarto-table-cell-role="th">P90</th>
-<th id="T_3a74b_level0_col12" class="col_heading level0 col12" data-quarto-table-cell-role="th">P95</th>
-<th id="T_3a74b_level0_col13" class="col_heading level0 col13" data-quarto-table-cell-role="th">P99</th>
-<th id="T_3a74b_level0_col14" class="col_heading level0 col14" data-quarto-table-cell-role="th">MAX</th>
+<th id="T_7ee7b_level0_col0" class="col_heading level0 col0" data-quarto-table-cell-role="th">SUM</th>
+<th id="T_7ee7b_level0_col1" class="col_heading level0 col1" data-quarto-table-cell-role="th">CNT</th>
+<th id="T_7ee7b_level0_col2" class="col_heading level0 col2" data-quarto-table-cell-role="th">AVG</th>
+<th id="T_7ee7b_level0_col3" class="col_heading level0 col3" data-quarto-table-cell-role="th">STDEV</th>
+<th id="T_7ee7b_level0_col4" class="col_heading level0 col4" data-quarto-table-cell-role="th">PERC_zeros</th>
+<th id="T_7ee7b_level0_col5" class="col_heading level0 col5" data-quarto-table-cell-role="th">PERC_negatives</th>
+<th id="T_7ee7b_level0_col6" class="col_heading level0 col6" data-quarto-table-cell-role="th">MIN</th>
+<th id="T_7ee7b_level0_col7" class="col_heading level0 col7" data-quarto-table-cell-role="th">P1</th>
+<th id="T_7ee7b_level0_col8" class="col_heading level0 col8" data-quarto-table-cell-role="th">P25</th>
+<th id="T_7ee7b_level0_col9" class="col_heading level0 col9" data-quarto-table-cell-role="th">P50</th>
+<th id="T_7ee7b_level0_col10" class="col_heading level0 col10" data-quarto-table-cell-role="th">P75</th>
+<th id="T_7ee7b_level0_col11" class="col_heading level0 col11" data-quarto-table-cell-role="th">P90</th>
+<th id="T_7ee7b_level0_col12" class="col_heading level0 col12" data-quarto-table-cell-role="th">P95</th>
+<th id="T_7ee7b_level0_col13" class="col_heading level0 col13" data-quarto-table-cell-role="th">P99</th>
+<th id="T_7ee7b_level0_col14" class="col_heading level0 col14" data-quarto-table-cell-role="th">MAX</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td id="T_3a74b_level0_row0" class="row_heading level0 row0" data-quarto-table-cell-role="th"></td>
-<td id="T_3a74b_row0_col0" class="data row0 col0">6,505,288.00</td>
-<td id="T_3a74b_row0_col1" class="data row0 col1">10000</td>
-<td id="T_3a74b_row0_col2" class="data row0 col2">650.53</td>
-<td id="T_3a74b_row0_col3" class="data row0 col3">96.65</td>
-<td id="T_3a74b_row0_col4" class="data row0 col4">0.00</td>
-<td id="T_3a74b_row0_col5" class="data row0 col5">0.00</td>
-<td id="T_3a74b_row0_col6" class="data row0 col6">350.00</td>
-<td id="T_3a74b_row0_col7" class="data row0 col7">432.00</td>
-<td id="T_3a74b_row0_col8" class="data row0 col8">584.00</td>
-<td id="T_3a74b_row0_col9" class="data row0 col9">652.00</td>
-<td id="T_3a74b_row0_col10" class="data row0 col10">718.00</td>
-<td id="T_3a74b_row0_col11" class="data row0 col11">778.00</td>
-<td id="T_3a74b_row0_col12" class="data row0 col12">812.00</td>
-<td id="T_3a74b_row0_col13" class="data row0 col13">850.00</td>
-<td id="T_3a74b_row0_col14" class="data row0 col14">850.00</td>
+<td id="T_7ee7b_level0_row0" class="row_heading level0 row0" data-quarto-table-cell-role="th"></td>
+<td id="T_7ee7b_row0_col0" class="data row0 col0">6,505,288.00</td>
+<td id="T_7ee7b_row0_col1" class="data row0 col1">10000</td>
+<td id="T_7ee7b_row0_col2" class="data row0 col2">650.53</td>
+<td id="T_7ee7b_row0_col3" class="data row0 col3">96.65</td>
+<td id="T_7ee7b_row0_col4" class="data row0 col4">0.00</td>
+<td id="T_7ee7b_row0_col5" class="data row0 col5">0.00</td>
+<td id="T_7ee7b_row0_col6" class="data row0 col6">350.00</td>
+<td id="T_7ee7b_row0_col7" class="data row0 col7">432.00</td>
+<td id="T_7ee7b_row0_col8" class="data row0 col8">584.00</td>
+<td id="T_7ee7b_row0_col9" class="data row0 col9">652.00</td>
+<td id="T_7ee7b_row0_col10" class="data row0 col10">718.00</td>
+<td id="T_7ee7b_row0_col11" class="data row0 col11">778.00</td>
+<td id="T_7ee7b_row0_col12" class="data row0 col12">812.00</td>
+<td id="T_7ee7b_row0_col13" class="data row0 col13">850.00</td>
+<td id="T_7ee7b_row0_col14" class="data row0 col14">850.00</td>
 </tr>
 </tbody>
 </table>
@@ -935,7 +928,7 @@ Possui distribuição aproximadamente normal, com média = 650.
 <section id="age" class="level3">
 <h3 class="anchored" data-anchor-id="age">Age</h3>
 <p>Idade em anos do cliente.</p>
-<strong>Evaluation</strong>: <span style="color: green;"> OK. </span>
+<strong>Avaliação</strong>: <span style="color: green;"> OK. </span>
 <ul>
 <li>
 Variável numérica.
@@ -966,51 +959,51 @@ O valor mediano da idade do cliente é de 37 anos.
 </details>
 <div class="cell-output cell-output-display" data-execution_count="19">
 <style type="text/css">
-#T_0b285 th:not(.index_name) {
+#T_5972b th:not(.index_name) {
   background-color: #001820;
   color: white;
 }
 </style>
 
-<table id="T_0b285" data-quarto-postprocess="true" class="table table-sm table-striped small">
+<table id="T_5972b" data-quarto-postprocess="true" class="table table-sm table-striped small">
 <thead>
 <tr class="header">
 <th class="blank level0" data-quarto-table-cell-role="th">&nbsp;</th>
-<th id="T_0b285_level0_col0" class="col_heading level0 col0" data-quarto-table-cell-role="th">SUM</th>
-<th id="T_0b285_level0_col1" class="col_heading level0 col1" data-quarto-table-cell-role="th">CNT</th>
-<th id="T_0b285_level0_col2" class="col_heading level0 col2" data-quarto-table-cell-role="th">AVG</th>
-<th id="T_0b285_level0_col3" class="col_heading level0 col3" data-quarto-table-cell-role="th">STDEV</th>
-<th id="T_0b285_level0_col4" class="col_heading level0 col4" data-quarto-table-cell-role="th">PERC_zeros</th>
-<th id="T_0b285_level0_col5" class="col_heading level0 col5" data-quarto-table-cell-role="th">PERC_negatives</th>
-<th id="T_0b285_level0_col6" class="col_heading level0 col6" data-quarto-table-cell-role="th">MIN</th>
-<th id="T_0b285_level0_col7" class="col_heading level0 col7" data-quarto-table-cell-role="th">P1</th>
-<th id="T_0b285_level0_col8" class="col_heading level0 col8" data-quarto-table-cell-role="th">P25</th>
-<th id="T_0b285_level0_col9" class="col_heading level0 col9" data-quarto-table-cell-role="th">P50</th>
-<th id="T_0b285_level0_col10" class="col_heading level0 col10" data-quarto-table-cell-role="th">P75</th>
-<th id="T_0b285_level0_col11" class="col_heading level0 col11" data-quarto-table-cell-role="th">P90</th>
-<th id="T_0b285_level0_col12" class="col_heading level0 col12" data-quarto-table-cell-role="th">P95</th>
-<th id="T_0b285_level0_col13" class="col_heading level0 col13" data-quarto-table-cell-role="th">P99</th>
-<th id="T_0b285_level0_col14" class="col_heading level0 col14" data-quarto-table-cell-role="th">MAX</th>
+<th id="T_5972b_level0_col0" class="col_heading level0 col0" data-quarto-table-cell-role="th">SUM</th>
+<th id="T_5972b_level0_col1" class="col_heading level0 col1" data-quarto-table-cell-role="th">CNT</th>
+<th id="T_5972b_level0_col2" class="col_heading level0 col2" data-quarto-table-cell-role="th">AVG</th>
+<th id="T_5972b_level0_col3" class="col_heading level0 col3" data-quarto-table-cell-role="th">STDEV</th>
+<th id="T_5972b_level0_col4" class="col_heading level0 col4" data-quarto-table-cell-role="th">PERC_zeros</th>
+<th id="T_5972b_level0_col5" class="col_heading level0 col5" data-quarto-table-cell-role="th">PERC_negatives</th>
+<th id="T_5972b_level0_col6" class="col_heading level0 col6" data-quarto-table-cell-role="th">MIN</th>
+<th id="T_5972b_level0_col7" class="col_heading level0 col7" data-quarto-table-cell-role="th">P1</th>
+<th id="T_5972b_level0_col8" class="col_heading level0 col8" data-quarto-table-cell-role="th">P25</th>
+<th id="T_5972b_level0_col9" class="col_heading level0 col9" data-quarto-table-cell-role="th">P50</th>
+<th id="T_5972b_level0_col10" class="col_heading level0 col10" data-quarto-table-cell-role="th">P75</th>
+<th id="T_5972b_level0_col11" class="col_heading level0 col11" data-quarto-table-cell-role="th">P90</th>
+<th id="T_5972b_level0_col12" class="col_heading level0 col12" data-quarto-table-cell-role="th">P95</th>
+<th id="T_5972b_level0_col13" class="col_heading level0 col13" data-quarto-table-cell-role="th">P99</th>
+<th id="T_5972b_level0_col14" class="col_heading level0 col14" data-quarto-table-cell-role="th">MAX</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td id="T_0b285_level0_row0" class="row_heading level0 row0" data-quarto-table-cell-role="th"></td>
-<td id="T_0b285_row0_col0" class="data row0 col0">389,218.00</td>
-<td id="T_0b285_row0_col1" class="data row0 col1">10000</td>
-<td id="T_0b285_row0_col2" class="data row0 col2">38.92</td>
-<td id="T_0b285_row0_col3" class="data row0 col3">10.49</td>
-<td id="T_0b285_row0_col4" class="data row0 col4">0.00</td>
-<td id="T_0b285_row0_col5" class="data row0 col5">0.00</td>
-<td id="T_0b285_row0_col6" class="data row0 col6">18.00</td>
-<td id="T_0b285_row0_col7" class="data row0 col7">21.00</td>
-<td id="T_0b285_row0_col8" class="data row0 col8">32.00</td>
-<td id="T_0b285_row0_col9" class="data row0 col9">37.00</td>
-<td id="T_0b285_row0_col10" class="data row0 col10">44.00</td>
-<td id="T_0b285_row0_col11" class="data row0 col11">53.00</td>
-<td id="T_0b285_row0_col12" class="data row0 col12">60.00</td>
-<td id="T_0b285_row0_col13" class="data row0 col13">72.00</td>
-<td id="T_0b285_row0_col14" class="data row0 col14">92.00</td>
+<td id="T_5972b_level0_row0" class="row_heading level0 row0" data-quarto-table-cell-role="th"></td>
+<td id="T_5972b_row0_col0" class="data row0 col0">389,218.00</td>
+<td id="T_5972b_row0_col1" class="data row0 col1">10000</td>
+<td id="T_5972b_row0_col2" class="data row0 col2">38.92</td>
+<td id="T_5972b_row0_col3" class="data row0 col3">10.49</td>
+<td id="T_5972b_row0_col4" class="data row0 col4">0.00</td>
+<td id="T_5972b_row0_col5" class="data row0 col5">0.00</td>
+<td id="T_5972b_row0_col6" class="data row0 col6">18.00</td>
+<td id="T_5972b_row0_col7" class="data row0 col7">21.00</td>
+<td id="T_5972b_row0_col8" class="data row0 col8">32.00</td>
+<td id="T_5972b_row0_col9" class="data row0 col9">37.00</td>
+<td id="T_5972b_row0_col10" class="data row0 col10">44.00</td>
+<td id="T_5972b_row0_col11" class="data row0 col11">53.00</td>
+<td id="T_5972b_row0_col12" class="data row0 col12">60.00</td>
+<td id="T_5972b_row0_col13" class="data row0 col13">72.00</td>
+<td id="T_5972b_row0_col14" class="data row0 col14">92.00</td>
 </tr>
 </tbody>
 </table>
@@ -1034,7 +1027,7 @@ O valor mediano da idade do cliente é de 37 anos.
 <section id="balance" class="level3">
 <h3 class="anchored" data-anchor-id="balance">Balance</h3>
 <p>Saldo bancário do cliente</p>
-<strong>Evaluation</strong>: <span style="color: green;"> OK. </span>
+<strong>Avaliação</strong>: <span style="color: green;"> OK. </span>
 <ul>
 <li>
 Variável numérica.
@@ -1046,7 +1039,7 @@ Não possui nenhum valor faltante.
 Variável com distribuição assimétrica.
 </li>
 <li>
-Alta concetração de cliente com saldo entre 0 e 25 mil.
+Alta concetração de clientes com saldo entre 0 e 25 mil.
 </li>
 </ul>
 <div class="cell" data-execution_count="21">
@@ -1056,51 +1049,51 @@ Alta concetração de cliente com saldo entre 0 e 25 mil.
 </details>
 <div class="cell-output cell-output-display" data-execution_count="21">
 <style type="text/css">
-#T_ee950 th:not(.index_name) {
+#T_e5c37 th:not(.index_name) {
   background-color: #001820;
   color: white;
 }
 </style>
 
-<table id="T_ee950" data-quarto-postprocess="true" class="table table-sm table-striped small">
+<table id="T_e5c37" data-quarto-postprocess="true" class="table table-sm table-striped small">
 <thead>
 <tr class="header">
 <th class="blank level0" data-quarto-table-cell-role="th">&nbsp;</th>
-<th id="T_ee950_level0_col0" class="col_heading level0 col0" data-quarto-table-cell-role="th">SUM</th>
-<th id="T_ee950_level0_col1" class="col_heading level0 col1" data-quarto-table-cell-role="th">CNT</th>
-<th id="T_ee950_level0_col2" class="col_heading level0 col2" data-quarto-table-cell-role="th">AVG</th>
-<th id="T_ee950_level0_col3" class="col_heading level0 col3" data-quarto-table-cell-role="th">STDEV</th>
-<th id="T_ee950_level0_col4" class="col_heading level0 col4" data-quarto-table-cell-role="th">PERC_zeros</th>
-<th id="T_ee950_level0_col5" class="col_heading level0 col5" data-quarto-table-cell-role="th">PERC_negatives</th>
-<th id="T_ee950_level0_col6" class="col_heading level0 col6" data-quarto-table-cell-role="th">MIN</th>
-<th id="T_ee950_level0_col7" class="col_heading level0 col7" data-quarto-table-cell-role="th">P1</th>
-<th id="T_ee950_level0_col8" class="col_heading level0 col8" data-quarto-table-cell-role="th">P25</th>
-<th id="T_ee950_level0_col9" class="col_heading level0 col9" data-quarto-table-cell-role="th">P50</th>
-<th id="T_ee950_level0_col10" class="col_heading level0 col10" data-quarto-table-cell-role="th">P75</th>
-<th id="T_ee950_level0_col11" class="col_heading level0 col11" data-quarto-table-cell-role="th">P90</th>
-<th id="T_ee950_level0_col12" class="col_heading level0 col12" data-quarto-table-cell-role="th">P95</th>
-<th id="T_ee950_level0_col13" class="col_heading level0 col13" data-quarto-table-cell-role="th">P99</th>
-<th id="T_ee950_level0_col14" class="col_heading level0 col14" data-quarto-table-cell-role="th">MAX</th>
+<th id="T_e5c37_level0_col0" class="col_heading level0 col0" data-quarto-table-cell-role="th">SUM</th>
+<th id="T_e5c37_level0_col1" class="col_heading level0 col1" data-quarto-table-cell-role="th">CNT</th>
+<th id="T_e5c37_level0_col2" class="col_heading level0 col2" data-quarto-table-cell-role="th">AVG</th>
+<th id="T_e5c37_level0_col3" class="col_heading level0 col3" data-quarto-table-cell-role="th">STDEV</th>
+<th id="T_e5c37_level0_col4" class="col_heading level0 col4" data-quarto-table-cell-role="th">PERC_zeros</th>
+<th id="T_e5c37_level0_col5" class="col_heading level0 col5" data-quarto-table-cell-role="th">PERC_negatives</th>
+<th id="T_e5c37_level0_col6" class="col_heading level0 col6" data-quarto-table-cell-role="th">MIN</th>
+<th id="T_e5c37_level0_col7" class="col_heading level0 col7" data-quarto-table-cell-role="th">P1</th>
+<th id="T_e5c37_level0_col8" class="col_heading level0 col8" data-quarto-table-cell-role="th">P25</th>
+<th id="T_e5c37_level0_col9" class="col_heading level0 col9" data-quarto-table-cell-role="th">P50</th>
+<th id="T_e5c37_level0_col10" class="col_heading level0 col10" data-quarto-table-cell-role="th">P75</th>
+<th id="T_e5c37_level0_col11" class="col_heading level0 col11" data-quarto-table-cell-role="th">P90</th>
+<th id="T_e5c37_level0_col12" class="col_heading level0 col12" data-quarto-table-cell-role="th">P95</th>
+<th id="T_e5c37_level0_col13" class="col_heading level0 col13" data-quarto-table-cell-role="th">P99</th>
+<th id="T_e5c37_level0_col14" class="col_heading level0 col14" data-quarto-table-cell-role="th">MAX</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td id="T_ee950_level0_row0" class="row_heading level0 row0" data-quarto-table-cell-role="th"></td>
-<td id="T_ee950_row0_col0" class="data row0 col0">764,858,892.88</td>
-<td id="T_ee950_row0_col1" class="data row0 col1">10000</td>
-<td id="T_ee950_row0_col2" class="data row0 col2">76,485.89</td>
-<td id="T_ee950_row0_col3" class="data row0 col3">62,397.41</td>
-<td id="T_ee950_row0_col4" class="data row0 col4">0.36</td>
-<td id="T_ee950_row0_col5" class="data row0 col5">0.00</td>
-<td id="T_ee950_row0_col6" class="data row0 col6">0.00</td>
-<td id="T_ee950_row0_col7" class="data row0 col7">0.00</td>
-<td id="T_ee950_row0_col8" class="data row0 col8">0.00</td>
-<td id="T_ee950_row0_col9" class="data row0 col9">97,198.54</td>
-<td id="T_ee950_row0_col10" class="data row0 col10">127,644.24</td>
-<td id="T_ee950_row0_col11" class="data row0 col11">149,244.79</td>
-<td id="T_ee950_row0_col12" class="data row0 col12">162,711.67</td>
-<td id="T_ee950_row0_col13" class="data row0 col13">185,967.99</td>
-<td id="T_ee950_row0_col14" class="data row0 col14">250,898.09</td>
+<td id="T_e5c37_level0_row0" class="row_heading level0 row0" data-quarto-table-cell-role="th"></td>
+<td id="T_e5c37_row0_col0" class="data row0 col0">764,858,892.88</td>
+<td id="T_e5c37_row0_col1" class="data row0 col1">10000</td>
+<td id="T_e5c37_row0_col2" class="data row0 col2">76,485.89</td>
+<td id="T_e5c37_row0_col3" class="data row0 col3">62,397.41</td>
+<td id="T_e5c37_row0_col4" class="data row0 col4">0.36</td>
+<td id="T_e5c37_row0_col5" class="data row0 col5">0.00</td>
+<td id="T_e5c37_row0_col6" class="data row0 col6">0.00</td>
+<td id="T_e5c37_row0_col7" class="data row0 col7">0.00</td>
+<td id="T_e5c37_row0_col8" class="data row0 col8">0.00</td>
+<td id="T_e5c37_row0_col9" class="data row0 col9">97,198.54</td>
+<td id="T_e5c37_row0_col10" class="data row0 col10">127,644.24</td>
+<td id="T_e5c37_row0_col11" class="data row0 col11">149,244.79</td>
+<td id="T_e5c37_row0_col12" class="data row0 col12">162,711.67</td>
+<td id="T_e5c37_row0_col13" class="data row0 col13">185,967.99</td>
+<td id="T_e5c37_row0_col14" class="data row0 col14">250,898.09</td>
 </tr>
 </tbody>
 </table>
@@ -1124,7 +1117,7 @@ Alta concetração de cliente com saldo entre 0 e 25 mil.
 <section id="estimated-salary" class="level3">
 <h3 class="anchored" data-anchor-id="estimated-salary">Estimated Salary</h3>
 <p>Salario estimado.</p>
-<strong>Evaluation</strong>: <span style="color: green;"> OK. </span>
+<strong>Avaliação</strong>: <span style="color: green;"> OK. </span>
 <ul>
 <li>
 Variável numérica.
@@ -1143,51 +1136,51 @@ Variável com distribuição uniforme.
 </details>
 <div class="cell-output cell-output-display" data-execution_count="23">
 <style type="text/css">
-#T_359f1 th:not(.index_name) {
+#T_d3302 th:not(.index_name) {
   background-color: #001820;
   color: white;
 }
 </style>
 
-<table id="T_359f1" data-quarto-postprocess="true" class="table table-sm table-striped small">
+<table id="T_d3302" data-quarto-postprocess="true" class="table table-sm table-striped small">
 <thead>
 <tr class="header">
 <th class="blank level0" data-quarto-table-cell-role="th">&nbsp;</th>
-<th id="T_359f1_level0_col0" class="col_heading level0 col0" data-quarto-table-cell-role="th">SUM</th>
-<th id="T_359f1_level0_col1" class="col_heading level0 col1" data-quarto-table-cell-role="th">CNT</th>
-<th id="T_359f1_level0_col2" class="col_heading level0 col2" data-quarto-table-cell-role="th">AVG</th>
-<th id="T_359f1_level0_col3" class="col_heading level0 col3" data-quarto-table-cell-role="th">STDEV</th>
-<th id="T_359f1_level0_col4" class="col_heading level0 col4" data-quarto-table-cell-role="th">PERC_zeros</th>
-<th id="T_359f1_level0_col5" class="col_heading level0 col5" data-quarto-table-cell-role="th">PERC_negatives</th>
-<th id="T_359f1_level0_col6" class="col_heading level0 col6" data-quarto-table-cell-role="th">MIN</th>
-<th id="T_359f1_level0_col7" class="col_heading level0 col7" data-quarto-table-cell-role="th">P1</th>
-<th id="T_359f1_level0_col8" class="col_heading level0 col8" data-quarto-table-cell-role="th">P25</th>
-<th id="T_359f1_level0_col9" class="col_heading level0 col9" data-quarto-table-cell-role="th">P50</th>
-<th id="T_359f1_level0_col10" class="col_heading level0 col10" data-quarto-table-cell-role="th">P75</th>
-<th id="T_359f1_level0_col11" class="col_heading level0 col11" data-quarto-table-cell-role="th">P90</th>
-<th id="T_359f1_level0_col12" class="col_heading level0 col12" data-quarto-table-cell-role="th">P95</th>
-<th id="T_359f1_level0_col13" class="col_heading level0 col13" data-quarto-table-cell-role="th">P99</th>
-<th id="T_359f1_level0_col14" class="col_heading level0 col14" data-quarto-table-cell-role="th">MAX</th>
+<th id="T_d3302_level0_col0" class="col_heading level0 col0" data-quarto-table-cell-role="th">SUM</th>
+<th id="T_d3302_level0_col1" class="col_heading level0 col1" data-quarto-table-cell-role="th">CNT</th>
+<th id="T_d3302_level0_col2" class="col_heading level0 col2" data-quarto-table-cell-role="th">AVG</th>
+<th id="T_d3302_level0_col3" class="col_heading level0 col3" data-quarto-table-cell-role="th">STDEV</th>
+<th id="T_d3302_level0_col4" class="col_heading level0 col4" data-quarto-table-cell-role="th">PERC_zeros</th>
+<th id="T_d3302_level0_col5" class="col_heading level0 col5" data-quarto-table-cell-role="th">PERC_negatives</th>
+<th id="T_d3302_level0_col6" class="col_heading level0 col6" data-quarto-table-cell-role="th">MIN</th>
+<th id="T_d3302_level0_col7" class="col_heading level0 col7" data-quarto-table-cell-role="th">P1</th>
+<th id="T_d3302_level0_col8" class="col_heading level0 col8" data-quarto-table-cell-role="th">P25</th>
+<th id="T_d3302_level0_col9" class="col_heading level0 col9" data-quarto-table-cell-role="th">P50</th>
+<th id="T_d3302_level0_col10" class="col_heading level0 col10" data-quarto-table-cell-role="th">P75</th>
+<th id="T_d3302_level0_col11" class="col_heading level0 col11" data-quarto-table-cell-role="th">P90</th>
+<th id="T_d3302_level0_col12" class="col_heading level0 col12" data-quarto-table-cell-role="th">P95</th>
+<th id="T_d3302_level0_col13" class="col_heading level0 col13" data-quarto-table-cell-role="th">P99</th>
+<th id="T_d3302_level0_col14" class="col_heading level0 col14" data-quarto-table-cell-role="th">MAX</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td id="T_359f1_level0_row0" class="row_heading level0 row0" data-quarto-table-cell-role="th"></td>
-<td id="T_359f1_row0_col0" class="data row0 col0">1,000,902,398.81</td>
-<td id="T_359f1_row0_col1" class="data row0 col1">10000</td>
-<td id="T_359f1_row0_col2" class="data row0 col2">100,090.24</td>
-<td id="T_359f1_row0_col3" class="data row0 col3">57,510.49</td>
-<td id="T_359f1_row0_col4" class="data row0 col4">0.00</td>
-<td id="T_359f1_row0_col5" class="data row0 col5">0.00</td>
-<td id="T_359f1_row0_col6" class="data row0 col6">11.58</td>
-<td id="T_359f1_row0_col7" class="data row0 col7">1,842.83</td>
-<td id="T_359f1_row0_col8" class="data row0 col8">51,002.11</td>
-<td id="T_359f1_row0_col9" class="data row0 col9">100,193.92</td>
-<td id="T_359f1_row0_col10" class="data row0 col10">149,388.25</td>
-<td id="T_359f1_row0_col11" class="data row0 col11">179,674.70</td>
-<td id="T_359f1_row0_col12" class="data row0 col12">190,155.38</td>
-<td id="T_359f1_row0_col13" class="data row0 col13">198,069.73</td>
-<td id="T_359f1_row0_col14" class="data row0 col14">199,992.48</td>
+<td id="T_d3302_level0_row0" class="row_heading level0 row0" data-quarto-table-cell-role="th"></td>
+<td id="T_d3302_row0_col0" class="data row0 col0">1,000,902,398.81</td>
+<td id="T_d3302_row0_col1" class="data row0 col1">10000</td>
+<td id="T_d3302_row0_col2" class="data row0 col2">100,090.24</td>
+<td id="T_d3302_row0_col3" class="data row0 col3">57,510.49</td>
+<td id="T_d3302_row0_col4" class="data row0 col4">0.00</td>
+<td id="T_d3302_row0_col5" class="data row0 col5">0.00</td>
+<td id="T_d3302_row0_col6" class="data row0 col6">11.58</td>
+<td id="T_d3302_row0_col7" class="data row0 col7">1,842.83</td>
+<td id="T_d3302_row0_col8" class="data row0 col8">51,002.11</td>
+<td id="T_d3302_row0_col9" class="data row0 col9">100,193.92</td>
+<td id="T_d3302_row0_col10" class="data row0 col10">149,388.25</td>
+<td id="T_d3302_row0_col11" class="data row0 col11">179,674.70</td>
+<td id="T_d3302_row0_col12" class="data row0 col12">190,155.38</td>
+<td id="T_d3302_row0_col13" class="data row0 col13">198,069.73</td>
+<td id="T_d3302_row0_col14" class="data row0 col14">199,992.48</td>
 </tr>
 </tbody>
 </table>
@@ -1238,668 +1231,12 @@ Variável com distribuição uniforme.
 <span id="cb23-23"><a href="#cb23-23" aria-hidden="true" tabindex="-1"></a>    numerical_variables,</span>
 <span id="cb23-24"><a href="#cb23-24" aria-hidden="true" tabindex="-1"></a>    categorical_variables,</span>
 <span id="cb23-25"><a href="#cb23-25" aria-hidden="true" tabindex="-1"></a>    target_variable)</span>
-<span id="cb23-26"><a href="#cb23-26" aria-hidden="true" tabindex="-1"></a>df_bivariate</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb23-26"><a href="#cb23-26" aria-hidden="true" tabindex="-1"></a><span class="co">#df_bivariate</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output cell-output-display" data-execution_count="25">
-<div>
+</div>
 
 
-<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
-<thead>
-<tr class="header">
-<th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th">Indicador</th>
-<th data-quarto-table-cell-role="th">Categoria</th>
-<th data-quarto-table-cell-role="th">Nao_evento</th>
-<th data-quarto-table-cell-role="th">Evento</th>
-<th data-quarto-table-cell-role="th">Total</th>
-<th data-quarto-table-cell-role="th">% Media da base</th>
-<th data-quarto-table-cell-role="th">% Resposta</th>
-<th data-quarto-table-cell-role="th">% Categoria</th>
-<th data-quarto-table-cell-role="th">Cramer's V</th>
-<th data-quarto-table-cell-role="th">Discriminância</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">0</td>
-<td>products_number</td>
-<td>(-inf, 1.50)</td>
-<td>3675</td>
-<td>1409</td>
-<td>5084</td>
-<td>20.37</td>
-<td>27.714398</td>
-<td>50.84</td>
-<td>0.185198</td>
-<td>Média</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">1</td>
-<td>products_number</td>
-<td>[1.50, inf)</td>
-<td>4288</td>
-<td>628</td>
-<td>4916</td>
-<td>20.37</td>
-<td>12.774614</td>
-<td>49.16</td>
-<td>0.185198</td>
-<td>Média</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">2</td>
-<td>tenure</td>
-<td>(-inf, 1.50)</td>
-<td>1121</td>
-<td>327</td>
-<td>1448</td>
-<td>20.37</td>
-<td>22.582873</td>
-<td>14.48</td>
-<td>0.035074</td>
-<td>Baixa</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">3</td>
-<td>tenure</td>
-<td>[1.50, 5.50)</td>
-<td>3232</td>
-<td>826</td>
-<td>4058</td>
-<td>20.37</td>
-<td>20.354855</td>
-<td>40.58</td>
-<td>0.035074</td>
-<td>Baixa</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">4</td>
-<td>tenure</td>
-<td>[5.50, 6.50)</td>
-<td>771</td>
-<td>196</td>
-<td>967</td>
-<td>20.37</td>
-<td>20.268873</td>
-<td>9.67</td>
-<td>0.035074</td>
-<td>Baixa</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">5</td>
-<td>tenure</td>
-<td>[6.50, 7.50)</td>
-<td>851</td>
-<td>177</td>
-<td>1028</td>
-<td>20.37</td>
-<td>17.217899</td>
-<td>10.28</td>
-<td>0.035074</td>
-<td>Baixa</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">6</td>
-<td>tenure</td>
-<td>[7.50, 8.50)</td>
-<td>828</td>
-<td>197</td>
-<td>1025</td>
-<td>20.37</td>
-<td>19.219512</td>
-<td>10.25</td>
-<td>0.035074</td>
-<td>Baixa</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">7</td>
-<td>tenure</td>
-<td>[8.50, inf)</td>
-<td>1160</td>
-<td>314</td>
-<td>1474</td>
-<td>20.37</td>
-<td>21.302578</td>
-<td>14.74</td>
-<td>0.035074</td>
-<td>Baixa</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">8</td>
-<td>credit_score</td>
-<td>(-inf, 489.50)</td>
-<td>377</td>
-<td>125</td>
-<td>502</td>
-<td>20.37</td>
-<td>24.900398</td>
-<td>5.02</td>
-<td>0.042364</td>
-<td>Baixa</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">9</td>
-<td>credit_score</td>
-<td>[489.50, 552.50)</td>
-<td>903</td>
-<td>254</td>
-<td>1157</td>
-<td>20.37</td>
-<td>21.953328</td>
-<td>11.57</td>
-<td>0.042364</td>
-<td>Baixa</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">10</td>
-<td>credit_score</td>
-<td>[552.50, 629.50)</td>
-<td>1937</td>
-<td>514</td>
-<td>2451</td>
-<td>20.37</td>
-<td>20.971032</td>
-<td>24.51</td>
-<td>0.042364</td>
-<td>Baixa</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">11</td>
-<td>credit_score</td>
-<td>[629.50, 651.50)</td>
-<td>696</td>
-<td>181</td>
-<td>877</td>
-<td>20.37</td>
-<td>20.638540</td>
-<td>8.77</td>
-<td>0.042364</td>
-<td>Baixa</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">12</td>
-<td>credit_score</td>
-<td>[651.50, 678.50)</td>
-<td>859</td>
-<td>194</td>
-<td>1053</td>
-<td>20.37</td>
-<td>18.423552</td>
-<td>10.53</td>
-<td>0.042364</td>
-<td>Baixa</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">13</td>
-<td>credit_score</td>
-<td>[678.50, 703.50)</td>
-<td>782</td>
-<td>162</td>
-<td>944</td>
-<td>20.37</td>
-<td>17.161017</td>
-<td>9.44</td>
-<td>0.042364</td>
-<td>Baixa</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">14</td>
-<td>credit_score</td>
-<td>[703.50, 734.50)</td>
-<td>816</td>
-<td>195</td>
-<td>1011</td>
-<td>20.37</td>
-<td>19.287834</td>
-<td>10.11</td>
-<td>0.042364</td>
-<td>Baixa</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">15</td>
-<td>credit_score</td>
-<td>[734.50, inf)</td>
-<td>1593</td>
-<td>412</td>
-<td>2005</td>
-<td>20.37</td>
-<td>20.548628</td>
-<td>20.05</td>
-<td>0.042364</td>
-<td>Baixa</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">16</td>
-<td>age</td>
-<td>(-inf, 27.50)</td>
-<td>947</td>
-<td>73</td>
-<td>1020</td>
-<td>20.37</td>
-<td>7.156863</td>
-<td>10.20</td>
-<td>0.360238</td>
-<td>Alta</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">17</td>
-<td>age</td>
-<td>[27.50, 32.50)</td>
-<td>1630</td>
-<td>140</td>
-<td>1770</td>
-<td>20.37</td>
-<td>7.909605</td>
-<td>17.70</td>
-<td>0.360238</td>
-<td>Alta</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">18</td>
-<td>age</td>
-<td>[32.50, 34.50)</td>
-<td>812</td>
-<td>77</td>
-<td>889</td>
-<td>20.37</td>
-<td>8.661417</td>
-<td>8.89</td>
-<td>0.360238</td>
-<td>Alta</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">19</td>
-<td>age</td>
-<td>[34.50, 36.50)</td>
-<td>820</td>
-<td>110</td>
-<td>930</td>
-<td>20.37</td>
-<td>11.827957</td>
-<td>9.30</td>
-<td>0.360238</td>
-<td>Alta</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">20</td>
-<td>age</td>
-<td>[36.50, 38.50)</td>
-<td>830</td>
-<td>125</td>
-<td>955</td>
-<td>20.37</td>
-<td>13.089005</td>
-<td>9.55</td>
-<td>0.360238</td>
-<td>Alta</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">21</td>
-<td>age</td>
-<td>[38.50, 40.50)</td>
-<td>694</td>
-<td>161</td>
-<td>855</td>
-<td>20.37</td>
-<td>18.830409</td>
-<td>8.55</td>
-<td>0.360238</td>
-<td>Alta</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">22</td>
-<td>age</td>
-<td>[40.50, 42.50)</td>
-<td>541</td>
-<td>146</td>
-<td>687</td>
-<td>20.37</td>
-<td>21.251820</td>
-<td>6.87</td>
-<td>0.360238</td>
-<td>Alta</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">23</td>
-<td>age</td>
-<td>[42.50, 46.50)</td>
-<td>670</td>
-<td>339</td>
-<td>1009</td>
-<td>20.37</td>
-<td>33.597621</td>
-<td>10.09</td>
-<td>0.360238</td>
-<td>Alta</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">24</td>
-<td>age</td>
-<td>[46.50, inf)</td>
-<td>1019</td>
-<td>866</td>
-<td>1885</td>
-<td>20.37</td>
-<td>45.941645</td>
-<td>18.85</td>
-<td>0.360238</td>
-<td>Alta</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">25</td>
-<td>balance</td>
-<td>(-inf, 1884.34)</td>
-<td>3117</td>
-<td>500</td>
-<td>3617</td>
-<td>20.37</td>
-<td>13.823611</td>
-<td>36.17</td>
-<td>0.138995</td>
-<td>Média</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">26</td>
-<td>balance</td>
-<td>[102958.88, 115727.98)</td>
-<td>769</td>
-<td>287</td>
-<td>1056</td>
-<td>20.37</td>
-<td>27.178030</td>
-<td>10.56</td>
-<td>0.138995</td>
-<td>Média</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">27</td>
-<td>balance</td>
-<td>[115727.98, 121681.86)</td>
-<td>341</td>
-<td>160</td>
-<td>501</td>
-<td>20.37</td>
-<td>31.936128</td>
-<td>5.01</td>
-<td>0.138995</td>
-<td>Média</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">28</td>
-<td>balance</td>
-<td>[121681.86, 137290.23)</td>
-<td>947</td>
-<td>323</td>
-<td>1270</td>
-<td>20.37</td>
-<td>25.433071</td>
-<td>12.70</td>
-<td>0.138995</td>
-<td>Média</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">29</td>
-<td>balance</td>
-<td>[137290.23, inf)</td>
-<td>1363</td>
-<td>399</td>
-<td>1762</td>
-<td>20.37</td>
-<td>22.644722</td>
-<td>17.62</td>
-<td>0.138995</td>
-<td>Média</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">30</td>
-<td>balance</td>
-<td>[1884.34, 92785.17)</td>
-<td>902</td>
-<td>226</td>
-<td>1128</td>
-<td>20.37</td>
-<td>20.035461</td>
-<td>11.28</td>
-<td>0.138995</td>
-<td>Média</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">31</td>
-<td>balance</td>
-<td>[92785.17, 102958.88)</td>
-<td>524</td>
-<td>142</td>
-<td>666</td>
-<td>20.37</td>
-<td>21.321321</td>
-<td>6.66</td>
-<td>0.138995</td>
-<td>Média</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">32</td>
-<td>estimated_salary</td>
-<td>(-inf, 33482.46)</td>
-<td>1297</td>
-<td>343</td>
-<td>1640</td>
-<td>20.37</td>
-<td>20.914634</td>
-<td>16.40</td>
-<td>0.034303</td>
-<td>Baixa</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">33</td>
-<td>estimated_salary</td>
-<td>[106162.09, 138559.97)</td>
-<td>1290</td>
-<td>337</td>
-<td>1627</td>
-<td>20.37</td>
-<td>20.712969</td>
-<td>16.27</td>
-<td>0.034303</td>
-<td>Baixa</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">34</td>
-<td>estimated_salary</td>
-<td>[138559.97, 169420.42)</td>
-<td>1184</td>
-<td>310</td>
-<td>1494</td>
-<td>20.37</td>
-<td>20.749665</td>
-<td>14.94</td>
-<td>0.034303</td>
-<td>Baixa</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">35</td>
-<td>estimated_salary</td>
-<td>[169420.42, inf)</td>
-<td>1201</td>
-<td>341</td>
-<td>1542</td>
-<td>20.37</td>
-<td>22.114137</td>
-<td>15.42</td>
-<td>0.034303</td>
-<td>Baixa</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">36</td>
-<td>estimated_salary</td>
-<td>[33482.46, 73970.20)</td>
-<td>1620</td>
-<td>402</td>
-<td>2022</td>
-<td>20.37</td>
-<td>19.881306</td>
-<td>20.22</td>
-<td>0.034303</td>
-<td>Baixa</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">37</td>
-<td>estimated_salary</td>
-<td>[73970.20, 83463.54)</td>
-<td>423</td>
-<td>78</td>
-<td>501</td>
-<td>20.37</td>
-<td>15.568862</td>
-<td>5.01</td>
-<td>0.034303</td>
-<td>Baixa</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">38</td>
-<td>estimated_salary</td>
-<td>[83463.54, 106162.09)</td>
-<td>948</td>
-<td>226</td>
-<td>1174</td>
-<td>20.37</td>
-<td>19.250426</td>
-<td>11.74</td>
-<td>0.034303</td>
-<td>Baixa</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">39</td>
-<td>country</td>
-<td>['France']</td>
-<td>4204</td>
-<td>810</td>
-<td>5014</td>
-<td>20.37</td>
-<td>16.154767</td>
-<td>50.14</td>
-<td>0.173567</td>
-<td>Média</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">40</td>
-<td>country</td>
-<td>['Germany']</td>
-<td>1695</td>
-<td>814</td>
-<td>2509</td>
-<td>20.37</td>
-<td>32.443204</td>
-<td>25.09</td>
-<td>0.173567</td>
-<td>Média</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">41</td>
-<td>country</td>
-<td>['Spain']</td>
-<td>2064</td>
-<td>413</td>
-<td>2477</td>
-<td>20.37</td>
-<td>16.673395</td>
-<td>24.77</td>
-<td>0.173567</td>
-<td>Média</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">42</td>
-<td>gender</td>
-<td>['Female']</td>
-<td>3404</td>
-<td>1139</td>
-<td>4543</td>
-<td>20.37</td>
-<td>25.071539</td>
-<td>45.43</td>
-<td>0.106263</td>
-<td>Média</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">43</td>
-<td>gender</td>
-<td>['Male']</td>
-<td>4559</td>
-<td>898</td>
-<td>5457</td>
-<td>20.37</td>
-<td>16.455928</td>
-<td>54.57</td>
-<td>0.106263</td>
-<td>Média</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">44</td>
-<td>credit_card</td>
-<td>['0']</td>
-<td>2332</td>
-<td>613</td>
-<td>2945</td>
-<td>20.37</td>
-<td>20.814941</td>
-<td>29.45</td>
-<td>0.006865</td>
-<td>Baixa</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">45</td>
-<td>credit_card</td>
-<td>['1']</td>
-<td>5631</td>
-<td>1424</td>
-<td>7055</td>
-<td>20.37</td>
-<td>20.184266</td>
-<td>70.55</td>
-<td>0.006865</td>
-<td>Baixa</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">46</td>
-<td>active_member</td>
-<td>['0']</td>
-<td>3547</td>
-<td>1302</td>
-<td>4849</td>
-<td>20.37</td>
-<td>26.850897</td>
-<td>48.49</td>
-<td>0.155880</td>
-<td>Média</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">47</td>
-<td>active_member</td>
-<td>['1']</td>
-<td>4416</td>
-<td>735</td>
-<td>5151</td>
-<td>20.37</td>
-<td>14.269074</td>
-<td>51.51</td>
-<td>0.155880</td>
-<td>Média</td>
-</tr>
-</tbody>
-</table>
-
-</div>
-</div>
-</div>
 </section>
-</section>
-<section id="próximos-passos" class="level1">
-<h1>próximos passos</h1>
-<ul>
-<li>imprimir certinho os gráficos da bivariada</li>
-</ul>
-
-
 </section>
 
 </main> <!-- /main -->

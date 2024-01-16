@@ -19,10 +19,8 @@ website:
     left:
       - text: "Home"
         file: index.qmd
-      - text: "Projects"
+      - text: "Projetos"
         file: projects.qmd
-      - text: "Reference"
-        file: reference.qmd
 
   # Foot
   page-footer:
@@ -33,7 +31,7 @@ website:
 
   # Barra
   sidebar:
-  - title: "Projects"
+  - title: "Projetos"
     style: "docked"
     border: true
     background: "#1a3d4a"
@@ -41,7 +39,6 @@ website:
     contents:
       - projects.qmd
       - project1.qmd
-      - project2.qmd
 
   - title: "Reference teste"
     contents:

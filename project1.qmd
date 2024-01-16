@@ -1,8 +1,8 @@
 ---
-title: "Project: Bank Customer Churn Prediction"
+title: "Projeto: Previsão de Rotatividade de Clientes Bancários"
 ---
 
-# Introduction
+# Introdução
 
 <p>
 O problema de churn, ou rotatividade de clientes, representa um desafio significativo para instituições bancárias. Refere-se à taxa na qual os clientes encerram seus relacionamentos com o banco, migrando para outras instituições financeiras ou até mesmo abandonando serviços financeiros. Este fenômeno pode ser impulsionado por diversos fatores, como insatisfação com serviços, concorrência acirrada, mudanças nas condições econômicas e até mesmo avanços tecnológicos.
@@ -16,15 +16,9 @@ Dessa forma, a retenção de clientes torna-se uma prioridade estratégica para 
 Diante desse cenário, torna-se de extrema valia a capacidade de identificar os clientes mais propensos ao churn, possibilitando que a instituição financeira aja de maneira antecipada, oferecendo planos e serviços atrativos que impeçam a fuga do cliente.
 </p>
 
-# Business Problem
+# Problema de Negócio
 Temos uma base de dados do ABC Multistate Bank, a qual está hospedada em <https://www.kaggle.com/datasets/gauravtopre/bank-customer-churn-dataset/data>. Essa base de dados contém informações anonimizadas de 10.000 clientes, onde o problema de negócio em questão resume-se a construirmos um modelo capaz de predizer a ocorrência ou não de churn para um dado cliente, com base nas informações disponíveis.
 
-
-## Approach
-layout de estração
-EDA
-Bivariada
-Modelo
 
 # Resolução do Problema
 
@@ -49,7 +43,17 @@ from functions import (
 ```
 
 ## Análise Exploratória dos Dados
-O objetivo desta etapa é investigar e entender os dados disponíveis, a fim de extrair informações preliminares, identificar padrões, tendências, anomalias e insights relevantes.
+<p>O objetivo desta etapa é investigar e entender os dados disponíveis, a fim de extrair informações preliminares, identificar padrões, tendências, anomalias e insights relevantes.
+</p>
+
+<p>
+Verificaremos que, ao término dessa análise, todas as variáveis apresentam comportamento adequado para prosseguirem no estudo, pois:
+
+- Não possuem valores faltantes.
+- Não têm valores inesperados.
+- Não exibem alta concentração em um único valor.
+</p>
+<hr>
 
 ```{python}
 #| echo: false
@@ -100,7 +104,7 @@ df[var_name] = np.where(
 ### Churn
 Essa variável denota a ocorrência (1) ou não ocorrência (0) do evento de churn.
 
-**Evaluation**: <span style="color: green;"> OK. </span>
+**Avaliação**: <span style="color: green;"> OK. </span>
 <ul>
   <li>Variável target.</li>
   <li>Temos 20% de ocorrência do evento.</li>
@@ -120,9 +124,9 @@ create_graph_categorical("churn", df)
 <hr>
 
 ### Country
-Pais do cliente.
+País do cliente.
 
-**Evaluation**: <span style="color: green;"> OK. </span>
+**Avaliação**: <span style="color: green;"> OK. </span>
 <ul>
   <li>Variável categórica.</li>
   <li>Não possui nenhum valor faltante.</li>
@@ -145,7 +149,7 @@ create_graph_categorical("country", df)
 ### Gender
 Gênero do cliente.
 
-**Evaluation**: <span style="color: green;"> OK. </span>
+**Avaliação**: <span style="color: green;"> OK. </span>
 <ul>
   <li>Variável categórica.</li>
   <li>Não possui nenhum valor faltante.</li>
@@ -167,7 +171,7 @@ create_graph_categorical("gender", df)
 ### Credit Card
 Se o cliente utiliza cartão de crédito.
 
-**Evaluation**: <span style="color: green;"> OK. </span>
+**Avaliação**: <span style="color: green;"> OK. </span>
 <ul>
   <li>Variável categórica.</li>
   <li>Não possui nenhum valor faltante.</li>
@@ -189,7 +193,7 @@ create_graph_categorical("credit_card", df)
 ### Active Member
 Denota se um cliente é ativo ou não.
 
-**Evaluation**: <span style="color: green;"> OK. </span>
+**Avaliação**: <span style="color: green;"> OK. </span>
 <ul>
   <li>Variável categórica.</li>
   <li>Não possui nenhum valor faltante.</li>
@@ -210,7 +214,7 @@ create_graph_categorical("active_member", df)
 ### Products Number
 Número de produtos adiquiridos pelo cliente.
 
-**Evaluation**: <span style="color: green;"> OK. </span>
+**Avaliação**: <span style="color: green;"> OK. </span>
 <ul>
   <li>Variável categórica.</li>
   <li>Não possui nenhum valor faltante.</li>
@@ -230,9 +234,9 @@ create_graph_categorical("products_number", df, ['1', '2', '3', '>=4'])
 <hr>
 
 ### Tenure
-Mensura a quantidde em anos que é cliente
+Mensura a quantidde em anos que é cliente do banco.
 
-**Evaluation**: <span style="color: green;"> OK. </span>
+**Avaliação**: <span style="color: green;"> OK. </span>
 <ul>
   <li>Variável categóricas.</li>
   <li>Não possui nenhum valor faltante.</li>
@@ -256,7 +260,7 @@ create_graph_categorical("tenure", df, ['[0, 2]', '(2, 4]', '(4, 6]', '(6, 8]', 
 ### Credit Score
 É uma medida da probabilidade de um indivíduo pagar suas dívidas com base em seu histórico de crédito passado.
 
-**Evaluation**: <span style="color: green;"> OK. </span>
+**Avaliação**: <span style="color: green;"> OK. </span>
 <ul>
   <li>Variável numérica.</li>
   <li>Não possui nenhum valor faltante.</li>
@@ -277,7 +281,7 @@ create_graph_numeric_continuous("credit_score", df)
 ### Age
 Idade em anos do cliente.
 
-**Evaluation**: <span style="color: green;"> OK. </span>
+**Avaliação**: <span style="color: green;"> OK. </span>
 <ul>
   <li>Variável numérica.</li>
   <li>Não possui nenhum valor faltante.</li>
@@ -303,12 +307,12 @@ create_graph_numeric_continuous("age", df)
 ### Balance
 Saldo bancário do cliente
 
-**Evaluation**: <span style="color: green;"> OK. </span>
+**Avaliação**: <span style="color: green;"> OK. </span>
 <ul>
   <li>Variável numérica.</li>
   <li>Não possui nenhum valor faltante.</li>
   <li>Variável com distribuição assimétrica.</li>
-  <li>Alta concetração de cliente com saldo entre 0 e 25 mil.</li>
+  <li>Alta concetração de clientes com saldo entre 0 e 25 mil.</li>
 </ul>
 
 ```{python}
@@ -325,7 +329,7 @@ create_graph_numeric_continuous("balance", df)
 ### Estimated Salary
 Salario estimado.
 
-**Evaluation**: <span style="color: green;"> OK. </span>
+**Avaliação**: <span style="color: green;"> OK. </span>
 <ul>
   <li>Variável numérica.</li>
   <li>Não possui nenhum valor faltante.</li>
@@ -369,7 +373,5 @@ df_bivariate = bivariate(
     numerical_variables,
     categorical_variables,
     target_variable)
-df_bivariate
+#df_bivariate
 ```
-# próximos passos
-- imprimir certinho os gráficos da bivariada
