@@ -46,7 +46,7 @@ from functions import (
     )
 ```
 
-## Análise Exploratória dos Dados
+## Análise Exploratória dos Dados (EDA)
 <p>O objetivo desta etapa é investigar e entender os dados disponíveis, a fim de extrair informações preliminares, identificar padrões, tendências, anomalias e insights relevantes.
 </p>
 
@@ -106,11 +106,15 @@ df[var_name] = np.where(
 ```
 
 ### Churn
-Essa variável denota a ocorrência (1) ou não ocorrência (0) do evento de churn.
+Essa variável denota a ocorrência ou não do evento de churn.
+
+- Não ocorrência de churn = 0
+- Ocorrência de churn = 1
+
 
 **Avaliação**: <span style="color: green;"> OK. </span>
 <ul>
-  <li>Variável target.</li>
+  <li>Variável target (binária).</li>
   <li>Temos 20% de ocorrência do evento.</li>
   <li>Temos 80% de não ocorrência do evento.</li>
 </ul>
@@ -134,8 +138,8 @@ País do cliente.
 <ul>
   <li>Variável categórica.</li>
   <li>Não possui nenhum valor faltante.</li>
-  <li>França representa 50%.</li>
-  <li>Alemanha e Espanha representam 25% cada.</li>
+  <li>France representa 50%.</li>
+  <li>Germany e Spain representam 25% cada.</li>
 </ul>
 
 ```{python}
@@ -175,6 +179,9 @@ create_graph_categorical("gender", df)
 ### Credit Card
 Se o cliente utiliza cartão de crédito.
 
+- Não utiliza cartão de crédito = 0
+- Utiliza cartão de crédito = 1
+
 **Avaliação**: <span style="color: green;"> OK. </span>
 <ul>
   <li>Variável categórica.</li>
@@ -195,7 +202,11 @@ create_graph_categorical("credit_card", df)
 <hr>
 
 ### Active Member
-Denota se um cliente é ativo ou não.
+Denota se um cliente está envolvido e participando ativamente das atividades e serviços oferecidos pelo banco:
+
+- Não ativo = 0
+- Ativo = 1
+
 
 **Avaliação**: <span style="color: green;"> OK. </span>
 <ul>
@@ -220,7 +231,7 @@ Número de produtos adiquiridos pelo cliente.
 
 **Avaliação**: <span style="color: green;"> OK. </span>
 <ul>
-  <li>Variável categórica.</li>
+  <li>Variável numérica discreta, mas será visualizada como categórica.</li>
   <li>Não possui nenhum valor faltante.</li>
   <li>~50% dos cliente utilizam somente um produto.</li>
   <li>~46% dos cliente utilizam 2 produtos.</li>
@@ -238,11 +249,11 @@ create_graph_categorical("products_number", df, ['1', '2', '3', '>=4'])
 <hr>
 
 ### Tenure
-Mensura a quantidde em anos que é cliente do banco.
+Mensura a quantidade de anos decorridos desde que o cliente aderiu aos serviços prestados pelo banco.
 
 **Avaliação**: <span style="color: green;"> OK. </span>
 <ul>
-  <li>Variável categóricas.</li>
+  <li>Variável numérica discreta, mas será visualizada como categórica.</li>
   <li>Não possui nenhum valor faltante.</li>
   <li>25% de 0 a 2 anos.</li>
   <li>15% de 8 a 10 anos.</li>
@@ -289,7 +300,6 @@ Idade em anos do cliente.
 <ul>
   <li>Variável numérica.</li>
   <li>Não possui nenhum valor faltante.</li>
-  <li>Possui distribuição assimétrica á direita.</li>
   <li>Possui distribuição assimétrica á direita.</li>
   <li>Cliente mais novo tem 18 anos.</li>
   <li>Cliente mais velho tem 92 anos.</li>
@@ -350,6 +360,96 @@ create_graph_numeric_continuous("estimated_salary", df)
 ```
 
 ## Análise Bivariada dos Dados
+<p>
+A análise bivariada tem como objetivo examinar a relação entre duas variáveis em um conjunto de dados. Ao contrário da análise univariada, que se concentra em uma única variável (EDA que fizemos no item anterior), a análise bivariada explora a associação entre duas variáveis.
+</p>
+ 
+<p>
+Existem diferentes técnicas e métodos para realizar uma análise bivariada, dependendo da natureza das variáveis envolvidas.
+Para o nosso problema, estamos interessados em avaliar o grau de associação entre cada uma das possíveis variáveis preditoras e a variável target, dessa forma temos que:
+
+- churn: Categórica Binária (target)
+
+- country: Categórica
+- gender: Categórica
+- credit_card: Categórica
+- active_member: Categórica
+
+- producs_number: Numérica Discreta
+- tenure: Numérica Discreta
+- credit_score: Numérica Contínua
+- age: Numérica Discreta 
+
+- balance: Numérica Contínua
+- estimated_salary: Numérica Contínua
+</p>
+
+<p>
+A nossa abordagem será transformar todas as variáveis preditoras em categóricas, para posteriormente avaliarmos o grau de associação de cada uma delas frente a variável target, para isso teremos basicamente duas etapas:
+<ol>
+  <li>Binning das variáveis.</li>
+  <li>Avaliação do Grau de Associação.</li>
+</ol>
+</p>
+
+<hr>
+
+**Binning**
+<p>
+Chamaremos esse processo de transformação de uma variável numérica em categórica de binning. O processo de binning será feito através de um método denominado de  **optimal binning** <https://gnpalencia.org/optbinning/>.
+</p>
+
+<p>
+O optimal binning refere-se a uma abordagem estatística utilizada em análise de dados para agrupar valores de uma variável em intervalos (ou "bins") de maneira a otimizar algum critério específico. A principal ideia por trás do binning ótimo é encontrar a divisão mais informativa ou significativa das observações, geralmente com base em algum critério de interesse, como a maximização da diferença nas médias entre os grupos ou a minimização da variabilidade intra-bin.
+</p>
+
+<p>
+Ou seja, de forma resumida, vamos pegar um certa variável, por exemplo o balance (saldo da conta) e tentar discretizar em categorias onde fique mais evidente se a ocorrência de churn é maior ou menor.
+</p>
+
+<p>
+Vale ressaltar que também vamos aplicar o optimal binning para as variáveis que já são categóricas, uma vez que esse processo de otimização pode gerar agrupamentos mais informativos (quanto a ocorrência de churn) do que as categorias já existentes.
+</p>
+
+<hr>
+
+**Avaliação do Grau de Associação**
+<p>
+Neste momento todas as nossas variáveis (preditoras e target) são categóricas, então para mensurar o grau de associação entre cada preditora e o target, utilizaremos o coeficiente **Cramer's V** (V de Cramer).
+</p>
+
+<p>
+O coeficiente V de Cramer é uma medida estatística utilizada em análises bivariadas para quantificar a força de associação entre duas variáveis categóricas. Essa medida é uma extensão do coeficiente qui-quadrado, que é comumente utilizado para testar a independência entre variáveis categóricas.
+
+O coeficiente V de Cramer varia de 0 a 1, onde 0 indica nenhuma associação e 1 indica associação total entre as variáveis categóricas.
+<https://en.wikipedia.org/wiki/Cram%C3%A9r%27s_V>
+</p>
+
+<hr>
+
+**Resultado da Análise Bivariada**
+
+Após o término da análise bivariada, conforme a tabela abaixo e os demais resultados que veremos na sequência, veremos que:
+
+- age: É a variável com maior grau de associação com o evento de churn (Alta discriminância).
+- products_number, country, active_member: Estão associadas de forma moderada com o evento de churn (Média discriminância).
+- credit_score, tenure, estimated_salary e credit_card: Possuem baixo grau de associação com o evento de churn (Baixa discriminância).
+
+As variáveis com alta e média discriminância têm maiores chances de serem consideradas como preditoras no modelo preditivo que iremos construir. Em contrapartida, as variáveis de baixa discriminância possuem menor propensão de serem utilizadas como preditoras nesse modelo."
+
+
+**Observação** 
+<p>
+O critério utilizado para definir a discriminância não está levando em conta apenas se o valor de Cramer’s V está muito próximo de 0 ou 1, mas também considera o contexto dessa análise. Por exemplo, para a variável idade, temos Cramer’s V = 0.36, que é um valor mais próximo de 0 do que de 1. Se considerássemos apenas essa questão, diríamos que o grau de associação é moderado ou baixo.
+
+No entanto, no contexto desta análise, a variável idade é a que possui o maior Cramer’s V. Portanto, dentro do nosso contexto, estamos considerando que o grau de associação com o evento é forte.
+
+Para fins de esclarecimento, consideramos que:
+
+- Cramer's V > 0.20: Discriminância Alta.
+- 0.20 <= Cramer's V < 0.05: Discriminância Média.
+- Cramer's V <= 0.05: Discriminância Baixa.
+</p>
 
 ```{python}
 #| fig-align: center
@@ -358,7 +458,6 @@ numerical_variables = [
     "tenure",
     "credit_score",
     "age",
-    "balance",
     "estimated_salary"
     ]
 
@@ -366,12 +465,18 @@ categorical_variables = [
     "country", 
     "gender", 
     "credit_card",
-    "active_member"
+    "active_member",
+    "balance",
     ]
 
 target_variable = 'churn'
 
 df = df_base
+
+# balance
+var_name = 'balance'
+c1 = df[var_name].between(-np.inf,  1884.34, inclusive = "neither")
+df[var_name] = np.where(c1, '< 1884.34', '>= 1884.34')
 
 df_bivariate = bivariate(
     df,
@@ -391,93 +496,13 @@ df = (
 create_table_bivariate_summary(df, cols_float = ["Cramer's V"])
 ```
 
-### Country
-```{python}
-#| fig-align: center
-var = "country"
-create_table_bivariate_html(df_bivariate, var)
-```
-
-```{python}
-#| fig-align: center
-create_graph_bivariate_html(df_bivariate, var)
-```
-
-### Gender
-```{python}
-#| fig-align: center
-var = "gender"
-create_table_bivariate_html(df_bivariate, var)
-```
-
-```{python}
-#| fig-align: center
-create_graph_bivariate_html(df_bivariate, var)
-```
-
-### Credit Card
-```{python}
-#| fig-align: center
-var = "credit_card"
-create_table_bivariate_html(df_bivariate, var)
-```
-
-```{python}
-#| fig-align: center
-create_graph_bivariate_html(df_bivariate, var)
-```
-
-### Active Member
-```{python}
-#| fig-align: center
-var = "active_member"
-create_table_bivariate_html(df_bivariate, var)
-```
-
-```{python}
-#| fig-align: center
-create_graph_bivariate_html(df_bivariate, var)
-```
-
-
-### Products Number
-```{python}
-#| fig-align: center
-var = "products_number"
-create_table_bivariate_html(df_bivariate, var)
-```
-
-```{python}
-#| fig-align: center
-create_graph_bivariate_html(df_bivariate, var)
-```
-
-### Tenure
-```{python}
-#| fig-align: center
-var = "tenure"
-create_table_bivariate_html(df_bivariate, var)
-```
-
-```{python}
-#| fig-align: center
-create_graph_bivariate_html(df_bivariate, var)
-```
-
-
-### Credit Score
-```{python}
-#| fig-align: center
-var = "credit_score"
-create_table_bivariate_html(df_bivariate, var)
-```
-
-```{python}
-#| fig-align: center
-create_graph_bivariate_html(df_bivariate, var)
-```
-
 ### Age
+
+**Discriminância**: <span style="color: green;"> Alta. </span>
+<ul>
+  <li>Quanto mais velho for o cliente, maior é a propensão de ocorrência do churn.</li>
+</ul>
+
 ```{python}
 #| fig-align: center
 var = "age"
@@ -489,8 +514,75 @@ create_table_bivariate_html(df_bivariate, var)
 create_graph_bivariate_html(df_bivariate, var)
 ```
 
+<hr>
+
+### Products Number
+
+**Discriminância**: <span style="color: yellow;"> Média. </span>
+<ul>
+  <li>A ocorrência do churn é maior para clientes que contrataram somente 1 produto.</li>
+</ul>
+
+```{python}
+#| fig-align: center
+var = "products_number"
+create_table_bivariate_html(df_bivariate, var)
+```
+
+```{python}
+#| fig-align: center
+create_graph_bivariate_html(df_bivariate, var)
+```
+
+<hr>
+
+### Country
+
+**Discriminância**: <span style="color: yellow;"> Média. </span>
+<ul>
+  <li>A ocorrência do churn é maior para clientes da Alemanha.</li>
+</ul>
+
+```{python}
+#| fig-align: center
+var = "country"
+create_table_bivariate_html(df_bivariate, var)
+```
+
+```{python}
+#| fig-align: center
+create_graph_bivariate_html(df_bivariate, var)
+```
+
+<hr>
+
+### Active Member
+
+**Discriminância**: <span style="color: yellow;"> Média. </span>
+<ul>
+  <li>A ocorrência do churn é maior para clientes que não são ativos.</li>
+</ul>
+
+```{python}
+#| fig-align: center
+var = "active_member"
+create_table_bivariate_html(df_bivariate, var)
+```
+
+```{python}
+#| fig-align: center
+create_graph_bivariate_html(df_bivariate, var)
+```
+
+<hr>
 
 ### Balance
+
+**Discriminância**: <span style="color: yellow;"> Média. </span>
+<ul>
+  <li>A ocorrência do churn é maior para clientes com saldo em conta maior ou igual a 1884.34 .</li>
+</ul>
+
 ```{python}
 #| fig-align: center
 var = "balance"
@@ -502,7 +594,75 @@ create_table_bivariate_html(df_bivariate, var)
 create_graph_bivariate_html(df_bivariate, var)
 ```
 
+<hr>
+
+### Gender
+
+**Discriminância**: <span style="color: yellow;"> Média. </span>
+<ul>
+  <li>A ocorrência do churn é maior para clientes do sexo feminino.</li>
+</ul>
+
+```{python}
+#| fig-align: center
+var = "gender"
+create_table_bivariate_html(df_bivariate, var)
+```
+
+```{python}
+#| fig-align: center
+create_graph_bivariate_html(df_bivariate, var)
+```
+
+<hr>
+
+### Credit Score
+
+**Discriminância**: <span style="color: #800000;"> Baixa. </span>
+<ul>
+  <li>O fato isolado de quão bom ou ruim é o credit_score do cliente, não tem forte relação com o evento de churn.</li>
+</ul>
+
+```{python}
+#| fig-align: center
+var = "credit_score"
+create_table_bivariate_html(df_bivariate, var)
+```
+
+```{python}
+#| fig-align: center
+create_graph_bivariate_html(df_bivariate, var)
+```
+
+<hr>
+
+### Tenure
+
+**Discriminância**: <span style="color: #800000;"> Baixa. </span>
+<ul>
+  <li>O fato isolado da quantidade de anos decorridos desde que o cliente aderiu aos serviços prestados pelo banco, não tem forte relação com o evento de churn.</li>
+</ul>
+
+```{python}
+#| fig-align: center
+var = "tenure"
+create_table_bivariate_html(df_bivariate, var)
+```
+
+```{python}
+#| fig-align: center
+create_graph_bivariate_html(df_bivariate, var)
+```
+
+<hr>
+
 ### Estimated Salary
+
+**Discriminância**: <span style="color: #800000;"> Baixa. </span>
+<ul>
+  <li>O fato isolado de quão alto ou baixo é o salário do cliente, não tem forte relação com o evento de churn.</li>
+</ul>
+
 ```{python}
 #| fig-align: center
 var = "estimated_salary"
@@ -513,3 +673,28 @@ create_table_bivariate_html(df_bivariate, var)
 #| fig-align: center
 create_graph_bivariate_html(df_bivariate, var)
 ```
+
+<hr>
+
+### Credit Card
+
+**Discriminância**: <span style="color: #800000;"> Baixa. </span>
+<ul>
+  <li>O fato isolado do cliente ter ou não cartão de cŕedito, não tem forte relação com o evento de churn.</li>
+</ul>
+
+```{python}
+#| fig-align: center
+var = "credit_card"
+create_table_bivariate_html(df_bivariate, var)
+```
+
+```{python}
+#| fig-align: center
+create_graph_bivariate_html(df_bivariate, var)
+```
+
+## O Modelo Preditivo
+
+Assim que possível estarei atualizando esse tópico.
+

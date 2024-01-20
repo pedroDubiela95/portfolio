@@ -1,5 +1,7 @@
 ---
 title: "Projetos"
 ---
+ 
+Os projetos apresentados aqui serão sempre aplicados em bases de dados públicas. No entanto, utilizarei a mesma abordagem profissional que emprego no meu dia a dia. O objetivo é que, à medida que eu criar novos projetos (ou avançar dentro de um deles), eu vá atualizando esta página. Portanto, constantemente haverá atualizações aqui.
 
-In progress
+Em caso de dúvidas e/ou sugestões, sinta-se à vontade para me contatar via inbox no LinkedIn.

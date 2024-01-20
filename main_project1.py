@@ -65,7 +65,6 @@ numerical_variables = [
     "tenure",
     "credit_score",
     "age",
-    "balance",
     "estimated_salary"
     ]
 
@@ -73,12 +72,18 @@ categorical_variables = [
     "country", 
     "gender", 
     "credit_card",
-    "active_member"
+    "active_member",
+    "balance",
     ]
 
 target_variable = 'churn'
 
 df = df_base
+
+# balance
+var_name = 'balance'
+c1 = df[var_name].between(-np.inf,  1884.34, inclusive = "neither")
+df[var_name] = np.where(c1, '< 1884.34', '>= 1884.34')
 
 df_bivariate = bivariate(
     df,
@@ -93,17 +98,10 @@ df = (
   .sort_values(by = ["Cramer's V", "Feature"], ascending = False)
   .reset_index(drop = True)
   )
-#df_bivariate.to_excel("./bivariate.xlsx", index=False)
+
     
-create_table_bivariate_summary(df, cols_float = ["Cramer's V"])
 
-var = "age"
-create_table_bivariate_html(df_bivariate, var)
-
-
-
-
-
+        
 
 
 
