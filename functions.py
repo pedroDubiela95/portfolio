@@ -107,7 +107,7 @@ def create_graph_categorical(var, df, order_cat = None):
     plt.rc('font', size = FONT_SIZE)
     
     fig, ax = plt.subplots(figsize=(WIDTH, HEIGHT), facecolor="#93a7b8")
-    bars = ax.bar(x, y, color = COLOR)
+    bars = ax.bar(x, y, color = COLOR_BAR)
     
     ax.set_title(f'Distribuição de Frequências - {var}')
     ax.yaxis.set_visible(False)
@@ -177,7 +177,7 @@ def create_graph_numeric_continuous(var, df):
     plt.rc('font', size = FONT_SIZE)
     
     fig, ax = plt.subplots(figsize=(WIDTH, HEIGHT), facecolor="#93a7b8")
-    ax.hist(data, color = COLOR)
+    ax.hist(data, color = COLOR_BAR)
     
     ax.set_title(f'Distribuição de Frequências - {var}')
     ax.yaxis.set_visible(False)
