@@ -138,8 +138,8 @@ País do cliente.
 <ul>
   <li>Variável categórica.</li>
   <li>Não possui nenhum valor faltante.</li>
-  <li>France representa 50%.</li>
-  <li>Germany e Spain representam 25% cada.</li>
+  <li>França representa 50%.</li>
+  <li>Alemanha e Espanha representam 25% cada.</li>
 </ul>
 
 ```{python}
@@ -202,7 +202,7 @@ create_graph_categorical("credit_card", df)
 <hr>
 
 ### Active Member
-Denota se um cliente está envolvido e participando ativamente das atividades e serviços oferecidos pelo banco:
+Denota se um cliente está envolvido e participando ativamente das atividades e serviços oferecidos pelo banco.
 
 - Não ativo = 0
 - Ativo = 1
