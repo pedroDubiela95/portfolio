@@ -712,10 +712,11 @@ create_table_bivariate_html(df_bivariate, var)
 create_graph_bivariate_html(df_bivariate, var)
 ```
 
-## O Modelo Preditivo (Não está prontao ainda - Em desenvolvimento)
+## O Modelo Preditivo
+**Em desenvolvimento - Não está pronto ainda**
 
 ### Obtendo o melhor modelo
-638 modelos de regressão logistica foram testados
+638 modelos de regressão logística foram testados.
 
 ```{python}
 # Read files
