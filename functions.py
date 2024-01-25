@@ -7,7 +7,7 @@ from matplotlib.ticker import FuncFormatter
 from optbinning  import BinningProcess
 from scipy       import stats as st
 from scipy.stats import chi2_contingency
-
+from scipy.stats import ks_2samp
 
 
 LINE       = "--"
@@ -495,6 +495,45 @@ def bivariate(df, numerical_variables, categorical_variables, target_variable):
     return df_res
 
 
+def binning_to_model(df, numerical_variables, categorical_variables, target_variable):
+
+    # Filter
+    df = df[numerical_variables + categorical_variables + [target_variable]]
+
+    # Forced Tipying
+    df[numerical_variables] = df[numerical_variables].astype(float)
+    df[categorical_variables] = df[categorical_variables].astype(str)
+
+    # Features
+    cols = df.drop([target_variable], axis=1).columns
+
+    # Result
+    df_res = pd.DataFrame()
+    df_original = df.copy()
+
+    # For each variable in df (except target_variable)
+    for var_name in cols:
+
+        df_aux = df_original[[target_variable, var_name]].copy()
+        df = df_aux.copy()
+
+        categorical_var = [
+            var_name] if var_name in categorical_variables else None
+        result = binning(df_aux, target_variable, categorical_var)
+        df = result[1]
+        
+        if df_res.shape[0] == 0:
+            df_res = pd.concat([df_res, df])
+        else:
+            df_res = pd.merge(df_res, 
+                              df[var_name], 
+                              how = "left", 
+                              left_index=True, 
+                              right_index=True, 
+                              validate="one_to_one")
+
+    return df_res
+
 def create_table_bivariate_summary(df, cols_float = None):
 
 
@@ -629,3 +668,152 @@ def create_graph_h_bivariate_html(df, var):
     plt.rc('legend',fontsize = FONT_SIZE)
     plt.rc('font', size = FONT_SIZE)
     plt.show()
+    
+    
+def diff_row_by_row(df, var):
+    return np.insert(np.diff(df[var], axis=0), 0, df.loc[0, var])
+
+
+def create_ks_table_for_logistic_regression(clf, X, y):
+    
+    # Probabilidade de ser 1
+    y_prob = clf.predict_proba(X)[:, 1]
+    
+    # armazenar a resposta
+    nos = pd.DataFrame()
+    
+    # probs
+    v = [0, 0.05, 0.1, 0.15, 0.20, 0.25, 0.30, 0.35, 0.40, 0.45, 0.50, 0.55, 0.60, 
+         0.65, 0.70, 0.75, 0.80, 0.85, 0.9, 0.95]
+    probs = [pd.DataFrame(y_prob).quantile(p).values[0] for p in v]
+    probs = list(set(probs))
+    probs.sort(reverse = True)
+    
+    for p in probs:
+        
+        # Cut
+        y_range = y[y_prob >= p]
+                
+        # 0 (real)
+        zeros = (y_range == 0).sum()
+        
+        # 1 (real)
+        ones = (y_range == 1).sum()
+        
+        # armazenando
+        df_aux = pd.DataFrame({
+            'Prob'      : p,
+            'Evento Acumulado'    : ones,
+            'Nao-evento Acumulado': zeros 
+            }, index = [0])
+        
+        nos = pd.concat([nos, df_aux])
+        nos.reset_index(drop = True, inplace = True)
+        
+ 
+    # Obtendo valor não acumulado
+    nos["Evento"]     =  diff_row_by_row(nos, "Evento Acumulado")
+    nos["Nao-evento"] =  diff_row_by_row(nos, "Nao-evento Acumulado")
+
+    # Total
+    nos['Total']           = nos['Nao-evento'] + nos['Evento']
+    nos['Total Acumulado'] = nos['Nao-evento Acumulado'] + nos['Evento Acumulado']
+
+    # Removendo faixas que não acrescentam
+    c = nos["Prob"].isin(
+        nos.sort_values(by = "Total Acumulado", ascending = False).groupby("Total Acumulado")["Prob"].max()
+        )
+    nos = nos.loc[c,].sort_values(by = "Prob", ascending = False).reset_index(drop = True)
+    
+    # % Total Acumulado
+    nos['% Total Acumulado'] = nos['Total Acumulado'] / nos['Total Acumulado'].max()
+    
+    # % Resp. 1
+    nos['% Resp. 1'] = nos['Evento'] / nos['Total']
+
+    # % Resp Acum.
+    nos['% Resp Acum.'] = nos['Evento'].cumsum() / nos['Total'].cumsum()
+
+    # Espec
+    non_event = nos['Nao-evento'].reset_index(drop=True)
+    nos['Espec'] = [
+        non_event.iloc[i + 1:,].sum() / non_event.sum()
+        if i < (non_event.shape[0] - 1)
+        else 0
+        for i in range(non_event.shape[0])
+    ]
+
+    # 1 - Espec
+    nos['1 - Espec'] = 1 - nos['Espec']
+
+    # Sens
+    nos['Sens'] = nos['Evento'].cumsum() / nos['Evento'].sum()
+
+    # 1 - Sens
+    nos['1 - Sens'] = 1 - nos['Sens']
+
+    # Sens + Espec - 1
+    nos['Sens + Espec - 1'] = nos['Sens'] + nos['Espec'] - 1
+
+    # Acurácia
+    aux = np.array([
+        non_event.iloc[i + 1:,].sum()
+        if i < (non_event.shape[0] - 1)
+        else non_event.iloc[-1]
+        for i in range(non_event.shape[0])
+    ])
+    aux[-1] = 0
+    nos['Acurácia'] = (aux + nos['Evento'].cumsum())/nos['Total'].sum()
+
+    # KS
+    nos['KS'] = nos['Sens + Espec - 1'].max()
+    nos['KS2'] = ks_2samp(y_prob[y==1], y_prob[y!=1]).statistic
+
+    nos.reset_index(inplace=True)
+    nos['index'] += 1
+    nos.rename(columns={'index': 'Faixa'}, inplace=True)
+
+    nos.rename(columns={'Nao-evento': '0',
+                        'Evento': '1',
+                        'tx_resposta': 'Prob',
+                        'node': 'No'},
+               inplace=True)
+
+    nos = nos[[
+        'Faixa', 'Prob', '0', '1', 'Total', 'Total Acumulado', 
+        '% Total Acumulado', '% Resp. 1', '% Resp Acum.', 'Espec',	
+        '1 - Espec', '1 - Sens', 'Sens', 'Sens + Espec - 1',	
+        'Acurácia',	'KS', 'KS2']]
+
+    return nos
+
+def show_df(df, cols_to_percent = None):
+    
+    if cols_to_percent != None:
+        df_styled = (
+            df.style
+                # Cor do header e index
+                .set_table_styles([{
+                    'selector': 'th:not(.index_name)',
+                    'props': f'background-color: {COLOR}; color: white; text-align: center;'
+                }]) 
+                # Alinhamento, largura das colunas, cor da tabela, cor da letra
+                .set_properties(**{'text-align': 'center'})
+                .format('{:.0%}', subset= cols_to_percent) 
+                .hide(axis="index")
+            )
+        
+    else:
+        df_styled = (
+            df.style
+                # Cor do header e index
+                .set_table_styles([{
+                    'selector': 'th:not(.index_name)',
+                    'props': f'background-color: {COLOR}; color: white; text-align: center;'
+                }]) 
+                # Alinhamento, largura das colunas, cor da tabela, cor da letra
+                .set_properties(**{'text-align': 'center'})
+                .hide(axis="index")
+            )
+        
+    return df_styled
