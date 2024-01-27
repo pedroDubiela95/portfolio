@@ -46,6 +46,7 @@ website:
 
 format:
   html:
+    html-math-method: katex
     theme:
       - cosmo
       - custom.scss

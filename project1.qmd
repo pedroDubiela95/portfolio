@@ -715,8 +715,59 @@ create_graph_bivariate_html(df_bivariate, var)
 ## O Modelo Preditivo
 **Em desenvolvimento - Não está pronto ainda**
 
-### Obtendo o melhor modelo
-638 modelos de regressão logística foram testados.
+**Técnica Utilizada**
+
+<p>
+Quanto à modelagem, um ponto deve ser enfatizado: o principal objetivo aqui é a construção de um modelo preditivo que possua um grau de interpretabilidade relativamente fácil para a área de negócios. Portanto, nosso foco é obter não apenas um modelo assertivo, mas sim um modelo com bom desempenho e de fácil entendimento. Dito isso, vamos modelar utilizando a técnica de **Regressão Logística**.
+</p>
+
+<p>
+A regressão logística é uma técnica estatística utilizada para modelar a relação entre uma variável dependente binária (que possui apenas dois valores possíveis, geralmente 0 e 1) e uma ou mais variáveis independentes. Ela é amplamente empregada em problemas de classificação, onde o objetivo é prever a probabilidade de uma observação pertencer a uma determinada categoria.
+</p>
+
+<p>
+A principal característica da regressão logística é sua capacidade de lidar com problemas de classificação binária, como por exemplo, prever se um e-mail é spam ou não, se um paciente tem uma determinada condição médica ou não, entre outros cenários onde a resposta desejada é dicotômica.
+</p>
+
+<p>
+A forma básica da regressão logística é expressa pela seguinte equação:
+
+![](./img/regressao_logistica.png){fig-align="center" }
+
+Contextualizando a formula acima para o nosso problema, temos que:
+
+- X1, X2, ... Xn são as as nossas features: country, gender, credit_card, active_member, producs_number, tenure, credit_score, age, balance, estimated_salary.
+- A probabilide p do evento Y = 1, é a probabilidade de ocorrência de churn.
+- Os betas B0, B1, ... Bn representam os parâmetros do modelo, que pretendemos obter ao construir o modelo matemático.
+</p>
+
+<hr>
+
+**Avaliação do Modelo**
+
+<p>
+O teste de Kolmogorov-Smirnov (KS) pode ser utilizado como uma métrica para avaliar a qualidade de modelos de classificação, especialmente em problemas de classificação binária. Nesse contexto, o KS é frequentemente empregado para avaliar a capacidade do modelo em distinguir entre as classes positiva e negativa.
+</p>
+
+<p>
+A abordagem mais comum envolve a geração de pontuações (scores) ou probabilidades de predição para as instâncias de ambas as classes pelo modelo. Em seguida, o teste de Kolmogorov-Smirnov é aplicado às distribuições cumulativas dessas pontuações para as duas classes. O objetivo é verificar se há uma diferença significativa entre as distribuições cumulativas das classes positiva e negativa.
+</p>
+
+<p>
+Quanto maior for a diferença entre as distribuições cumulativas, maior será o valor de KS e, consequentemente, mais eficiente será o modelo, ou seja, mais capaz de classificar corretamente o que é churn e o que não é churn.
+</p>
+
+<hr>
+
+**Obtendo o melhor modelo**
+
+<p>
+A partir das 10 variáveis preditoras disponíveis, foram testadas todas as combinações possíveis, selecionando de 5 a 10 variáveis por vez. Dessa forma, examinamos 638 modelos de regressão logística, avaliando o valor de KS para cada modelo nos dados de teste, conforme demonstrado na tabela abaixo. Optamos pelo modelo que apresentou o maior valor de KS e o menor número de variáveis preditoras que parecem ser mais relevantes para o negócio.
+</p>
+
+<p>
+Portanto, o modelo escolhido é o primeiro apresentado na tabela.
+</p>
 
 ```{python}
 # Read files
@@ -868,7 +919,13 @@ df_res.rename(columns = {"predictors":"Features", "KS_test": "KS"}, inplace = Tr
 show_df(df_res, ["KS"])
 ```
 
+<p>
+Representação gráfica do cálculo do KS nos dados de teste para o modelo selecionado.
+</p>
+
 ```{python}
+#| fig-align: center
+
 seed          = 100
 X             = df[['products_number', 'country', 'gender', 'credit_card', 'active_member']].copy()
 y             = df[target_variable].copy()

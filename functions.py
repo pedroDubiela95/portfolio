@@ -3,12 +3,13 @@ import matplotlib.pyplot as plt
 import pandas            as pd
 import re
 
+
 from matplotlib.ticker import FuncFormatter
 from optbinning  import BinningProcess
 from scipy       import stats as st
 from scipy.stats import chi2_contingency
 from scipy.stats import ks_2samp
-
+from scipy.stats import kstwo, ksone
 
 LINE       = "--"
 ROTATION   = 30
@@ -674,6 +675,129 @@ def diff_row_by_row(df, var):
     return np.insert(np.diff(df[var], axis=0), 0, df.loc[0, var])
 
 
+def ecdf(data):
+    """
+    Calculates the empirical cumulative distribution function (ECDF)
+    
+    Parameters
+    ----------
+    data : like array
+        Data sample.
+
+    Returns
+    -------
+    pd.DataFrame
+        Data sample with the ECDF.
+    """
+
+    data = np.array(data)
+    p = [(data <= x).sum() / len(data) for x in np.unique(np.sort(data))] 
+    x = np.unique(np.sort(data)).tolist()  
+    
+    return (pd.DataFrame({'x': x, 'P(X <= x)': p}))
+
+
+def plot_ecdf(cdf_0, cdf_1, name_ecdf0, name_ecdf1):
+    """
+    Creates and plots the empirical cumulative distribution function (ECDF)
+    
+    Parameters
+    ----------
+    ecdf1 : like array
+        ecdf1 sample.
+    """
+    
+    # Criando uma figura e um eixo (axis)
+    fig, ax = plt.subplots()
+    
+    # Plotando o gráfico de dispersão no eixo
+    x = cdf_0['x']
+    y = cdf_0['P(X <= x)']
+    ax.scatter(x, y, label=f'{name_ecdf0}', color='blue')
+    ax.plot(x, y)
+    
+    # Plotando o gráfico de dispersão no eixo
+    x = cdf_1['x']
+    y = cdf_1['P(X <= x)']
+    ax.scatter(x, y, label=f'{name_ecdf1}', color='red')
+    ax.plot(x, y)
+    
+    # ks
+    ks = np.abs(cdf_0["P(X <= x)"] - cdf_1["P(X <= x)"]).max()
+    c  = np.abs(cdf_0["P(X <= x)"] - cdf_1["P(X <= x)"]) == ks
+    x0, y0 = cdf_0.loc[c,].values[0]
+    x1, y1 = cdf_1.loc[c,].values[0]
+    y0, y1 = (np.min([y0, y1]), np.max([y0, y1]))
+    ax.plot([x0, x1], [y0, y1], color = "black")
+    ax.text(x0, (y0 + y1)/2, f'{"{:.2f}".format(round(ks, 2))}', 
+            color='black')
+    
+    # Adicionando rótulos e título
+    ax.set_xlabel('x')
+    ax.set_ylabel('P(X <= x)')
+    ax.set_title('Funções de Distribuição Acumulada (CDF)')
+    
+    # Adicionando uma legenda
+    ax.legend()
+    
+    # Exibindo o gráfico
+    plt.show()
+
+
+def ks_test(X0, X1, alpha = 0.05):
+
+    cdf_0  = ecdf(X0)
+    cdf_1  = ecdf(X1)
+    
+    # Graficos
+    plot_ecdf(cdf_0, cdf_1, name_ecdf0="0's", name_ecdf1 ="1's")
+    
+    # Calculos
+    D      = np.abs((cdf_0["P(X <= x)"] - cdf_1["P(X <= x)"]))
+    KS     = D.max()
+    n      = D.shape[0]
+    loc    = D.mean()
+    scale  = D.std()
+    
+    kstwo.cdf(KS, n, loc, scale)                # P(D <= KS) 
+    p_value = kstwo.sf(KS, n, loc, scale)       # P(D >  KS) 
+    rc_0 = kstwo.ppf(alpha/2, n, loc, scale)    # d1 | P(D <= d1) = alpha/2
+    rc_1 = kstwo.ppf(1- alpha/2, n, loc, scale) # d2 | P(D <= d2) = alpha/2
+    
+    # Se KS está dentro da região crítica a probabilidade de ocorrer um valor
+    # mais extremo é grande (esse é p-value)
+    if (rc_0 <= KS) and (KS <= rc_1): 
+        print(f"""
+H0 = As duas amostras possuem distribuições de frequências iguais.
+H1 = As duas amostras possuem distribuições de frequências diferentes.     
+      
+Aceitamos H0, uma vez que a probabilidade de ocorrer um valor mais extremo 
+que KS é alta, ou seja
+  
+  P(D > KS) = p_value = {kstwo.sf(KS, n, loc, scale)} > {alpha}
+  
+Assim, a probabilidade de rejeitar H0, sendo H0 verdadeira, é maior que o
+o nível de significância definido (alpha = {alpha})!""")
+              
+    # Se KS está fora da região crítica a probabilidade de ocorrer um valor
+    # mais extremo é pequena (esse é p-value)
+    else:
+        print(f"""
+H0 = As duas amostras possuem distribuições de frequências iguais.
+H1 = As duas amostras possuem distribuições de frequências diferentes.
+
+Rejeitamos H0, uma vez que a probabilidade de ocorrer um valor mais extremo 
+que KS é baixa, ou seja, D = KS é raro de ocorrer.
+
+    P(D > KS) = p_value = {kstwo.sf(KS, n, loc, scale)} < {alpha}
+
+Assim, a probabilidade de rejeitar H0, sendo H0 verdadeira, é menor que o
+nível de significância definido (alpha = {alpha})!""")
+              
+              
+    return KS, p_value 
+
+
 def create_ks_table_for_logistic_regression(clf, X, y):
     
     # Probabilidade de ser 1
@@ -768,6 +892,12 @@ def create_ks_table_for_logistic_regression(clf, X, y):
     # KS
     nos['KS'] = nos['Sens + Espec - 1'].max()
     nos['KS2'] = ks_2samp(y_prob[y==1], y_prob[y!=1]).statistic
+    
+    alpha  = 0.05
+    prob_0 = y_prob[y==0] 
+    prob_1 = y_prob[y==1]
+    ks, p_value = ks_test(prob_0, prob_1, alpha)
+    nos['KS3'] = ks
 
     nos.reset_index(inplace=True)
     nos['index'] += 1
@@ -783,7 +913,7 @@ def create_ks_table_for_logistic_regression(clf, X, y):
         'Faixa', 'Prob', '0', '1', 'Total', 'Total Acumulado', 
         '% Total Acumulado', '% Resp. 1', '% Resp Acum.', 'Espec',	
         '1 - Espec', '1 - Sens', 'Sens', 'Sens + Espec - 1',	
-        'Acurácia',	'KS', 'KS2']]
+        'Acurácia',	'KS', 'KS2', 'KS3']]
 
     return nos
 
