@@ -252,12 +252,6 @@ nos_test  = create_ks_table_for_logistic_regression(clf, X_test, y_test)
 
 
 
-
-   
-    
-
-
-
  
 
 

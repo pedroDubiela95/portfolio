@@ -708,19 +708,19 @@ def plot_ecdf(cdf_0, cdf_1, name_ecdf0, name_ecdf1):
     """
     
     # Criando uma figura e um eixo (axis)
-    fig, ax = plt.subplots()
+    fig, ax = plt.subplots(facecolor="#93a7b8")
     
     # Plotando o gráfico de dispersão no eixo
     x = cdf_0['x']
     y = cdf_0['P(X <= x)']
-    ax.scatter(x, y, label=f'{name_ecdf0}', color='blue')
-    ax.plot(x, y)
+    ax.scatter(x, y, label=f'{name_ecdf0}', color=COLOR_DOT)
+    ax.plot(x, y, color=COLOR)
     
     # Plotando o gráfico de dispersão no eixo
     x = cdf_1['x']
     y = cdf_1['P(X <= x)']
-    ax.scatter(x, y, label=f'{name_ecdf1}', color='red')
-    ax.plot(x, y)
+    ax.scatter(x, y, label=f'{name_ecdf1}', color=COLOR_BAR)
+    ax.plot(x, y, color=COLOR_BAR)
     
     # ks
     ks = np.abs(cdf_0["P(X <= x)"] - cdf_1["P(X <= x)"]).max()
@@ -738,7 +738,12 @@ def plot_ecdf(cdf_0, cdf_1, name_ecdf0, name_ecdf1):
     ax.set_title('Funções de Distribuição Acumulada (CDF)')
     
     # Adicionando uma legenda
-    ax.legend()
+    ax.legend(loc='upper right')
+    plt.legend(facecolor = "#becad4") 
+
+    ax.set_facecolor("#93a7b8")
+    plt.rc('legend',fontsize = FONT_SIZE)
+    plt.rc('font', size = FONT_SIZE)
     
     # Exibindo o gráfico
     plt.show()
@@ -759,10 +764,10 @@ def ks_test(X0, X1, alpha = 0.05):
     loc    = D.mean()
     scale  = D.std()
     
-    kstwo.cdf(KS, n, loc, scale)                # P(D <= KS) 
-    p_value = kstwo.sf(KS, n, loc, scale)       # P(D >  KS) 
-    rc_0 = kstwo.ppf(alpha/2, n, loc, scale)    # d1 | P(D <= d1) = alpha/2
-    rc_1 = kstwo.ppf(1- alpha/2, n, loc, scale) # d2 | P(D <= d2) = alpha/2
+    kstwo.cdf(KS, n, loc, scale)                   # P(D <= KS) 
+    p_value = 2*kstwo.sf(KS, n, loc, scale)        # 2*P(D >  KS) 
+    rc_0    = kstwo.ppf(alpha/2, n, loc, scale)    # d1 | P(D <= d1) = alpha/2
+    rc_1    = kstwo.ppf(1- alpha/2, n, loc, scale) # d2 | P(D <= d2) = alpha/2
     
     # Se KS está dentro da região crítica a probabilidade de ocorrer um valor
     # mais extremo é grande (esse é p-value)
@@ -774,7 +779,7 @@ H1 = As duas amostras possuem distribuições de frequências diferentes.
 Aceitamos H0, uma vez que a probabilidade de ocorrer um valor mais extremo 
 que KS é alta, ou seja
   
-  P(D > KS) = p_value = {kstwo.sf(KS, n, loc, scale)} > {alpha}
+  p_value = {p_value} > {alpha}
   
 Assim, a probabilidade de rejeitar H0, sendo H0 verdadeira, é maior que o
 o nível de significância definido (alpha = {alpha})!""")
@@ -787,9 +792,9 @@ H0 = As duas amostras possuem distribuições de frequências iguais.
 H1 = As duas amostras possuem distribuições de frequências diferentes.
 
 Rejeitamos H0, uma vez que a probabilidade de ocorrer um valor mais extremo 
-que KS é baixa, ou seja, D = KS é raro de ocorrer.
+que KS é baixa, ou seja, é raro de ocorrer.
 
-    P(D > KS) = p_value = {kstwo.sf(KS, n, loc, scale)} < {alpha}
+  p_value = {p_value} < {alpha}
 
 Assim, a probabilidade de rejeitar H0, sendo H0 verdadeira, é menor que o
 nível de significância definido (alpha = {alpha})!""")
@@ -827,8 +832,8 @@ def create_ks_table_for_logistic_regression(clf, X, y):
         # armazenando
         df_aux = pd.DataFrame({
             'Prob'      : p,
-            'Evento Acumulado'    : ones,
-            'Nao-evento Acumulado': zeros 
+            'Evento acumulado'    : ones,
+            'Nao-evento acumulado': zeros 
             }, index = [0])
         
         nos = pd.concat([nos, df_aux])
@@ -836,61 +841,64 @@ def create_ks_table_for_logistic_regression(clf, X, y):
         
  
     # Obtendo valor não acumulado
-    nos["Evento"]     =  diff_row_by_row(nos, "Evento Acumulado")
-    nos["Nao-evento"] =  diff_row_by_row(nos, "Nao-evento Acumulado")
+    nos["Evento"]     =  diff_row_by_row(nos, "Evento acumulado")
+    nos["Nao-evento"] =  diff_row_by_row(nos, "Nao-evento acumulado")
 
     # Total
     nos['Total']           = nos['Nao-evento'] + nos['Evento']
-    nos['Total Acumulado'] = nos['Nao-evento Acumulado'] + nos['Evento Acumulado']
+    nos['Total acumulado'] = nos['Nao-evento acumulado'] + nos['Evento acumulado']
 
     # Removendo faixas que não acrescentam
     c = nos["Prob"].isin(
-        nos.sort_values(by = "Total Acumulado", ascending = False).groupby("Total Acumulado")["Prob"].max()
+        nos.sort_values(by = "Total acumulado", ascending = False).groupby("Total acumulado")["Prob"].max()
         )
     nos = nos.loc[c,].sort_values(by = "Prob", ascending = False).reset_index(drop = True)
     
     # % Total Acumulado
-    nos['% Total Acumulado'] = nos['Total Acumulado'] / nos['Total Acumulado'].max()
+    nos['% Total acumulado'] = nos['Total acumulado'] / nos['Total acumulado'].max()
     
-    # % Resp. 1
-    nos['% Resp. 1'] = nos['Evento'] / nos['Total']
-
-    # % Resp Acum.
-    nos['% Resp Acum.'] = nos['Evento'].cumsum() / nos['Total'].cumsum()
-
+    # % Resp. 1 acumulado
+    nos['Tx. classificados como 1 corretamente'] = nos['Evento acumulado'] / nos['Total acumulado']
+    
+    # % Resp. 0 acumulado
+    nos['Tx. classificados como 0 corretamente'] = (
+     (nos['Nao-evento'].sum() - nos['Nao-evento acumulado'])/
+     (nos['Total'].sum() - nos['Total acumulado'])
+     )
+    # Sens
+    nos['Sens.'] = nos['Evento acumulado']/nos['Evento'].sum()
+            
+    # Ganho nos casos positivos
+    nos["Ganho 1's"] = nos['Sens.'] - nos["% Total acumulado"]    
+            
     # Espec
-    non_event = nos['Nao-evento'].reset_index(drop=True)
-    nos['Espec'] = [
-        non_event.iloc[i + 1:,].sum() / non_event.sum()
-        if i < (non_event.shape[0] - 1)
-        else 0
-        for i in range(non_event.shape[0])
-    ]
+    nos['Espec.'] = (
+        (nos['Nao-evento'].sum() - nos['Nao-evento acumulado'])/
+        nos['Nao-evento'].sum()
+        )
+
+    # Ganho nos casos negtivos
+    nos["Ganho 0's"] =  nos['Espec.'] - (1 - nos["% Total acumulado"])  
+
 
     # 1 - Espec
-    nos['1 - Espec'] = 1 - nos['Espec']
+    nos['1 - Espec.'] = 1 - nos['Espec.']
 
-    # Sens
-    nos['Sens'] = nos['Evento'].cumsum() / nos['Evento'].sum()
 
     # 1 - Sens
-    nos['1 - Sens'] = 1 - nos['Sens']
+    nos['1 - Sens.'] = 1 - nos['Sens.']
 
     # Sens + Espec - 1
-    nos['Sens + Espec - 1'] = nos['Sens'] + nos['Espec'] - 1
+    nos['Sens. + Espec. - 1'] = nos['Sens.'] + nos['Espec.'] - 1
 
     # Acurácia
-    aux = np.array([
-        non_event.iloc[i + 1:,].sum()
-        if i < (non_event.shape[0] - 1)
-        else non_event.iloc[-1]
-        for i in range(non_event.shape[0])
-    ])
-    aux[-1] = 0
-    nos['Acurácia'] = (aux + nos['Evento'].cumsum())/nos['Total'].sum()
-
+    nos['Acurácia'] = (
+        (nos["Evento acumulado"] + nos['Nao-evento'].sum() - nos['Nao-evento acumulado'])/
+        nos["Total"].sum()
+        )
+    
     # KS
-    nos['KS'] = nos['Sens + Espec - 1'].max()
+    nos['KS'] = nos['Sens. + Espec. - 1'].max()
     nos['KS2'] = ks_2samp(y_prob[y==1], y_prob[y!=1]).statistic
     
     alpha  = 0.05
@@ -908,12 +916,33 @@ def create_ks_table_for_logistic_regression(clf, X, y):
                         'tx_resposta': 'Prob',
                         'node': 'No'},
                inplace=True)
+    
+    nos.fillna(0, inplace = True)
 
     nos = nos[[
-        'Faixa', 'Prob', '0', '1', 'Total', 'Total Acumulado', 
-        '% Total Acumulado', '% Resp. 1', '% Resp Acum.', 'Espec',	
-        '1 - Espec', '1 - Sens', 'Sens', 'Sens + Espec - 1',	
-        'Acurácia',	'KS', 'KS2', 'KS3']]
+        "Faixa", 
+        "Prob", 
+        "Evento acumulado", 
+        "Nao-evento acumulado", 
+        #"1", 
+        #"0",
+        #"Total", 
+        #"Total acumulado", 
+        "% Total acumulado",
+        "Tx. classificados como 1 corretamente",
+        "Tx. classificados como 0 corretamente", 
+        "Sens.", 
+        "Ganho 1's", 
+        "Espec.",
+        "Ganho 0's", 
+        #"1 - Espec.", 
+        #"1 - Sens.", 
+        "Sens. + Espec. - 1",
+        "Acurácia", 
+        #"KS", 
+        #"KS2", 
+        #"KS3"
+        ]]
 
     return nos
 

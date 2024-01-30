@@ -736,7 +736,7 @@ A forma básica da regressão logística é expressa pela seguinte equação:
 
 Contextualizando a formula acima para o nosso problema, temos que:
 
-- X1, X2, ... Xn são as as nossas features: country, gender, credit_card, active_member, producs_number, tenure, credit_score, age, balance, estimated_salary.
+- X1, X2, ... Xn são as nossas features: country, gender, credit_card, active_member, producs_number, tenure, credit_score, age, balance, estimated_salary.
 - A probabilide p do evento Y = 1, é a probabilidade de ocorrência de churn.
 - Os betas B0, B1, ... Bn representam os parâmetros do modelo, que pretendemos obter ao construir o modelo matemático.
 </p>
@@ -996,8 +996,6 @@ clf.fit(X_train, y_train)
 
 #nos_train = create_ks_table_for_logistic_regression(clf, X_train, y_train)
 nos_test  = create_ks_table_for_logistic_regression(clf, X_test, y_test)
-
-nos_test.drop(["KS2", "1 - Sens", "1 - Espec"], axis = 1, inplace = True)
 ```
 
 ```{python}
@@ -1007,8 +1005,16 @@ nos_test.drop(["KS2", "1 - Sens", "1 - Espec"], axis = 1, inplace = True)
 COLOR           = "#001820"
 df              = nos_test
 cols_to_percent = [
-  'Prob', '% Total Acumulado', '% Resp. 1', '% Resp Acum.', 
-  'Espec', 'Sens', 'Sens + Espec - 1', 'Acurácia', 'KS'
+  "Prob",
+  "% Total acumulado",
+  "Tx. classificados como 1 corretamente",
+  "Tx. classificados como 0 corretamente", 
+  "Sens.", 
+  "Ganho 1's", 
+  "Espec.",
+  "Ganho 0's", 
+  "Sens. + Espec. - 1",
+  "Acurácia", 
   ]
 
 df_styled = (
