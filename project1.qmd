@@ -766,7 +766,7 @@ A partir das 10 variáveis preditoras disponíveis, foram testadas todas as comb
 </p>
 
 <p>
-Portanto, o modelo escolhido é o primeiro apresentado na tabela.
+Portanto, o modelo escolhido é o primeiro apresentado na tabela abaixo.
 </p>
 
 ```{python}
@@ -1001,6 +1001,7 @@ nos_test  = create_ks_table_for_logistic_regression(clf, X_test, y_test)
 ```{python}
 #| fig-align: center
 #| 
+nos_test.drop(["Evento acumulado", "Nao-evento acumulado"], axis = 1, inplace = True)
 
 COLOR           = "#001820"
 df              = nos_test
@@ -1025,10 +1026,13 @@ df_styled = (
             'props': f'background-color: {COLOR}; color: white; text-align: center;'
         }]) 
         .set_properties(
+          **{'text-align': "center"})
+        .set_properties(
             subset = ([7],) ,
             **{'background-color': "#C5D9F1",
                 'color'          : "black",
-                'font-weight'    : "bold"
+                'font-weight'    : "bold",
+                'text-align'     : "center"
               })
         .format('{:.0%}', subset= cols_to_percent) 
         .hide(axis="index")

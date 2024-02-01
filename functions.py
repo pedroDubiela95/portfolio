@@ -771,33 +771,33 @@ def ks_test(X0, X1, alpha = 0.05):
     
     # Se KS está dentro da região crítica a probabilidade de ocorrer um valor
     # mais extremo é grande (esse é p-value)
-    if (rc_0 <= KS) and (KS <= rc_1): 
-        print(f"""
-H0 = As duas amostras possuem distribuições de frequências iguais.
-H1 = As duas amostras possuem distribuições de frequências diferentes.     
-      
-Aceitamos H0, uma vez que a probabilidade de ocorrer um valor mais extremo 
-que KS é alta, ou seja
-  
-  p_value = {p_value} > {alpha}
-  
-Assim, a probabilidade de rejeitar H0, sendo H0 verdadeira, é maior que o
-o nível de significância definido (alpha = {alpha})!""")
+    if (rc_0 <= KS) and (KS <= rc_1):
+        out = f"""
+            H0 = As duas amostras possuem distribuições de frequências iguais.
+            H1 = As duas amostras possuem distribuições de frequências diferentes.     
+                  
+            Aceitamos H0, uma vez que a probabilidade de ocorrer um valor mais extremo 
+            que KS é alta, ou seja
+              
+              p_value = {p_value} > {alpha}
+              
+            Assim, a probabilidade de rejeitar H0, sendo H0 verdadeira, é maior que o
+            o nível de significância definido (alpha = {alpha})!"""
               
     # Se KS está fora da região crítica a probabilidade de ocorrer um valor
     # mais extremo é pequena (esse é p-value)
     else:
-        print(f"""
-H0 = As duas amostras possuem distribuições de frequências iguais.
-H1 = As duas amostras possuem distribuições de frequências diferentes.
-
-Rejeitamos H0, uma vez que a probabilidade de ocorrer um valor mais extremo 
-que KS é baixa, ou seja, é raro de ocorrer.
-
-  p_value = {p_value} < {alpha}
-
-Assim, a probabilidade de rejeitar H0, sendo H0 verdadeira, é menor que o
-nível de significância definido (alpha = {alpha})!""")
+        out = f"""
+        H0 = As duas amostras possuem distribuições de frequências iguais.
+        H1 = As duas amostras possuem distribuições de frequências diferentes.
+        
+        Rejeitamos H0, uma vez que a probabilidade de ocorrer um valor mais extremo 
+        que KS é baixa, ou seja, é raro de ocorrer.
+        
+          p_value = {p_value} < {alpha}
+        
+        Assim, a probabilidade de rejeitar H0, sendo H0 verdadeira, é menor que o
+        nível de significância definido (alpha = {alpha})!"""
               
               
     return KS, p_value 
