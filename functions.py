@@ -976,3 +976,177 @@ def show_df(df, cols_to_percent = None):
             )
         
     return df_styled
+
+
+def create_confusion_matrix(
+        real,
+        predict,
+        event_class_real,       
+        nonevent_class_real,    
+        event_class_predict,    
+        nonevent_class_predict, 
+        new_name_real    = None,         
+        new_name_predict = None):
+    
+
+    real             = np.array(real) 
+    predict          = np.array(predict)
+    confusion_matrix = pd.crosstab(real, predict)
+    
+    # Validacao
+    c1 = event_class_predict    not in confusion_matrix.columns
+    c2 = nonevent_class_predict not in confusion_matrix.columns
+    
+    c3 = event_class_real       not in confusion_matrix.index
+    c4 = nonevent_class_real    not in confusion_matrix.index
+    
+    c5 = event_class_predict == nonevent_class_predict 
+    c6 = event_class_real    == nonevent_class_real
+    
+    c7 = confusion_matrix.shape != (2,2)
+    
+    error = "\n"
+    if c1: error += ">>> The value entered in event_class_predict is not in predict\n"
+    if c2: error += ">>> The value entered in nonevent_class_predict is not in predict\n"
+    if c3: error += ">>> The value entered in event_class_real is not in real\n"
+    if c4: error += ">>> The value entered in nonevent_class_real is not in real\n"
+    
+    if c5: error += ">>> The event_class_predict and nonevent_class_predict are equals\n"
+    if c6: error += ">>> The event_class_real and nonevent_class_real are equals\n"
+    
+    if c7: error += ">>> The generated confusion matrix is ​​not 2x2\n"
+    
+    if len(error) > 1:
+        raise ValueError(error)
+            
+    # ------------------ Ordenando as colunas ---------------------------------
+    confusion_matrix.reset_index(inplace = True)
+    confusion_matrix.columns = [""] + list(confusion_matrix.columns)[1:]
+    confusion_matrix = confusion_matrix[[
+        "", 
+        event_class_predict, 
+        nonevent_class_predict
+        ]]
+
+
+    # ------------------ Ordenando as linhas ---------------------------------
+    c = confusion_matrix[""] == event_class_real
+    confusion_matrix["idx"]  = np.where(c, 1, 0)
+    confusion_matrix.sort_values(by = "idx", ascending = False, inplace = True)
+    confusion_matrix.drop("idx", axis = 1, inplace = True)
+
+    # ---------------------------- Renomeando ---------------------------------
+    if new_name_real != None:
+        confusion_matrix[""] =  confusion_matrix[""].astype(str) + " " + new_name_real
+        
+    if new_name_predict != None:
+        confusion_matrix.rename(columns = {
+            event_class_predict: f"{event_class_predict} {new_name_predict}",
+            nonevent_class_predict: f"{nonevent_class_predict} {new_name_predict}",
+            }, inplace = True)
+        
+    # ---------------------------- Totais ---------------------------------
+    total_by_col = ["Total"] + list(confusion_matrix.iloc[:, 1:].sum().values) 
+    
+    confusion_matrix = (
+        pd
+        .concat([
+            confusion_matrix,  
+            pd.DataFrame({
+                confusion_matrix.columns[0] : total_by_col[0], 
+                confusion_matrix.columns[1] : total_by_col[1],
+                confusion_matrix.columns[2] : total_by_col[2]
+            }, index = [0])], 
+            axis = 0
+            )
+        )
+    
+    confusion_matrix["Total"] = confusion_matrix.iloc[:, 1:].sum(axis = 1)
+    confusion_matrix.reset_index(drop = True, inplace = True)
+    
+    return confusion_matrix
+    
+
+def show_confusion_matrix(
+        real,
+        predict,
+        event_class_real,       
+        nonevent_class_real,    
+        event_class_predict,    
+        nonevent_class_predict, 
+        new_name_real    = None,         
+        new_name_predict = None):
+    
+    df = create_confusion_matrix(
+            real,
+            predict,
+            event_class_real,       
+            nonevent_class_real,    
+            event_class_predict,    
+            nonevent_class_predict,
+            new_name_real,
+            new_name_predict
+            )
+    
+    px    = '500px'
+    idx_col   = list(df.columns)
+    
+    df_styled = (
+        df.style
+            # Header and index color
+            .set_table_styles([{
+                'selector': 'th:not(.index_name)',
+                'props': f'background-color: {COLOR}; color: white; text-align: center;'
+            }]) 
+            # Alignment, columns width, background color, text color
+            .set_properties(subset = idx_col[0],
+                            **{'text-align'      : 'center',
+                               'background-color': COLOR,
+                               'color'           : 'white',
+                               'font-weight'     : 'bold',
+                               'width'           : px,
+                               })
+            .set_properties(subset = idx_col[-1],
+                            **{'text-align'      : 'center',
+                               'background-color': "#C5D9F1",
+                               'color'           : 'black',
+                               'font-weight'     : 'bold',
+                               'width'           : px,
+                               })
+            .set_properties(subset=([2], idx_col[1:]),
+                            **{'text-align'      : 'center',
+                               'background-color': "#C5D9F1",
+                               'color'           : 'black',
+                               'font-weight'     : 'bold',
+                               'width'           : px,
+                               })
+            .set_properties(subset = ([0], idx_col[1]),
+                            **{'text-align'      : 'center',
+                               'width'           : px,
+                               'background-color':"#89D329",
+                               'color'           : "black",
+                               })
+            .set_properties(subset = ([0], idx_col[2]),
+                            **{'text-align'      : 'center',
+                               'width'           : px,
+                               'background-color': "#FF3162",
+                               'color'           : "black",
+    
+                               })
+            .set_properties(subset = ([1], idx_col[1]),
+                            **{'text-align'      : 'center',
+                               'width'           : px,
+                               'background-color':"#FF3162",
+                               'color'           : "black",
+                               })
+            .set_properties(subset = ([1], idx_col[2]),
+                            **{'text-align'      :'center',
+                               'width'           : px,
+                               'background-color': "#89D329",
+                               'color'           : "black",
+           
+                               })
+            .hide(axis="index")
+        )
+        
+    return df_styled

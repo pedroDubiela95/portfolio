@@ -40,7 +40,9 @@ from functions import (
     create_ks_table_for_logistic_regression,
     calculate_CramersV,
     calculate_CramersV2,
-    show_df
+    show_df,
+    create_confusion_matrix,
+    show_confusion_matrix
     )
 
 #%%
@@ -250,10 +252,37 @@ nos_train = create_ks_table_for_logistic_regression(clf, X_train, y_train)
 nos_test  = create_ks_table_for_logistic_regression(clf, X_test, y_test)
 
 
-
-
+y_pred = np.round(clf.predict_proba(X_test)[:, 1], 2)
+y_pred = np.where(y_pred >= 0.19, 1, 0)
  
 
+
+
+y_test = np.where(y_test == 1, "Churn", "Não-Churn")
+y_pred = np.where(y_pred == 1, "Churn", "Não-Churn")
+
+real                   = np.array(y_test) 
+predict                = np.array(y_pred)
+
+event_class_real       = "Churn"
+nonevent_class_real    = "Não-Churn"
+
+event_class_predict    = "Churn"
+nonevent_class_predict = "Não-Churn"
+
+new_name_real          = "(Real)"
+new_name_predict       = "(Predito)"  
+
+m1 = create_confusion_matrix(
+        real,
+        predict,
+        event_class_real,       
+        nonevent_class_real,    
+        event_class_predict,    
+        nonevent_class_predict,
+        new_name_real,
+        new_name_predict
+        )
 
 
 
