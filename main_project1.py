@@ -42,7 +42,9 @@ from functions import (
     calculate_CramersV2,
     show_df,
     create_confusion_matrix,
-    show_confusion_matrix
+    show_confusion_matrix,
+    ecdf,
+    plot_ecdf
     )
 
 #%%
@@ -283,10 +285,3 @@ m1 = create_confusion_matrix(
         new_name_real,
         new_name_predict
         )
-
-
-
-
-
-
-

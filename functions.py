@@ -713,14 +713,12 @@ def plot_ecdf(cdf_0, cdf_1, name_ecdf0, name_ecdf1):
     # Plotando o gráfico de dispersão no eixo
     x = cdf_0['x']
     y = cdf_0['P(X <= x)']
-    ax.scatter(x, y, label=f'{name_ecdf0}', color=COLOR_DOT)
-    ax.plot(x, y, color=COLOR)
+    ax.step(x, y, color=COLOR, label=f'{name_ecdf0}', where = "pre")
     
     # Plotando o gráfico de dispersão no eixo
     x = cdf_1['x']
     y = cdf_1['P(X <= x)']
-    ax.scatter(x, y, label=f'{name_ecdf1}', color=COLOR_BAR)
-    ax.plot(x, y, color=COLOR_BAR)
+    ax.step(x, y, color=COLOR_BAR, label=f'{name_ecdf1}', where = "pre")
     
     # ks
     ks = np.abs(cdf_0["P(X <= x)"] - cdf_1["P(X <= x)"]).max()
