@@ -7,7 +7,7 @@ title: "Home"
 <img align="left" width="250px" style="margin-top: 0px" src="./img/me-removebg.png" >
 
 - 👨🏻‍🎓 Bacharelado em Engenharia Química | Universidade Estadual de Maringá - UEM | 2016-2020.
-- 🏅 Especialista em Inteligência Artificial e Computacional | Universidade Federal de Viçosa - UFV | 2023-2024.
+- 🏅 Especialista em Inteligência Artificial e Computacional | Universidade Federal de Viçosa - UFV | 2023.
 - 🔭 Atualmente, trabalho como Cientista de Dados, focado na construção de modelos preditivos para o agronegócio.
 - 🌱 Busco aprimoramento constante de acordo com as melhores práticas de MLOps.
 - 💬 Podemos discutir sobre todo o ciclo de vida de modelos de Aprendizado de Máquina.
