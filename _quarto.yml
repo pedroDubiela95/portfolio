@@ -39,6 +39,8 @@ website:
     contents:
       - projects.qmd
       - project1.qmd
+      - project2.qmd
+      
 
   - title: "Reference teste"
     contents:
@@ -52,7 +54,7 @@ format:
       - custom.scss
     css: styles.css
     toc: true
-    echo: false
+    #echo: false
 
 
 
