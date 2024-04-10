@@ -21,13 +21,14 @@ Importando todos os módulos necessários os quais já foram previamente instala
 #| warning: false
 
 # Setup
-from langchain.text_splitter                   import RecursiveCharacterTextSplitter # Split
-from langchain.embeddings                      import OpenAIEmbeddings               # Embeddings
-from langchain.vectorstores                    import Chroma                         # Vector Store
-from langchain.llms                            import OpenAI                         # Models
-from langchain.chat_models                     import ChatOpenAI                     # Chat
-from langchain.chains.question_answering       import load_qa_chain                  # QA
-from langchain.callbacks                       import get_openai_callback            # Callback
+from transformers                        import GPT2TokenizerFast              # Tokenization
+from langchain.text_splitter             import RecursiveCharacterTextSplitter # Split
+from langchain.embeddings                import OpenAIEmbeddings               # Embeddings
+from langchain.vectorstores              import Chroma                         # Vector Store
+from langchain.llms                      import OpenAI                         # Models
+from langchain.chat_models               import ChatOpenAI                     # Chat
+from langchain.chains.question_answering import load_qa_chain                  # QA
+from langchain.callbacks                 import get_openai_callback            # Callback
 import os
 import textract
 import warnings
@@ -67,10 +68,16 @@ Os modelos de linguagem têm um limite de tokens que não podemos exceder. Porta
 
 ```{python}
 # Document Splitting - Tokenization
-text_splitter = RecursiveCharacterTextSplitter.from_tiktoken_encoder(
-    model_name    = MODEL_NAME,
-    chunk_size    = 512, # Quantidade máxima de tokens por split
-    chunk_overlap = 24,  # Quantidade de caracteres sobrepostos por split
+
+tokenizer = GPT2TokenizerFast.from_pretrained("gpt2")
+
+def count_tokens(text: str) -> int:
+    return len(tokenizer.encode(text))
+
+text_splitter = RecursiveCharacterTextSplitter(
+    chunk_size      = 512, # Quantidade máxima de caracteres por split
+    chunk_overlap   = 24,  # Quantidade de máxima de caracteres sobrepostos por split
+    length_function = count_tokens
 )
 
 chunks = text_splitter.create_documents([text])
