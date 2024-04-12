@@ -16,6 +16,10 @@ Dessa forma, a retenção de clientes torna-se uma prioridade estratégica para 
 Diante desse cenário, torna-se de extrema valia a capacidade de identificar os clientes mais propensos ao churn, possibilitando que a instituição financeira aja de maneira antecipada, oferecendo planos e serviços atrativos que impeçam a fuga do cliente.
 </p>
 
+<p>
+Neste projetos, temos como objetivo demonstrar a construção de modelo de ML para Identificar os clientes mais propensos ao churn no contexto bancário.
+</p>
+
 # Problema de Negócio
 Temos uma base de dados do ABC Multistate Bank, a qual está hospedada em <https://www.kaggle.com/datasets/gauravtopre/bank-customer-churn-dataset/data>. Essa base de dados contém informações anonimizadas de 10.000 clientes, onde o problema de negócio em questão resume-se a construirmos um modelo capaz de predizer a ocorrência ou não de churn para um dado cliente, com base nas informações disponíveis.
 

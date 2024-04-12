@@ -1,5 +1,5 @@
 ---
-title: "Projeto: Similarity Search no contexto de Processamento de Linguagem Natural (LLM)"
+title: "Projeto: Similarity Search no contexto de Processamento de Linguagem Natural (NLP)"
 ---
 
 # Introdução
@@ -17,7 +17,7 @@ Para facilitar a implementação da busca por similaridade, muitas vezes são ut
 </p>
 
 <p>
-Além disso, o Chroma é uma opção interessante para realizar busca por similaridade localmente. Como um banco de dados open source projetado especialmente para suportar operações de busca por similaridade em dados de alta dimensionalidade, como embeddings de texto, o Chroma oferece uma solução eficiente e escalável para realizar tarefas de NLP localmente, sem a necessidade de configurar e gerenciar um ambiente distribuído.
+Além do MongoDB cluster, existe o Chroma que é uma opção interessante para realizar buscas por similaridade localmente. Como um banco de dados open source projetado especialmente para suportar operações de busca por similaridade em dados de alta dimensionalidade, como embeddings de texto, o Chroma oferece uma solução eficiente e escalável para realizar tarefas de NLP localmente, sem a necessidade de configurar e gerenciar um ambiente distribuído.
 </p>
 
 <p>

@@ -9,7 +9,11 @@ Devido aos avanços da IA Generativa com os LLMs, o ChatGPT, desenvolvido pela O
 </p>
 
 <p>
-Para simplificar essa tarefa, surgiu o LangChain <https://www.langchain.com/>, uma estrutura de código aberto que facilita o desenvolvimento de aplicativos com LLMs. O LangChain atua como uma interface genérica para diferentes LLMs, permitindo a construção de aplicativos LLM integrados a fontes de dados externas. Este projeto visa demonstrar a aplicação prática do ChatGPT em um contexto específico com o auxílio do LangChain, explorando cada etapa e os principais desafios envolvidos.
+Para simplificar essa tarefa, surgiu o LangChain <https://www.langchain.com/>, uma estrutura de código aberto que facilita o desenvolvimento de aplicativos com LLMs. O LangChain atua como uma interface genérica para diferentes LLMs, permitindo a construção de aplicativos LLM integrados a fontes de dados externas.
+</p>
+
+<p>
+Este projeto visa demonstrar a aplicação prática do ChatGPT em um contexto específico com o auxílio do LangChain, explorando cada etapa e os principais desafios envolvidos.
 </p>
 
 # Desenvolvimento
