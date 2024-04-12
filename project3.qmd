@@ -1,0 +1,158 @@
+---
+title: "Projeto: Similarity Search no contexto de Processamento de Linguagem Natural (LLM)"
+---
+
+# Introdução
+
+<p>
+A busca por similaridade (Similarity Search) no contexto da Linguagem Natural (NLP) desempenha um papel crucial em diversas aplicações, desde a recuperação de informações até a análise de sentimentos e a recomendação de conteúdo. Essa abordagem consiste em encontrar itens semelhantes a um item de consulta, onde a semelhança é avaliada através da distância entre vetores numéricos que representam segmentos de texto (embeddings).
+</p>
+
+<p>
+Nos modelos de linguagem de grande escala (LLM) no contexto de NLP, a busca por similaridade é frequentemente empregada na engenharia de prompts, onde apenas os documentos mais relevantes para responder a uma determinada pergunta são selecionados e passados para o modelo de LLM. Isso ajuda a otimizar o desempenho do modelo, reduzindo a carga computacional e melhorando a precisão das respostas fornecidas.
+</p>
+
+<p>
+Para facilitar a implementação da busca por similaridade, muitas vezes são utilizados bancos de dados e ferramentas otimizadas para esse fim, como o MongoDB cluster. O MongoDB cluster oferece suporte para indexação de dados de texto e consultas avançadas que permitem recuperar documentos com base em sua similaridade com uma consulta específica. Essa capacidade é fundamental para sistemas que lidam com grandes volumes de dados textuais e precisam fornecer respostas rápidas e precisas aos usuários.
+</p>
+
+<p>
+Além disso, o Chroma é uma opção interessante para realizar busca por similaridade localmente. Como um banco de dados open source projetado especialmente para suportar operações de busca por similaridade em dados de alta dimensionalidade, como embeddings de texto, o Chroma oferece uma solução eficiente e escalável para realizar tarefas de NLP localmente, sem a necessidade de configurar e gerenciar um ambiente distribuído.
+</p>
+
+<p>
+Diante da importância e relevância da busca por similaridade no contexto da NLP,  vamos construir um projeto para demonstrar como realizar essa tarefa utilizando o Chroma.
+</p>
+
+# Desenvolvimento
+
+## Setup and Constants
+Importando todos os módulos necessários os quais já foram previamente instalados.
+```{python}
+#%% Setup
+from chromadb.utils           import embedding_functions            # Embbeding
+from langchain_text_splitters import RecursiveCharacterTextSplitter # Split
+from transformers             import GPT2TokenizerFast              # Tokenization
+import chromadb                                                     # DB
+import textract                                                     # load data
+```
+
+## Load data
+Aqui, vamos carregar um arquivo de texto arbitrário. Neste exemplo, vamos utilizar o meu currículo, o mesmo utilizado no projeto <https://pedrodubiela95.github.io/portfolio/project1.html>.
+
+```{python}
+#%% Load files
+file_path = "./source/project1/context/cvPedro.pdf"
+doc       = textract.process(file_path)
+data      = doc.decode('utf-8')
+```
+
+## Document Splitting - Tokenization
+Nesta etapa segmentamos nosso arquivo de texto em documentos.
+```{python}
+#%% Split into documents
+tokenizer = GPT2TokenizerFast.from_pretrained("gpt2")
+
+def count_tokens(text: str) -> int:
+    return len(tokenizer.encode(text))
+
+
+text_splitter = RecursiveCharacterTextSplitter(
+    chunk_size    = 100, # Quantidade máxima de caracteres por split
+    chunk_overlap = 15,  # Quantidade de caracteres sobrepostos por split
+    length_function = count_tokens,
+)
+
+splits = text_splitter.create_documents([data])
+```
+
+## Embedding
+Aplicamos o embedding através do modelo open-source "all-mpnet-base-v2"
+```{python}
+#%% Embbeding
+sentence_transformer_ef = (
+    embedding_functions
+    .SentenceTransformerEmbeddingFunction(
+        model_name="all-mpnet-base-v2"
+        )
+    )
+```
+
+## Create DB and collection
+Criamos o banco e a collection, e informamos qual tipo de embedding será utilizado, bem como o tipo de distância utilizado no cálculo da similaridade entre os vetores gerados (embeddings).
+```{python}
+#%% Local to save DB
+client = chromadb.PersistentClient(path="./")
+client.heartbeat()
+
+# Try delete collection
+try:
+    client.delete_collection(name="my_collection")
+except:
+    pass
+
+# Create a collection
+collection = client.create_collection(
+    name               ="my_collection",
+    metadata           = {"hnsw:space": "cosine"},
+    embedding_function = sentence_transformer_ef
+    )
+```
+
+Adicionamos os documentos na collection.
+```{python}
+# Add data
+collection.add(
+    documents = [s.page_content for s in splits],
+    ids       = [f"id{i}" for i in range(len(splits))]
+    )
+
+# Qty documents in collections
+#collection.count()
+#collection.peek() 
+```
+
+## Similarity Search
+Efetuamos de fato a busca por similaridade.
+
+***Exemplo1***:  Vamos fazer a seguinte pergunta ***Onde o Pedro mora?*** e retornar qual segmento de texto contido no currículo possui maior simililaridade com essa pergunta.
+```{python}
+#%% Similarity Search
+
+query = "Onde o Pedro mora?"
+query_vector = sentence_transformer_ef(query)
+res = collection.query(
+    query_embeddings= query_vector,
+    n_results = 1,
+    include=['distances','embeddings', 'documents', 'metadatas']
+    )
+first = res["documents"][0][0]
+print(first)
+```
+
+***Exemplo2***:  Vamos fazer a seguinte pergunta ***Quais as habildiades do Pedro?*** e retornar qual segmento de texto contido no currículo possui maior simililaridade com essa pergunta.
+```{python}
+query = "Quais as habildiades do Pedro?"
+query_vector = sentence_transformer_ef(query)
+res = collection.query(
+    query_embeddings= query_vector,
+    n_results = 1,
+    include=['distances','embeddings', 'documents', 'metadatas']
+    )
+first = res["documents"][0][0]
+print(first)
+```
+
+# Conclusão:
+
+Os exemplos apresentados destacam a versatilidade e a capacidade do recurso de busca por similaridade no contexto de NLP. Além disso, o Chroma emerge como uma ferramenta de destaque para a implementação local dessa metodologia. Sua eficiência e facilidade de uso tornam possível explorar e aplicar a busca por similaridade em ambientes locais de forma acessível e eficaz. Essa capacidade democratiza o acesso a essa poderosa técnica, permitindo que desenvolvedores e pesquisadores explorem todo o potencial da busca por similaridade em seus próprios projetos e iniciativas de maneira relativamente simples.
+
+
+
+
+
+
+
+
+
+

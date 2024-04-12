@@ -40,12 +40,8 @@ website:
       - projects.qmd
       - project1.qmd
       - project2.qmd
+      - project3.qmd
       
-
-  - title: "Reference teste"
-    contents:
-      - referece.qmd
-
 format:
   html:
     html-math-method: katex
