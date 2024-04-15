@@ -42,6 +42,10 @@ website:
       - project2.qmd
       - project3.qmd
       
+  - title: "fix side"
+    contents:
+      - fix.qmd
+      
 format:
   html:
     html-math-method: katex
