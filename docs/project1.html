@@ -235,7 +235,7 @@ Este projeto visa demonstrar a aplicação prática do ChatGPT em um contexto es
 <p>Importando todos os módulos necessários os quais já foram previamente instalados.</p>
 <div class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Setup</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> langchain.text_splitter             <span class="im">import</span> RecursiveCharacterTextSplitter <span class="co"># Split</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> langchain.text_splitter             <span class="im">import</span> RecursiveCharacterTextSplitter <span class="co"># Split - Tokenization</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> langchain.embeddings                <span class="im">import</span> OpenAIEmbeddings               <span class="co"># Embeddings</span></span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> langchain.vectorstores              <span class="im">import</span> Chroma                         <span class="co"># Vector Store</span></span>
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> langchain.llms                      <span class="im">import</span> OpenAI                         <span class="co"># Models</span></span>
@@ -273,16 +273,16 @@ Este projeto visa demonstrar a aplicação prática do ChatGPT em um contexto es
 <section id="document-splitting---tokenization" class="level2">
 <h2 class="anchored" data-anchor-id="document-splitting---tokenization">Document Splitting - Tokenization</h2>
 <p>Nesta etapa, nosso objetivo é segmentar o contexto em vários documentos, com a principal ideia de dividir o texto em unidades semanticamente relevantes.</p>
-<p>Por simplicidade, essa divisão será feita considerando um número máximo de caracteres por documento, levando em conta a estrutura textual original, ou seja, espaços em branco, quebras de linhas e parágrafos podem ser considerados como separadores aqui. Existem diversas técnicas para efetuar esse processo, estamos usando apenas uma delas.</p>
+<p>Por simplicidade, essa divisão será feita considerando um número máximo de caracteres por documento, levando em conta a estrutura textual original, ou seja, espaços em branco, quebras de linhas e parágrafos podem ser considerados como separadores aqui.</p>
+<p>Existem diversas técnicas para efetuar este processo, estamos usando apenas uma delas.</p>
 <div class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Document Splitting - Tokenization</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>text_splitter <span class="op">=</span> RecursiveCharacterTextSplitter(</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    chunk_size      <span class="op">=</span> <span class="dv">512</span>, <span class="co"># Quantidade máxima de caracteres por split</span></span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    chunk_overlap   <span class="op">=</span> <span class="dv">24</span>,  <span class="co"># Quantidade de máxima de caracteres sobrepostos por split</span></span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>chunks <span class="op">=</span> text_splitter.create_documents([text])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>text_splitter <span class="op">=</span> RecursiveCharacterTextSplitter(</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    chunk_size      <span class="op">=</span> <span class="dv">512</span>, <span class="co"># Quantidade máxima de caracteres por split</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    chunk_overlap   <span class="op">=</span> <span class="dv">24</span>,  <span class="co"># Quantidade de máxima de caracteres sobrepostos por split</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>chunks <span class="op">=</span> text_splitter.create_documents([text])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 </section>
@@ -299,13 +299,13 @@ Este projeto visa demonstrar a aplicação prática do ChatGPT em um contexto es
 <p>Um “armazenamento de vetores” é um banco de dados onde é possível pesquisar facilmente vetores semelhantes posteriormente. Isso se torna útil quando tentamos encontrar documentos relevantes para uma questão. Nesta etapa, vamos armazenar os embeddings em um banco de dados NoSQL.</p>
 <div class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Embeddings</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>embeddings <span class="op">=</span> OpenAIEmbeddings(</span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    openai_api_key<span class="op">=</span> OPENAI_API_KEY, </span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    model         <span class="op">=</span> EMBEDDING_MODEL_NAME)</span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Vector Stores</span></span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>persist_directory <span class="op">=</span> FILE_PATH_DB </span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>embeddings <span class="op">=</span> OpenAIEmbeddings(</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    openai_api_key<span class="op">=</span> OPENAI_API_KEY, </span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    model         <span class="op">=</span> EMBEDDING_MODEL_NAME)</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Vector Stores</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>persist_directory <span class="op">=</span> FILE_PATH_DB </span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>vectordb <span class="op">=</span> Chroma.from_documents(</span>
 <span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>    documents         <span class="op">=</span> chunks, </span>
 <span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>    embedding         <span class="op">=</span> embeddings,</span>
@@ -453,7 +453,7 @@ Este projeto visa demonstrar a aplicação prática do ChatGPT em um contexto es
 <div class="cell" data-execution_count="11">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>model.query(<span class="st">"Qual o objetivo deste candidato?"</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>O objetivo deste candidato é contribuir com o desenvolvimento de processos e produtos através da construção de soluções baseadas em dados, utilizando um forte senso crítico, comunicação clara e objetiva, e a capacidade de converter problemas reais em problemas matemáticos.
+<pre><code>O objetivo deste candidato é contribuir com o desenvolvimento de processos e produtos através da construção de soluções baseadas em dados.
 
 </code></pre>
 </div>

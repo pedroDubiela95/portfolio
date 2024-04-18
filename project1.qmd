@@ -71,7 +71,6 @@ Existem diversas técnicas para efetuar este processo, estamos usando apenas uma
 
 ```{python}
 # Document Splitting - Tokenization
-
 text_splitter = RecursiveCharacterTextSplitter(
     chunk_size      = 512, # Quantidade máxima de caracteres por split
     chunk_overlap   = 24,  # Quantidade de máxima de caracteres sobrepostos por split
@@ -98,13 +97,13 @@ Um "armazenamento de vetores" é um banco de dados onde é possível pesquisar f
 
 ```{python}
 #Embeddings
-
 embeddings = OpenAIEmbeddings(
     openai_api_key= OPENAI_API_KEY, 
     model         = EMBEDDING_MODEL_NAME)
 
 # Vector Stores
 persist_directory = FILE_PATH_DB 
+
 vectordb = Chroma.from_documents(
     documents         = chunks, 
     embedding         = embeddings,
