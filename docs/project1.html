@@ -235,21 +235,20 @@ Este projeto visa demonstrar a aplicação prática do ChatGPT em um contexto es
 <p>Importando todos os módulos necessários os quais já foram previamente instalados.</p>
 <div class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Setup</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> transformers                        <span class="im">import</span> GPT2TokenizerFast              <span class="co"># Tokenization</span></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> langchain.text_splitter             <span class="im">import</span> RecursiveCharacterTextSplitter <span class="co"># Split</span></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> langchain.embeddings                <span class="im">import</span> OpenAIEmbeddings               <span class="co"># Embeddings</span></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> langchain.vectorstores              <span class="im">import</span> Chroma                         <span class="co"># Vector Store</span></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> langchain.llms                      <span class="im">import</span> OpenAI                         <span class="co"># Models</span></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> langchain.chat_models               <span class="im">import</span> ChatOpenAI                     <span class="co"># Chat</span></span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> langchain.chains.question_answering <span class="im">import</span> load_qa_chain                  <span class="co"># QA</span></span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> langchain.callbacks                 <span class="im">import</span> get_openai_callback            <span class="co"># Callback</span></span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> textract</span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> warnings</span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>warnings.filterwarnings(<span class="st">"ignore"</span>)</span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>pd.set_option(<span class="st">'display.max_columns'</span>, <span class="va">None</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> langchain.text_splitter             <span class="im">import</span> RecursiveCharacterTextSplitter <span class="co"># Split</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> langchain.embeddings                <span class="im">import</span> OpenAIEmbeddings               <span class="co"># Embeddings</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> langchain.vectorstores              <span class="im">import</span> Chroma                         <span class="co"># Vector Store</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> langchain.llms                      <span class="im">import</span> OpenAI                         <span class="co"># Models</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> langchain.chat_models               <span class="im">import</span> ChatOpenAI                     <span class="co"># Chat</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> langchain.chains.question_answering <span class="im">import</span> load_qa_chain                  <span class="co"># QA</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> langchain.callbacks                 <span class="im">import</span> get_openai_callback            <span class="co"># Callback</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> textract</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> warnings</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>warnings.filterwarnings(<span class="st">"ignore"</span>)</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>pd.set_option(<span class="st">'display.max_columns'</span>, <span class="va">None</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Definindo as constantes que serão utilizadas ao longo do código.</p>
 <div class="cell" data-execution_count="2">
@@ -274,23 +273,16 @@ Este projeto visa demonstrar a aplicação prática do ChatGPT em um contexto es
 <section id="document-splitting---tokenization" class="level2">
 <h2 class="anchored" data-anchor-id="document-splitting---tokenization">Document Splitting - Tokenization</h2>
 <p>Nesta etapa, nosso objetivo é segmentar o contexto em vários documentos, com a principal ideia de dividir o texto em unidades semanticamente relevantes.</p>
-<p>Os modelos de linguagem têm um limite de tokens que não podemos exceder. Portanto, essa divisão será feita considerando um número máximo de tokens por documento. Embora o texto seja dividido por caracteres, o tamanho do segmento é medido em termos de tokens.</p>
-<p>É importante ressaltar que o tokenizador que utilizaremos deve ser o mesmo utilizado dentro do LLM principal, que neste caso é o ChatGPT. Isso garante que estejamos contando tokens da mesma forma em ambas as etapas.</p>
+<p>Por simplicidade, essa divisão será feita considerando um número máximo de caracteres por documento, levando em conta a estrutura textual original, ou seja, espaços em branco, quebras de linhas e parágrafos podem ser considerados como separadores aqui. Existem diversas técnicas para efetuar esse processo, estamos usando apenas uma delas.</p>
 <div class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Document Splitting - Tokenization</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>tokenizer <span class="op">=</span> GPT2TokenizerFast.from_pretrained(<span class="st">"gpt2"</span>)</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> count_tokens(text: <span class="bu">str</span>) <span class="op">-&gt;</span> <span class="bu">int</span>:</span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="bu">len</span>(tokenizer.encode(text))</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>text_splitter <span class="op">=</span> RecursiveCharacterTextSplitter(</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    chunk_size      <span class="op">=</span> <span class="dv">512</span>, <span class="co"># Quantidade máxima de caracteres por split</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    chunk_overlap   <span class="op">=</span> <span class="dv">24</span>,  <span class="co"># Quantidade de máxima de caracteres sobrepostos por split</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>text_splitter <span class="op">=</span> RecursiveCharacterTextSplitter(</span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>    chunk_size      <span class="op">=</span> <span class="dv">512</span>, <span class="co"># Quantidade máxima de caracteres por split</span></span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>    chunk_overlap   <span class="op">=</span> <span class="dv">24</span>,  <span class="co"># Quantidade de máxima de caracteres sobrepostos por split</span></span>
-<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>    length_function <span class="op">=</span> count_tokens</span>
-<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>chunks <span class="op">=</span> text_splitter.create_documents([text])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>chunks <span class="op">=</span> text_splitter.create_documents([text])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 </section>
@@ -385,13 +377,13 @@ Este projeto visa demonstrar a aplicação prática do ChatGPT em um contexto es
 <span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>    </span>
 <span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> __tokenization(<span class="va">self</span>):</span>
-<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a>        text_splitter <span class="op">=</span> RecursiveCharacterTextSplitter.from_tiktoken_encoder(</span>
-<span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a>            model_name    <span class="op">=</span> <span class="va">self</span>.__model_name,</span>
-<span id="cb9-24"><a href="#cb9-24" aria-hidden="true" tabindex="-1"></a>            chunk_size    <span class="op">=</span> <span class="dv">512</span>, <span class="co"># Quantidade máxima de tokens por split</span></span>
-<span id="cb9-25"><a href="#cb9-25" aria-hidden="true" tabindex="-1"></a>            chunk_overlap <span class="op">=</span> <span class="dv">24</span>,  <span class="co"># Quantidade de caracteres sobrepostos por split</span></span>
+<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a>        text_splitter <span class="op">=</span> RecursiveCharacterTextSplitter(</span>
+<span id="cb9-24"><a href="#cb9-24" aria-hidden="true" tabindex="-1"></a>            chunk_size      <span class="op">=</span> <span class="dv">512</span>, <span class="co"># Quantidade máxima de caracteres por split</span></span>
+<span id="cb9-25"><a href="#cb9-25" aria-hidden="true" tabindex="-1"></a>            chunk_overlap   <span class="op">=</span> <span class="dv">24</span>,  <span class="co"># Quantidade de máxima de caracteres sobrepostos por split</span></span>
 <span id="cb9-26"><a href="#cb9-26" aria-hidden="true" tabindex="-1"></a>        )</span>
 <span id="cb9-27"><a href="#cb9-27" aria-hidden="true" tabindex="-1"></a>        chunks <span class="op">=</span> text_splitter.create_documents([<span class="va">self</span>.__document_loading()])</span>
-<span id="cb9-28"><a href="#cb9-28" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb9-28"><a href="#cb9-28" aria-hidden="true" tabindex="-1"></a>                </span>
 <span id="cb9-29"><a href="#cb9-29" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> chunks</span>
 <span id="cb9-30"><a href="#cb9-30" aria-hidden="true" tabindex="-1"></a>        </span>
 <span id="cb9-31"><a href="#cb9-31" aria-hidden="true" tabindex="-1"></a>        </span>
@@ -461,7 +453,7 @@ Este projeto visa demonstrar a aplicação prática do ChatGPT em um contexto es
 <div class="cell" data-execution_count="11">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>model.query(<span class="st">"Qual o objetivo deste candidato?"</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>O objetivo deste candidato parece ser aplicar suas habilidades analíticas e de programação para resolver problemas do mundo real, utilizando ferramentas como Python, R, SQL, Power BI, entre outras. Além disso, ele busca trabalhar em um ambiente ágil, utilizando metodologias como o Scrum, e está familiarizado com práticas de versionamento de código e integração contínua.
+<pre><code>O objetivo deste candidato é contribuir com o desenvolvimento de processos e produtos através da construção de soluções baseadas em dados, utilizando um forte senso crítico, comunicação clara e objetiva, e a capacidade de converter problemas reais em problemas matemáticos.
 
 </code></pre>
 </div>
@@ -509,7 +501,7 @@ Este projeto visa demonstrar a aplicação prática do ChatGPT em um contexto es
 <div class="cell" data-execution_count="14">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>model.query(<span class="st">"Qual foi o modelo mais barato no ano de 2016?"</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>O modelo mais barato no ano de 2016 foi o Palio Fire, com um salário mínimo de R$ 28.790.
+<pre><code>O modelo mais barato no ano de 2016 foi o Palio Fire, com um preço de R$ 28.790.
 
 </code></pre>
 </div>

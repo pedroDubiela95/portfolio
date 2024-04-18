@@ -25,8 +25,7 @@ Importando todos os módulos necessários os quais já foram previamente instala
 #| warning: false
 
 # Setup
-from transformers                        import GPT2TokenizerFast              # Tokenization
-from langchain.text_splitter             import RecursiveCharacterTextSplitter # Split
+from langchain.text_splitter             import RecursiveCharacterTextSplitter # Split - Tokenization
 from langchain.embeddings                import OpenAIEmbeddings               # Embeddings
 from langchain.vectorstores              import Chroma                         # Vector Store
 from langchain.llms                      import OpenAI                         # Models
@@ -66,22 +65,16 @@ text      = doc.decode('utf-8')
 ## Document Splitting - Tokenization
 Nesta etapa, nosso objetivo é segmentar o contexto em vários documentos, com a principal ideia de dividir o texto em unidades semanticamente relevantes.
 
-Os modelos de linguagem têm um limite de tokens que não podemos exceder. Portanto, essa divisão será feita considerando um número máximo de tokens por documento. Embora o texto seja dividido por caracteres, o tamanho do segmento é medido em termos de tokens.
+Por simplicidade, essa divisão será feita considerando um número máximo de caracteres por documento, levando em conta a estrutura textual original, ou seja, espaços em branco, quebras de linhas e parágrafos podem ser considerados como separadores aqui. 
 
-É importante ressaltar que o tokenizador que utilizaremos deve ser o mesmo utilizado dentro do LLM principal, que neste caso é o ChatGPT. Isso garante que estejamos contando tokens da mesma forma em ambas as etapas.
+Existem diversas técnicas para efetuar este processo, estamos usando apenas uma delas.
 
 ```{python}
 # Document Splitting - Tokenization
 
-tokenizer = GPT2TokenizerFast.from_pretrained("gpt2")
-
-def count_tokens(text: str) -> int:
-    return len(tokenizer.encode(text))
-
 text_splitter = RecursiveCharacterTextSplitter(
     chunk_size      = 512, # Quantidade máxima de caracteres por split
     chunk_overlap   = 24,  # Quantidade de máxima de caracteres sobrepostos por split
-    length_function = count_tokens
 )
 
 chunks = text_splitter.create_documents([text])
@@ -182,13 +175,13 @@ class AskAboutContext:
     
 
     def __tokenization(self):
-        text_splitter = RecursiveCharacterTextSplitter.from_tiktoken_encoder(
-            model_name    = self.__model_name,
-            chunk_size    = 512, # Quantidade máxima de tokens por split
-            chunk_overlap = 24,  # Quantidade de caracteres sobrepostos por split
+
+        text_splitter = RecursiveCharacterTextSplitter(
+            chunk_size      = 512, # Quantidade máxima de caracteres por split
+            chunk_overlap   = 24,  # Quantidade de máxima de caracteres sobrepostos por split
         )
         chunks = text_splitter.create_documents([self.__document_loading()])
-        
+                
         return chunks
         
         
