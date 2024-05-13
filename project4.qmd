@@ -1,0 +1,198 @@
+---
+title: "Projeto: Web Scraping - Coletando Informações de Imóveis (Viva Real)"
+---
+
+# Introdução
+<p>
+O mercado imobiliário é uma fonte rica de informações sobre propriedades disponíveis para venda ou aluguel. No entanto, navegar por inúmeros anúncios em diferentes plataformas pode ser uma tarefa árdua e demorada. É aqui que entra o web scraping, uma técnica poderosa para extrair dados de maneira automatizada e eficiente.
+</p>
+
+<p>
+Neste projeto, embarcaremos em uma jornada para extrair informações de imóveis do renomado site Viva Real <https://www.vivareal.com.br/>. Usando BeautifulSoup em Python, iremos explorar a estrutura HTML das páginas do Viva Real, navegar pelos elementos relevantes e extrair detalhes importantes, como preço, localização, características do imóvel e informações sobre o anunciante.
+</p>
+
+
+# Desenvolvimento
+
+## Setup:
+Importando todos os módulos necessários os quais já foram previamente instalados.
+```{python}
+#| warning: false
+# Imports
+from   bs4 import BeautifulSoup
+import numpy  as np
+import pandas as pd
+import requests
+import time 
+```
+
+## Dados que vamos extrair:
+Criando as listas onde vamos armazenar os dados raspados.
+```{python}
+#| eval: false
+# Lists
+full_adress      = []
+full_title       = []
+full_area        = []
+full_area_unit   = []
+full_room        = []
+full_bath        = []
+full_garage      = []
+full_price       = []
+full_price_condo = []
+full_publisher   = []
+```
+
+## Scraping
+<p>
+Estamos interessados em extrair informações de todos os imóveis disponíveis para locação na cidade de Jaguariúna - SP. Em 03/05/2024, esses imóveis estão distribuídos em 17 páginas, totalizando 612. 
+</p>
+
+<p>
+Para cada imóvel, ainda teremos que acessar uma página extra para conseguirmos coletar o nome da imobiliária anunciante, portanto, vamos raspar um total de 17 + 612 = 629 páginas.
+</p>
+
+<p>
+Desta forma, sempre que fizermos uma requisição em uma página, vamos esperar 10 segundos para fazer a próxima, a fim de não sobrecarregar o servidor.
+</p>
+
+
+```{python}
+#| eval: false
+t = 10 
+
+# Pages
+for p in range(1,18):
+    
+    print(f"pagina: {p}")
+    
+    time.sleep(t)   
+    
+    url     = f"https://www.vivareal.com.br/aluguel/sp/jaguariuna?page={p}"
+    request = requests.get(url, headers={"User-Agent": "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:124.0) Gecko/20100101 Firefox/124.0"})
+    soup    = BeautifulSoup(request.text, "html.parser")
+    
+
+    # Imo
+    builds  = soup.findAll(class_ = "property-card__content-link js-card-title")
+
+    # link
+    link_builds = soup.findAll("a", attrs={"class": "property-card__labels-container js-main-info js-listing-labels-link"})
+    url_link = ["https://www.vivareal.com.br" + link["href"] for link in link_builds]
+    
+    
+    i = 0
+    for build, link in zip(builds, url_link):
+        
+        i += 1
+        print(f"imo: {i}")
+            
+    
+        try:
+            adress = build.find("span", attrs={"class": "property-card__address"}).text
+            full_adress.append(adress.strip())
+        except:
+            full_adress.append("VAZIO")
+    
+        try:
+            title = build.find("span", attrs={"class": "property-card__title js-cardLink js-card-title"}).text
+            full_title.append(title.strip())
+        except:
+            full_title.append("VAZIO")
+    
+        try:
+            area = build.find("li", attrs={"class": "property-card__detail-item property-card__detail-area"}).text.split()
+            full_area.append(area[0].strip())
+        except:
+            full_area.append("0")
+    
+        try:
+            area = build.find("li", attrs={"class": "property-card__detail-item property-card__detail-area"}).text.split()
+            full_area_unit.append(area[1].strip())
+        except:
+            full_area_unit.append("0")
+    
+        try:
+            room = build.find("li", attrs={"class": "property-card__detail-item property-card__detail-room js-property-detail-rooms"}).text.split()
+            full_room.append(room[0].strip())
+        except:
+            full_room.append("0")
+    
+        try:
+            bath = build.find("li", attrs={"class": "property-card__detail-item property-card__detail-bathroom js-property-detail-bathroom"}).text.split()
+            full_bath.append(bath[0].strip())
+        except:
+            full_bath.append("0")
+    
+        try:
+            garage = build.find("li", attrs={"class": "property-card__detail-item property-card__detail-garage js-property-detail-garages"}).text.split()
+            full_garage.append(garage[0].strip())
+        except:
+            full_garage.append("0")
+    
+        try:
+            price = build.find("div", attrs={"class": "property-card__price js-property-card-prices js-property-card__price-small"}).text
+            full_price.append(price.strip())
+        except:
+            full_price.append("0")
+    
+        try:
+            price_condo = build.find("div", attrs={"class": "property-card__price-details--condo"}).text.split()
+            full_price_condo.append(price_condo[-1].strip())
+        except:
+            full_price_condo.append("0")
+            
+        time.sleep(t)
+        try:
+            request2   = requests.get(link, headers={"User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"})
+            soup2      = BeautifulSoup(request2.text, "html.parser")
+            publisher = soup2.find("a", attrs={"class": "publisher-details__name"})
+            full_publisher.append( publisher.text.strip())
+        except:
+            full_publisher.append('0')
+
+
+
+```
+
+## Salvando o resultado
+Salvando os dados em um dataframe do Pandas
+```{python}
+#| eval: false
+df_from_web_scraping = pd.DataFrame(
+    columns = [
+        "Endereço", 
+        "Título", 
+        "Área", 
+        "Und. medida área", 
+        "Qtd. quartos", 
+        "Qtd. banheiros", 
+        "Qtd. vaga garagem", 
+        "Preço alugel", 
+        "Preço condomínio",
+        "Anunciante"
+    ],
+    data   = np.array([      
+        full_adress,
+        full_title,      
+        full_area,       
+        full_area_unit,  
+        full_room,       
+        full_bath,       
+        full_garage,     
+        full_price,      
+        full_price_condo,
+        full_publisher
+    ]).T
+)
+
+df_from_web_scraping.to_pickle("source/imoveis.pkl")
+df_from_web_scraping.to_excel("source/imoveis.xlsx", index = False)
+```
+
+# Resultado
+Demonstração das primeiras 5 linhas do resultado obtido
+```{python}
+df = pd.read_excel("source/imoveis.xlsx")
+df.head()
+```
