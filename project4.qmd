@@ -8,8 +8,13 @@ O mercado imobiliário é uma fonte rica de informações sobre propriedades dis
 </p>
 
 <p>
-Neste projeto, embarcaremos em uma jornada para extrair informações de imóveis do renomado site Viva Real <https://www.vivareal.com.br/>. Usando BeautifulSoup em Python, iremos explorar a estrutura HTML das páginas do Viva Real, navegar pelos elementos relevantes e extrair detalhes importantes, como preço, localização, características do imóvel e informações sobre o anunciante.
+Neste projeto, embarcaremos em uma jornada para extrair informações de imóveis do renomado site Viva Real <https://www.vivareal.com.br/>. 
 </p>
+
+<p>
+Usando BeautifulSoup em Python, iremos explorar a estrutura HTML das páginas do Viva Real, navegar pelos elementos relevantes e extrair detalhes importantes, como preço, localização, características do imóvel e informações sobre o anunciante.
+</p>
+
 
 
 # Desenvolvimento
@@ -45,7 +50,11 @@ full_publisher   = []
 
 ## Scraping
 <p>
-Estamos interessados em extrair informações de todos os imóveis disponíveis para locação na cidade de Jaguariúna - SP. Em 03/05/2024, esses imóveis estão distribuídos em 17 páginas, totalizando 612. 
+Estamos interessados em extrair informações de todos os imóveis disponíveis para locação na cidade de Jaguariúna - SP. 
+</p>
+
+<p>
+Em 03/05/2024, esses imóveis estão distribuídos em 17 páginas, totalizando 612. 
 </p>
 
 <p>
