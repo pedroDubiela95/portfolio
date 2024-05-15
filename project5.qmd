@@ -1,0 +1,227 @@
+---
+title: "Projeto: Deploy de Uma Aplicação Web (Flask + Nginx + Docker + AWS)"
+---
+
+# Introdução
+<p>
+Nosso objetivo é desenvolver uma aplicação web utilizando **Flask** e **Nginx**, duas ferramentas populares para criação de serviços web em Python. 
+</p>
+
+<p>
+Para garantir facilidade de distribuição e execução consistente, vamos encapsular todo o código em containers **Docker**. 
+</p>
+
+<p>
+Além disso, faremos o deploy da nossa aplicação em uma instância **EC2 na AWS**, aproveitando a escalabilidade e confiabilidade dos serviços de nuvem. 
+</p>
+
+<p>
+Este tutorial fornecerá um passo a passo claro e direto, ideal para quem deseja aprender a deployar uma aplicação web de forma eficiente e rápida.
+</p>
+
+# Desenvolvimento Local
+<p>Neste caso vamos deployar exatamente as páginas web que estamos lendo agora, ou seja, todo esse portfólio.</p>
+
+## Arquitetura da aplicação
+```{python}
+#| eval: false
+flask_app_tutorial/
+    README.md
+    flask_app/
+        app/
+            requirements.txt # Dependências que serão instaladas (Flask, Nginx, ...)
+            Dockerfile       # Imagem Python + dependências
+            static/          # Pasta onde guardamos os arquivos .css, imagens e ícones
+                *.css, *.png 
+            templates/       # Pasta onde guardamos as páginas .html
+                *.html       
+            wsgi.py          # Arquivo principal para execução do Flask (o main)
+        create_ssh_key.sh    # Bash script para criação de chave ssh a qual deverá ser colocada no github
+        install_docker.sh    # Bash script para instalação do Docker
+        nginx.conf           # Configuração do Nginx
+        docker-compose.yml   # Orquestração dos containers
+```
+
+<p>Supondo que temos a aplicação funcionando localmente, a qual está sendo executada na porta 5000, conforme demonstra o código contido em wsgi.py</p>
+
+```{python}
+#| eval: false
+from flask import Flask, render_template
+
+app = Flask(__name__)
+
+@app.route("/")
+def home():
+    return render_template("index.html")
+
+@app.route("/projects")
+def projects():
+    return render_template("projects.html")
+
+@app.route("/project1")
+def project1():
+    return render_template("project1.html")
+
+@app.route("/project2")
+def project2():
+    return render_template("project2.html")
+
+@app.route("/project3")
+def project3():
+    return render_template("project3.html")
+
+@app.route("/project4")
+def project4():
+    return render_template("project4.html")
+
+@app.route("/project5")
+def project5():
+    return render_template("project5.html")
+
+        
+if __name__ == "__main__":
+    app.run(debug=True, port=5000)
+```
+
+## Criação do arquivo de configuração do servidor Nginx
+<p>Vamos agora criar o arquivo de configuração do servidor web (nginx.conf).</p>
+<p>Quando o servidor entrar em execução a aplicação que está sendo executada na porta 5000 será executada na porta 80 pelo servidor.</p>
+
+```{python}
+#| eval: false
+events {
+    worker_connections 1000;
+}
+
+http {
+    server {
+        listen 80;
+
+        location / {
+            proxy_pass http://app:5000;
+        }
+    }
+}
+
+```
+
+## Criação do Dockerfile
+<p>Vamos agora criar o arquivo de configuração docker, no qual vamos definir o uso de uma imagem Python e também vamos determinar a instalação do Flask e as demais dependências nesta imagem.</p>
+
+```{python}
+#| eval: false
+# Use uma imagem base do Python
+FROM python:3.9
+
+# Defina o diretório de trabalho como /app no docker
+WORKDIR /app
+
+# Copie todos os arquivos para o diretório de trabalho
+COPY . .
+
+# Instale as dependências do Flask especificadas no arquivo requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Execute wsgi.py:app()
+CMD gunicorn --bind 0.0.0.0:5000 wsgi:app
+
+```
+
+
+## Criação do docker-compose
+<p>Criação do arquivo para orquestração dos containers.</p> 
+<p>Vamos levantar dois containers, um com o build da imagem python (dockerfile mostrado acima) e o outro com uma imagem direta do servidor Nginx.</p>
+
+```{python}
+#| eval: false
+version: "3"
+
+services:
+  app:
+    build:
+      context: app
+    ports:
+      - "5000"
+  
+  nginx:
+    image: nginx:latest
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro #Considerando que a máquina EC2 será um ubuntu. 
+    depends_on:
+      - app
+    ports:
+      - "80:80"
+```
+
+# EC2 (AWS):
+## Criação da máquina EC2
+<p>Não entraremos no detalhe de como criar uma máquina EC2, visto que já existem inúmeros tutoriais. </p>
+<p>Desta forma deixamos uma excelente referência disponível em <https://www.youtube.com/watch?v=a6nU5NTHJDM&list=PLOF5f9_x-OYUaqJar6EKRAonJNSHDFZUm&index=9></p>
+
+## Geração de chave SSH
+<p>Dentro do EC2 geramos uma chave ssh e colocamos no github para autorizar o acesso o repositório no git.</p>
+<p>O script abaixo está contido em ```create_ssh_key.sh```</p>
+
+```{python}
+#| eval: false
+ssh-keygen -t rsa
+cat ~/.ssh/id_rsa.pub
+```
+Uma vez feito isso, podemos clonar o repositório.
+
+
+## Instalação do Docker
+<p>Instalamos o docker e alteramos o grupo dele para conseguirmos utilizar sem a necessidade de acrescentar ```sudo``` em cada comando.</p>
+<p>O script abaixo está contido em ``` install_docker.sh ```</p>
+
+```{python}
+#| eval: false
+
+###############################################################
+#                   INSTALAÇÃO DO DOCKER                      #
+###############################################################
+
+# Adicione a chave GPG oficial do Docker:
+sudo apt-get update
+sudo apt-get install ca-certificates curl gnupg
+sudo install -m 0755 -d /etc/apt/keyrings
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+sudo chmod a+r /etc/apt/keyrings/docker.gpg
+
+# Add o repo ao apt sources:
+echo \
+  "deb [arch="$(dpkg --print-architecture)" signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
+  "$(. /etc/os-release && echo "$VERSION_CODENAME")" stable" | \
+  sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+sudo apt-get update
+
+# Instalando os packages do docker.
+sudo apt-get install     \
+    docker-ce            \
+    docker-ce-cli        \
+    containerd.io        \
+    docker-buildx-plugin \ docker-compose-plugin
+
+
+###############################################################
+#              CRIAÇÃO DO GRUPO DO DOCKER E SEU USER         #
+###############################################################
+
+# Criação do grupo do docker
+sudo groupadd docker
+
+# Add seu user ao grupo do docker
+sudo usermod -aG docker $USER
+
+# Ativando as mudanças no grupo
+newgrp docker
+```
+
+## Execeução do docker compose
+<p>Uma vez com o docker instalado e o repositório do github clonado, precisamos somente subir os containers com o comanda baixo que a nossa aplicação estará disponivel 
+na porta 80 do EC2.</p>
+```{python}
+#| eval: false
+docker compose ud -d
+```
+

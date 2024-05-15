@@ -42,6 +42,7 @@ website:
       - project2.qmd
       - project3.qmd
       - project4.qmd
+      - project5.qmd
       
   - title: "fix side"
     contents:

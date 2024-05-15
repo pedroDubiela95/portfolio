@@ -18,7 +18,7 @@ Este projeto visa demonstrar a aplicação prática do ChatGPT em um contexto es
 
 # Desenvolvimento
 
-## Setup and Constants:
+## Setup and Constants
 
 Importando todos os módulos necessários os quais já foram previamente instalados.
 ```{python}
