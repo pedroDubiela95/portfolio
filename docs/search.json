@@ -236,5 +236,12 @@
     "title": "Projeto: Similarity Search no contexto de Processamento de Linguagem Natural (NLP)",
     "section": "Similarity Search",
     "text": "Similarity Search\nEfetuamos de fato a busca por similaridade.\nExemplo1: Vamos fazer a seguinte pergunta Onde o Pedro mora? e retornar qual segmento de texto contido no currículo possui maior simililaridade com essa pergunta.\n\n#%% Similarity Search\n\nquery = \"Onde o Pedro mora?\"\nquery_vector = sentence_transformer_ef(query)\nres = collection.query(\n    query_embeddings= query_vector,\n    n_results = 1,\n    include=['distances','embeddings', 'documents', 'metadatas']\n    )\nfirst = res[\"documents\"][0][0]\nprint(first)\n\nPedro Gasparine Dubiela\nAltônia - PR\n\nhttps://pedrodubiela95.github.io/portfolio/\n\npedrodubielabio@gmail.com\n\n(44) 9-9708-9090\n\n\nExemplo2: Vamos fazer a seguinte pergunta Quais as habildiades do Pedro? e retornar qual segmento de texto contido no currículo possui maior simililaridade com essa pergunta.\n\nquery = \"Quais as habildiades do Pedro?\"\nquery_vector = sentence_transformer_ef(query)\nres = collection.query(\n    query_embeddings= query_vector,\n    n_results = 1,\n    include=['distances','embeddings', 'documents', 'metadatas']\n    )\nfirst = res[\"documents\"][0][0]\nprint(first)\n\nHabilidades\n&gt;&gt;&gt; Inglês Intermediário (B1-B2)\n&gt;&gt;&gt; Forte background em matemática e estatística\n&gt;&gt;&gt; Sólidos conhecimentos em ciência da computação\n&gt;&gt;&gt; Análise de dados"
+  },
+  {
+    "objectID": "project5.html#execução-do-docker-compose",
+    "href": "project5.html#execução-do-docker-compose",
+    "title": "Projeto: Deploy de Uma Aplicação Web (Flask + Nginx + Docker + AWS)",
+    "section": "Execução do docker compose",
+    "text": "Execução do docker compose\n\nUma vez com o docker instalado e o repositório do github clonado, precisamos somente subir os containers com o comanda baixo que a nossa aplicação estará disponivel na porta 80 do EC2.\n\n\ndocker compose ud -d"
   }
 ]

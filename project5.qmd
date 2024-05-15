@@ -160,7 +160,7 @@ services:
 
 ## Geração de chave SSH
 <p>Dentro do EC2 geramos uma chave ssh e colocamos no github para autorizar o acesso o repositório no git.</p>
-<p>O script abaixo está contido em ```create_ssh_key.sh```</p>
+<p>O script abaixo está contido em ***create_ssh_key.sh***</p>
 
 ```{python}
 #| eval: false
@@ -171,8 +171,8 @@ Uma vez feito isso, podemos clonar o repositório.
 
 
 ## Instalação do Docker
-<p>Instalamos o docker e alteramos o grupo dele para conseguirmos utilizar sem a necessidade de acrescentar ```sudo``` em cada comando.</p>
-<p>O script abaixo está contido em ``` install_docker.sh ```</p>
+<p>Instalamos o docker e alteramos o grupo dele para conseguirmos utilizar sem a necessidade de acrescentar ***sudo*** em cada comando.</p>
+<p>O script abaixo está contido em ***install_docker.sh***</p>
 
 ```{python}
 #| eval: false
@@ -217,7 +217,7 @@ sudo usermod -aG docker $USER
 newgrp docker
 ```
 
-## Execeução do docker compose
+## Execução do docker compose
 <p>Uma vez com o docker instalado e o repositório do github clonado, precisamos somente subir os containers com o comanda baixo que a nossa aplicação estará disponivel 
 na porta 80 do EC2.</p>
 ```{python}

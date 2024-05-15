@@ -205,7 +205,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#criação-da-máquina-ec2" id="toc-criação-da-máquina-ec2" class="nav-link" data-scroll-target="#criação-da-máquina-ec2">Criação da máquina EC2</a></li>
   <li><a href="#geração-de-chave-ssh" id="toc-geração-de-chave-ssh" class="nav-link" data-scroll-target="#geração-de-chave-ssh">Geração de chave SSH</a></li>
   <li><a href="#instalação-do-docker" id="toc-instalação-do-docker" class="nav-link" data-scroll-target="#instalação-do-docker">Instalação do Docker</a></li>
-  <li><a href="#execeução-do-docker-compose" id="toc-execeução-do-docker-compose" class="nav-link" data-scroll-target="#execeução-do-docker-compose">Execeução do docker compose</a></li>
+  <li><a href="#execução-do-docker-compose" id="toc-execução-do-docker-compose" class="nav-link" data-scroll-target="#execução-do-docker-compose">Execução do docker compose</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -402,7 +402,7 @@ Desta forma deixamos uma excelente referência disponível em <a href="https://w
 Dentro do EC2 geramos uma chave ssh e colocamos no github para autorizar o acesso o repositório no git.
 </p>
 <p>
-O script abaixo está contido em <code>create_ssh_key.sh</code>
+O script abaixo está contido em <strong><em>create_ssh_key.sh</em></strong>
 </p>
 <div class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>ssh<span class="op">-</span>keygen <span class="op">-</span>t rsa</span>
@@ -413,10 +413,10 @@ O script abaixo está contido em <code>create_ssh_key.sh</code>
 <section id="instalação-do-docker" class="level2">
 <h2 class="anchored" data-anchor-id="instalação-do-docker">Instalação do Docker</h2>
 <p>
-Instalamos o docker e alteramos o grupo dele para conseguirmos utilizar sem a necessidade de acrescentar <code>sudo</code> em cada comando.
+Instalamos o docker e alteramos o grupo dele para conseguirmos utilizar sem a necessidade de acrescentar <strong><em>sudo</em></strong> em cada comando.
 </p>
 <p>
-O script abaixo está contido em <code>install_docker.sh</code>
+O script abaixo está contido em <strong><em>install_docker.sh</em></strong>
 </p>
 <div class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co">###############################################################</span></span>
@@ -459,8 +459,8 @@ O script abaixo está contido em <code>install_docker.sh</code>
 <span id="cb7-38"><a href="#cb7-38" aria-hidden="true" tabindex="-1"></a>newgrp docker</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="execeução-do-docker-compose" class="level2">
-<h2 class="anchored" data-anchor-id="execeução-do-docker-compose">Execeução do docker compose</h2>
+<section id="execução-do-docker-compose" class="level2">
+<h2 class="anchored" data-anchor-id="execução-do-docker-compose">Execução do docker compose</h2>
 <p>
 Uma vez com o docker instalado e o repositório do github clonado, precisamos somente subir os containers com o comanda baixo que a nossa aplicação estará disponivel na porta 80 do EC2.
 </p>
