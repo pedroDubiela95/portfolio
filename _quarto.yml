@@ -43,6 +43,7 @@ website:
       - project3.qmd
       - project4.qmd
       - project5.qmd
+      - project6.qmd
       
   - title: "fix side"
     contents:

@@ -136,6 +136,7 @@ docs  = vectordb.max_marginal_relevance_search(query, k = 2 , fetch_k= 5)
 Agora que temos os documentos mais relevantes para responder à nossa questão, obtidos na fase anterior de recuperação, procedemos a passar esses documentos juntamente com a pergunta original para um modelo de linguagem (ChatGPT), a fim de obter uma resposta à nossa consulta.
 
 ```{python}
+#| classes: styled-output
 # Question Answering
 
 llm   = ChatOpenAI(model_name=MODEL_NAME, temperature=0)
@@ -241,11 +242,13 @@ model.fit()
 
 Pergunta 1
 ```{python}
+#| classes: styled-output
 model.query("Qual a cidade deste candidato?")
 ```
 
 Pergunta 2
 ```{python}
+#| classes: styled-output
 model.query("Qual o objetivo deste candidato?") 
 ```
 
@@ -270,10 +273,12 @@ model.fit()
 
 Pergunta 1
 ```{python}
+#| classes: styled-output
 model.query("Quais são os modelos de carros existentes nessa tabela?")
 ```
 
 Pergunta 2
 ```{python}
+#| classes: styled-output
 model.query("Qual foi o modelo mais barato no ano de 2016?") 
 ```

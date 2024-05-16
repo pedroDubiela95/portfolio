@@ -182,6 +182,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="menu-text">Projeto: Deploy de Uma Aplicação Web (Flask + Nginx + Docker + AWS)</span></a>
   </div>
 </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./project6.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Projeto: Análise de Dados com Spark - PySpark</span></a>
+  </div>
+</li>
     </ul>
     </div>
 </nav>
@@ -346,7 +352,7 @@ Este projeto visa demonstrar a aplicação prática do ChatGPT em um contexto es
 <section id="question-answering" class="level1">
 <h1>Question Answering</h1>
 <p>Agora que temos os documentos mais relevantes para responder à nossa questão, obtidos na fase anterior de recuperação, procedemos a passar esses documentos juntamente com a pergunta original para um modelo de linguagem (ChatGPT), a fim de obter uma resposta à nossa consulta.</p>
-<div class="cell" data-execution_count="7">
+<div class="cell styled-output" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Question Answering</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>llm   <span class="op">=</span> ChatOpenAI(model_name<span class="op">=</span>MODEL_NAME, temperature<span class="op">=</span><span class="dv">0</span>)</span>
@@ -453,7 +459,7 @@ Este projeto visa demonstrar a aplicação prática do ChatGPT em um contexto es
 <span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>model.fit()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Pergunta 1</p>
-<div class="cell" data-execution_count="10">
+<div class="cell styled-output" data-execution_count="10">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>model.query(<span class="st">"Qual a cidade deste candidato?"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>A cidade deste candidato é Altônia, localizada no estado do Paraná.
@@ -462,7 +468,7 @@ Este projeto visa demonstrar a aplicação prática do ChatGPT em um contexto es
 </div>
 </div>
 <p>Pergunta 2</p>
-<div class="cell" data-execution_count="11">
+<div class="cell styled-output" data-execution_count="11">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>model.query(<span class="st">"Qual o objetivo deste candidato?"</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>O objetivo deste candidato é contribuir com o desenvolvimento de processos e produtos através da construção de soluções baseadas em dados.
@@ -491,7 +497,7 @@ Este projeto visa demonstrar a aplicação prática do ChatGPT em um contexto es
 <span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>model.fit()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Pergunta 1</p>
-<div class="cell" data-execution_count="13">
+<div class="cell styled-output" data-execution_count="13">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>model.query(<span class="st">"Quais são os modelos de carros existentes nessa tabela?"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Os modelos de carros existentes na tabela são:
@@ -506,16 +512,14 @@ Este projeto visa demonstrar a aplicação prática do ChatGPT em um contexto es
 - Gol
 - Saveiro
 
-Espero que essa informação seja útil! Se precisar de mais alguma coisa, estou à disposição.
-
 </code></pre>
 </div>
 </div>
 <p>Pergunta 2</p>
-<div class="cell" data-execution_count="14">
+<div class="cell styled-output" data-execution_count="14">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>model.query(<span class="st">"Qual foi o modelo mais barato no ano de 2016?"</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>O modelo mais barato no ano de 2016 foi o Palio Fire, com um salário mínimo de R$ 28.790.
+<pre><code>O modelo mais barato no ano de 2016 foi o Palio Fire, com um preço de R$ 28.790.
 
 </code></pre>
 </div>

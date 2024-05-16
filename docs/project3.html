@@ -182,6 +182,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="menu-text">Projeto: Deploy de Uma Aplicação Web (Flask + Nginx + Docker + AWS)</span></a>
   </div>
 </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./project6.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Projeto: Análise de Dados com Spark - PySpark</span></a>
+  </div>
+</li>
     </ul>
     </div>
 </nav>
@@ -339,7 +345,7 @@ Diante da importância e relevância da busca por similaridade no contexto da NL
 <h2 class="anchored" data-anchor-id="similarity-search">Similarity Search</h2>
 <p>Efetuamos de fato a busca por similaridade.</p>
 <p><strong><em>Exemplo1</em></strong>: Vamos fazer a seguinte pergunta <strong><em>Onde o Pedro mora?</em></strong> e retornar qual segmento de texto contido no currículo possui maior simililaridade com essa pergunta.</p>
-<div class="cell" data-execution_count="7">
+<div class="cell styled-output" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co">#%% Similarity Search</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>query <span class="op">=</span> <span class="st">"Onde o Pedro mora?"</span></span>
@@ -361,7 +367,7 @@ pedrodubielabio@gmail.com</code></pre>
 </div>
 </div>
 <p><strong><em>Exemplo2</em></strong>: Vamos fazer a seguinte pergunta <strong><em>Quais as habildiades do Pedro?</em></strong> e retornar qual segmento de texto contido no currículo possui maior simililaridade com essa pergunta.</p>
-<div class="cell" data-execution_count="8">
+<div class="cell styled-output" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>query <span class="op">=</span> <span class="st">"Quais as habildiades do Pedro?"</span></span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>query_vector <span class="op">=</span> sentence_transformer_ef(query)</span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>res <span class="op">=</span> collection.query(</span>

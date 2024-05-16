@@ -1,1 +1,6 @@
 /* css styles */
+.styled-output .cell-output {
+  background-color: black;
+  color: white;
+  border-radius: 4px;
+}

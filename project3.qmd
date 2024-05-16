@@ -117,6 +117,7 @@ Efetuamos de fato a busca por similaridade.
 
 ***Exemplo1***:  Vamos fazer a seguinte pergunta ***Onde o Pedro mora?*** e retornar qual segmento de texto contido no currículo possui maior simililaridade com essa pergunta.
 ```{python}
+#| classes: styled-output
 #%% Similarity Search
 
 query = "Onde o Pedro mora?"
@@ -132,6 +133,7 @@ print(first)
 
 ***Exemplo2***:  Vamos fazer a seguinte pergunta ***Quais as habildiades do Pedro?*** e retornar qual segmento de texto contido no currículo possui maior simililaridade com essa pergunta.
 ```{python}
+#| classes: styled-output
 query = "Quais as habildiades do Pedro?"
 query_vector = sentence_transformer_ef(query)
 res = collection.query(

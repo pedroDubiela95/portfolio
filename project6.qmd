@@ -1,0 +1,327 @@
+---
+title: "Untitled"
+format: html
+---
+
+---
+title: "Projeto: Análise de Dados com Spark - PySpark"
+---
+
+# Introdução
+<p>
+O Spark e o PySpark são ferramentas de grande destaque no ecossistema de big data e análise de dados. 
+</p>
+
+
+<p>
+O Apache Spark é um mecanismo de processamento de dados em cluster que fornece uma plataforma unificada para processamento de dados distribuídos em larga escala. Ele é altamente eficiente, oferecendo suporte a diversas linguagens de programação, como Scala, Java, Python e SQL. 
+</p>
+
+<p>
+Já o PySpark é a interface Python para o Spark, permitindo aos desenvolvedores escreverem código em Python para acessar a funcionalidade do Spark. 
+</p>
+
+<p>
+A importância dessas ferramentas reside na capacidade de lidar com grandes volumes de dados de forma eficiente, possibilitando o processamento rápido e a análise de informações em tempo real. 
+</p>
+
+<p>
+O Spark e o PySpark são amplamente utilizados em uma variedade de aplicações, desde análise de dados, aprendizado de máquina, processamento de streaming até business intelligence, proporcionando escalabilidade e desempenho para projetos de análise de dados de grande porte.
+</p>
+
+<p>
+Este projeto tem como objetivo apresentar de maneira simples, porém funcional, como podemos realizar uma análise de dados utilizando o PySpark. Para isso, faremos uso dos dados de preços de combustíveis de janeiro a abril de 2024, os quais estão hospedados em <https://dados.gov.br/dados/conjuntos-dados/serie-historica-de-precos-de-combustiveis-e-de-glp?source=post_page-----4185005771e5>.
+</p>
+
+
+
+
+# Desenvolvimento
+
+## Setup e Carga dos Dados
+
+Importando todos os módulos necessários os quais já foram previamente instalados.
+```{python}
+# Setup
+from pyspark.sql import SparkSession
+from pyspark.sql import functions as F
+import os
+```
+
+Iniciando uma sessão local com todos os cores disponíveis.
+```{python}
+#| warning: false
+#| classes: styled-output
+# Session
+spark = ( 
+ SparkSession
+ .builder
+    .master("local[*]")
+ .appName('spark_dataframe_api')
+ .getOrCreate()
+)
+```
+
+Criando um dataframe Spark a partir dos arquivos csv contidos em "./source/project6/".
+```{python}
+#| warning: false
+#| classes: styled-output
+# Criando o dataframe spark
+df = (
+    spark
+    .read
+    .option('delimiter', ';')
+    .option('header', 'true')
+    .option('inferSchema', 'true') # Vamos deixar o spark inferir o schema
+    .option('enconding', 'ISO-8859-1')
+    .csv(["./source/project6/" + file for file in os.listdir("./source/project6/")])
+)
+
+# Schema criado
+df.printSchema()
+```
+
+
+## Preprocessamento dos dados
+
+Definindo as colunas que vamos manter no dataframe.
+```{python}
+#| warning: false
+#| classes: styled-output
+# Colunas que vamos manter
+keep_cols = [
+    'Regiao - Sigla',
+    'Estado - Sigla',
+    'Produto',
+    'Data da Coleta',
+    'Valor de Venda',
+    ]
+```
+
+Processando os dados.
+```{python}
+#| warning: false
+#| classes: styled-output
+# Preprocessamento
+df = (
+      df
+      
+      # Filtrando algumas colunas
+      .select(keep_cols) 
+      
+      # Substituindo , por . e alterando a tipagem para float
+      .withColumn(
+          "Valor de Venda",
+          F.regexp_replace(F.col("Valor de Venda"), ",", ".")
+          .cast("float")
+      )
+      
+      # String em data
+      .withColumn(
+          "Mes", F.to_timestamp('Data da Coleta', 'dd/MM/yyyy')
+      )
+      
+      # Pegando somente o mes
+      .withColumn(
+          "Mes", F.month('Mes')
+      )
+  )
+```
+
+
+## Análise Exploratória
+
+Avaliando se alguma coluna tem registros nulos.
+```{python}
+#| warning: false
+#| classes: styled-output
+# Quantidade de registros nulos em cada coluna --> Nenhum
+for colname in df.columns:
+    print(f"""Col: {colname} - Qtd Nulos: {df.where(F.col(colname).isNull() | F.isnan(colname)).count()}""")
+```
+
+
+Uma amostra do nosso dataframe após processamento.
+```{python}
+#| classes: styled-output
+df.show(5)
+```
+
+
+Valores distintos em Região.
+```{python}
+#| classes: styled-output
+df.select("Regiao - Sigla").distinct().show()
+```
+
+Valores distintos em Estado.
+```{python}
+#| classes: styled-output
+df.select("Estado - Sigla").distinct().show()
+```
+
+Valores distintos em Produto.
+```{python}
+#| classes: styled-output
+df.select("Produto").distinct().show()
+```
+
+Valores distintos em Mes.
+```{python}
+#| classes: styled-output
+df.select("Mes").distinct().show()
+```
+
+## Criando Novas Features
+
+Agrupando por região, estado e produto.
+```{python}
+#| warning: false
+#| classes: styled-output
+# Agregação
+df_all = (
+    df
+
+    # Agrupando por
+    .groupBy(
+        F.col("Regiao - Sigla"),
+        F.col("Estado - Sigla"),
+        F.col("Produto")
+    )
+
+    # Forma de agregação
+    .agg(
+
+        # Min
+        F.min("Valor de Venda").alias("min_vlr_venda"),
+        
+        # Média
+        F.mean("Valor de Venda").alias("media_vlr_venda"),
+
+        # Max
+        F.max("Valor de Venda").alias("max_vlr_venda")
+
+    )
+    .withColumn("variacao", F.col("max_vlr_venda") - F.col("min_vlr_venda"))
+    .withColumn("variacao", F.format_number("variacao", 2))
+    .withColumn("media_vlr_venda", F.format_number("media_vlr_venda", 2))
+
+    .orderBy(
+        "variacao", ascending = False
+    )
+)
+
+df_all.show()
+```
+
+
+Agrupando por região, estado, produto e mês.
+```{python}
+#| warning: false
+#| classes: styled-output
+# Agregação
+df_by_month = (
+    df
+
+    # Agrupando por
+    .groupBy(
+        F.col("Regiao - Sigla"),
+        F.col("Estado - Sigla"),
+        F.col("Produto"),
+        F.col("Mes")
+    )
+
+    # Forma de agregação
+    .agg(
+
+        # Min
+        F.min("Valor de Venda").alias("min_vlr_venda"),
+        
+        # Média
+        F.mean("Valor de Venda").alias("media_vlr_venda"),
+
+        # Max
+        F.max("Valor de Venda").alias("max_vlr_venda")
+
+    )
+    .withColumn("variacao", F.col("max_vlr_venda") - F.col("min_vlr_venda"))
+    .withColumn("variacao", F.format_number("variacao", 2))
+    .withColumn("media_vlr_venda", F.format_number("media_vlr_venda", 2))
+
+    .orderBy(
+        "variacao", ascending = False
+    )
+)
+
+df_by_month.show()
+```
+
+## Respondendo Algumas Questões
+
+Qual a região com maior preço por lito de Gasolina ?
+```{python}
+#| warning: false
+#| classes: styled-output
+# Filtrando pela gasolina
+df_gasolina = df_all.filter((F.col("Produto") ==  "GASOLINA"))
+
+# Obtendo o valor máximo
+max_value   = df_gasolina.selectExpr("max(media_vlr_venda)").collect()[0][0]
+
+# Obtendo a região associada ao valor máximo do litro de gasolina
+df_gasolina.filter(F.col("media_vlr_venda") == max_value).select("Regiao - Sigla").show()
+```
+
+Qual o estado com maior preço por lito de Gasolina Aditivada ?
+```{python}
+#| warning: false
+#| classes: styled-output
+# Filtrando pela gasolina aditivada
+df_gasolina_ad = df_all.filter((F.col("Produto") ==  "GASOLINA ADITIVADA"))
+
+# Obtendo o valor máximo
+max_value   = df_gasolina_ad.selectExpr("max(media_vlr_venda)").collect()[0][0]
+
+# Obtendo o estado associado ao valor máximo do litro de gasolina aditivada
+df_gasolina_ad.filter(F.col("media_vlr_venda") == max_value).select("Estado - Sigla").show()
+```
+
+Qual o produto com maior variação de preço em SP ?
+```{python}
+#| warning: false
+#| classes: styled-output
+# Filtrando pelo estado de SP
+df_SP = df_all.filter((F.col("Estado - Sigla") ==  "SP"))
+
+# Obtendo o valor máximo
+max_value = df_SP.selectExpr("max(variacao)").collect()[0][0]
+
+# Obtendo o produto associado à varição máxima
+df_SP.filter(F.col("variacao") == max_value).select("Produto").show()
+```
+
+Em qual mês o etanol no PR obteve sua maior alta ?
+```{python}
+#| warning: false
+#| classes: styled-output
+# Filtrando pelo etanol no PR
+df_etanol_PR = df_by_month.filter(
+    (F.col("Produto") ==  "ETANOL") &
+    (F.col("ESTADO - Sigla") ==  "PR") 
+    )
+
+# Obtendo o valor máximo
+max_value   = df_etanol_PR.selectExpr("max(media_vlr_venda)").collect()[0][0]
+
+# Obtendo a região associada ao valor máximo do litro de etanol
+df_etanol_PR.filter(F.col("media_vlr_venda") == max_value).select("Mes").show()
+```
+
+# Conclusão
+<p>
+Com base no que observamos, torna-se evidente a poderosa natureza do PySpark, destacando-se como uma ferramenta relativamente acessível de operar, com várias semelhanças com o dataframe do Pandas. 
+</p>
+
+<p>
+É importante ressaltar que seu uso prático geralmente ocorre em ambientes distribuídos, no entanto, para fins didáticos, demonstramos sua execução no modo standalone.
+</p>
