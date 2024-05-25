@@ -44,6 +44,7 @@ website:
       - project4.qmd
       - project5.qmd
       - project6.qmd
+      - project7.qmd
       
   - title: "fix side"
     contents:
@@ -51,6 +52,8 @@ website:
       
 format:
   html:
+    grid: 
+      sidebar-width: 350px
     html-math-method: katex
     theme:
       - cosmo

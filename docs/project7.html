@@ -1,0 +1,1490 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.433">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Pedro Gasparine Dubiela - Naive Bayes em Python e C++</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="nav-sidebar docked nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">Pedro Gasparine Dubiela</span>
+    </a>
+  </div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="./index.html" rel="" target="">
+ <span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link active" href="./projects.html" rel="" target="" aria-current="page">
+ <span class="menu-text">Projetos</span></a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/pedroDubiela95" rel="" target=""><i class="bi bi-github" role="img">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://www.linkedin.com/in/pedro-gasparine-dubiela-478430147/" rel="" target=""><i class="bi bi-linkedin" role="img">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+</ul>
+            <div class="quarto-navbar-tools">
+</div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./project7.html">Naive Bayes em Python e C++</a></li></ol></nav>
+      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+      </a>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation docked overflow-auto">
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./projects.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Projetos</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./project1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Projeto: Aplicação de LLM - ChatGPT em Contexto Específico</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./project2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Projeto: Previsão de Rotatividade de Clientes Bancários</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./project3.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Projeto: Similarity Search no contexto de Processamento de Linguagem Natural (NLP)</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./project4.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Projeto: Web Scraping - Coletando Informações de Imóveis (Viva Real)</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./project5.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Projeto: Deploy de Uma Aplicação Web (Flask + Nginx + Docker + AWS)</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./project6.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Projeto: Análise de Dados com Spark - PySpark</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./project7.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Naive Bayes em Python e C++</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#introdução" id="toc-introdução" class="nav-link active" data-scroll-target="#introdução">Introdução</a></li>
+  <li><a href="#python" id="toc-python" class="nav-link" data-scroll-target="#python">Python</a>
+  <ul class="collapse">
+  <li><a href="#importando-todos-os-módulos-necessários" id="toc-importando-todos-os-módulos-necessários" class="nav-link" data-scroll-target="#importando-todos-os-módulos-necessários">Importando todos os módulos necessários</a></li>
+  <li><a href="#lendo-os-dados-a-partir-de-um-arquivo-csv" id="toc-lendo-os-dados-a-partir-de-um-arquivo-csv" class="nav-link" data-scroll-target="#lendo-os-dados-a-partir-de-um-arquivo-csv">Lendo os dados a partir de um arquivo csv</a></li>
+  <li><a href="#preprocessamento-dos-dados" id="toc-preprocessamento-dos-dados" class="nav-link" data-scroll-target="#preprocessamento-dos-dados">Preprocessamento dos dados</a></li>
+  <li><a href="#divisão-em-treino-e-teste" id="toc-divisão-em-treino-e-teste" class="nav-link" data-scroll-target="#divisão-em-treino-e-teste">Divisão em treino e teste</a></li>
+  <li><a href="#criação-do-modelo" id="toc-criação-do-modelo" class="nav-link" data-scroll-target="#criação-do-modelo">Criação do modelo</a></li>
+  <li><a href="#aplicação-nos-dados-de-teste" id="toc-aplicação-nos-dados-de-teste" class="nav-link" data-scroll-target="#aplicação-nos-dados-de-teste">Aplicação nos dados de teste</a></li>
+  <li><a href="#avaliação-do-modelo-nos-dados-de-teste" id="toc-avaliação-do-modelo-nos-dados-de-teste" class="nav-link" data-scroll-target="#avaliação-do-modelo-nos-dados-de-teste">Avaliação do modelo nos dados de teste</a></li>
+  </ul></li>
+  <li><a href="#c" id="toc-c" class="nav-link" data-scroll-target="#c">C++</a>
+  <ul class="collapse">
+  <li><a href="#libs-e-namespace" id="toc-libs-e-namespace" class="nav-link" data-scroll-target="#libs-e-namespace">Libs e Namespace</a></li>
+  <li><a href="#constantes-e-estruturas-de-dados" id="toc-constantes-e-estruturas-de-dados" class="nav-link" data-scroll-target="#constantes-e-estruturas-de-dados">Constantes e Estruturas de dados</a></li>
+  <li><a href="#prototipação-das-funções-criadas" id="toc-prototipação-das-funções-criadas" class="nav-link" data-scroll-target="#prototipação-das-funções-criadas">Prototipação das funções criadas</a></li>
+  <li><a href="#main" id="toc-main" class="nav-link" data-scroll-target="#main">Main</a></li>
+  <li><a href="#funções" id="toc-funções" class="nav-link" data-scroll-target="#funções">Funções</a>
+  <ul class="collapse">
+  <li><a href="#read_file" id="toc-read_file" class="nav-link" data-scroll-target="#read_file">read_file</a></li>
+  <li><a href="#create_dataframe" id="toc-create_dataframe" class="nav-link" data-scroll-target="#create_dataframe">create_DataFrame</a></li>
+  <li><a href="#print_dataframe" id="toc-print_dataframe" class="nav-link" data-scroll-target="#print_dataframe">print_DataFrame</a></li>
+  <li><a href="#slice" id="toc-slice" class="nav-link" data-scroll-target="#slice">slice</a></li>
+  <li><a href="#get_distribution_certificado_valido" id="toc-get_distribution_certificado_valido" class="nav-link" data-scroll-target="#get_distribution_certificado_valido">get_distribution_certificado_valido</a></li>
+  <li><a href="#get_distribution_tipo_doc" id="toc-get_distribution_tipo_doc" class="nav-link" data-scroll-target="#get_distribution_tipo_doc">get_distribution_tipo_doc</a></li>
+  <li><a href="#calc_mean" id="toc-calc_mean" class="nav-link" data-scroll-target="#calc_mean">calc_mean</a></li>
+  <li><a href="#calc_std" id="toc-calc_std" class="nav-link" data-scroll-target="#calc_std">calc_std</a></li>
+  <li><a href="#fit" id="toc-fit" class="nav-link" data-scroll-target="#fit">fit</a></li>
+  <li><a href="#likelihood_certificado_valido" id="toc-likelihood_certificado_valido" class="nav-link" data-scroll-target="#likelihood_certificado_valido">likelihood_certificado_valido</a></li>
+  <li><a href="#likelihood_tipo_doc" id="toc-likelihood_tipo_doc" class="nav-link" data-scroll-target="#likelihood_tipo_doc">likelihood_tipo_doc</a></li>
+  <li><a href="#likelihood_uso_dias" id="toc-likelihood_uso_dias" class="nav-link" data-scroll-target="#likelihood_uso_dias">likelihood_uso_dias</a></li>
+  <li><a href="#priori" id="toc-priori" class="nav-link" data-scroll-target="#priori">priori</a></li>
+  <li><a href="#apply_model" id="toc-apply_model" class="nav-link" data-scroll-target="#apply_model">apply_model</a></li>
+  <li><a href="#evaluate" id="toc-evaluate" class="nav-link" data-scroll-target="#evaluate">evaluate</a></li>
+  </ul></li>
+  <li><a href="#output" id="toc-output" class="nav-link" data-scroll-target="#output">Output</a></li>
+  </ul></li>
+  <li><a href="#conclusão" id="toc-conclusão" class="nav-link" data-scroll-target="#conclusão">Conclusão</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Naive Bayes em Python e C++</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<section id="introdução" class="level1">
+<h1>Introdução</h1>
+<p>
+O objetivo deste projeto é demonstrar a aplicação do algoritmo Naive Bayes sem o uso de pacotes, ou seja, implementando-o manualmente. Realizaremos isso tanto em Python quanto em C++.
+</p>
+<p>
+</p><p>Aplicaremos o algoritmo Naive Bayes para resolver um problema de classificação binária, sendo que a nossa base de dados contém 1046 registros e é composta pelas seguintes variáveis:</p>
+<ul>
+<li>tipo_doc: O tipo do documento.
+<ul>
+<li>variável discreta que pode assumir somente os seguintes valores -&gt; 1,2 ou 3.</li>
+</ul></li>
+<li>uso_dias: Tempo de uso do documento em dias.
+<ul>
+<li>variável contínua.</li>
+</ul></li>
+<li>certificado_valido: Se o certificado é válido ou não.
+<ul>
+<li>variável discreta que pode assumir somente os seguintes valores -&gt; 0 ou 1.</li>
+</ul></li>
+<li>classe: Se o documento tem assinatura digital ou não (variável alvo).
+<ul>
+<li>variável binária que podese assumir os seguintes valores -&gt; 1: tem | 0: não tem.</li>
+</ul></li>
+</ul>
+Neste projeto nosso trabalho é construir um modelo de Machine Learning capaz de classificar um documento como tendo ou não assinatura digital com base em algumas características do documento.
+<p></p>
+</section>
+<section id="python" class="level1">
+<h1>Python</h1>
+<section id="importando-todos-os-módulos-necessários" class="level2">
+<h2 class="anchored" data-anchor-id="importando-todos-os-módulos-necessários">Importando todos os módulos necessários</h2>
+<div class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Setup</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.metrics <span class="im">import</span> confusion_matrix</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> typing          <span class="im">import</span> Tuple</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas      <span class="im">as</span> pd</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy       <span class="im">as</span> np</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> scipy.stats <span class="im">as</span> st</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="lendo-os-dados-a-partir-de-um-arquivo-csv" class="level2">
+<h2 class="anchored" data-anchor-id="lendo-os-dados-a-partir-de-um-arquivo-csv">Lendo os dados a partir de um arquivo csv</h2>
+<div class="cell styled-output" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_csv(<span class="st">"source/project7/dataset.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="preprocessamento-dos-dados" class="level2">
+<h2 class="anchored" data-anchor-id="preprocessamento-dos-dados">Preprocessamento dos dados</h2>
+<div class="cell styled-output" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Adicionando um nome à primeira coluna.</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>df.rename(columns <span class="op">=</span> {<span class="st">"Unnamed: 0"</span> : <span class="st">"id"</span>}, inplace <span class="op">=</span> <span class="va">True</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="divisão-em-treino-e-teste" class="level2">
+<h2 class="anchored" data-anchor-id="divisão-em-treino-e-teste">Divisão em treino e teste</h2>
+<div class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Definido o índice que vai separar o dataset em treino e teste</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>starTest <span class="op">=</span> <span class="dv">900</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Dividindo os dados</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>df_train <span class="op">=</span> df.loc[<span class="dv">0</span>: starTest <span class="op">-</span> <span class="dv">1</span>,]</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>df_test  <span class="op">=</span> df.loc[starTest:,]</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>y_train <span class="op">=</span> df_train.pop(<span class="st">"classe"</span>)</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>X_train <span class="op">=</span> df_train.drop(<span class="st">"id"</span>, axis <span class="op">=</span> <span class="dv">1</span>)</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>y_test <span class="op">=</span> df_test.pop(<span class="st">"classe"</span>)</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>X_test <span class="op">=</span> df_test.drop(<span class="st">"id"</span>, axis <span class="op">=</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="criação-do-modelo" class="level2">
+<h2 class="anchored" data-anchor-id="criação-do-modelo">Criação do modelo</h2>
+<div class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># P(y|X)     = P(x1|y) * P(x2|y) * ... P(xn |y) * P(y)   / [P(x1) * P(x2) *... P(xn)]</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="co"># posteriori = verossimilhança                  * priori / marginal</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Features discretas</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="co"># --&gt; tipo_doc</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="co"># --&gt; certificado_valido</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>discrete_vars   <span class="op">=</span> [<span class="st">"tipo_doc"</span>, <span class="st">"certificado_valido"</span>]</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>discrete_probability_distribution <span class="op">=</span> {}</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>[</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a> discrete_probability_distribution</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a> .update({</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>     var: pd.crosstab(y_train, X_train[var], normalize<span class="op">=</span><span class="st">"index"</span>)</span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a> })</span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a> <span class="cf">for</span> var <span class="kw">in</span> discrete_vars</span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> discrete_likelihood(x : <span class="bu">int</span>, tab : pd.DataFrame) <span class="op">-&gt;</span> Tuple[<span class="bu">float</span>, <span class="bu">float</span>]:</span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> tab.loc[<span class="dv">0</span>, x], tab.loc[<span class="dv">1</span>, x]</span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a><span class="co"># Feature contínua</span></span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a><span class="co"># --&gt; uso_dias</span></span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> continuous_likelihood(x : <span class="bu">int</span>, X : pd.DataFrame, y : pd.Series) <span class="op">-&gt;</span> Tuple[<span class="bu">float</span>, <span class="bu">float</span>]:</span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a>    mean_0 <span class="op">=</span> X.loc[y <span class="op">==</span> <span class="dv">0</span>,].mean()</span>
+<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a>    std_0  <span class="op">=</span> X.loc[y <span class="op">==</span> <span class="dv">0</span>,].std(ddof <span class="op">=</span> <span class="dv">1</span>)</span>
+<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a>    pdf_0  <span class="op">=</span> st.norm.pdf(x <span class="op">=</span> x, loc <span class="op">=</span> mean_0, scale <span class="op">=</span> std_0)</span>
+<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a>    mean_1 <span class="op">=</span> X.loc[y <span class="op">==</span> <span class="dv">1</span>,].mean()</span>
+<span id="cb5-31"><a href="#cb5-31" aria-hidden="true" tabindex="-1"></a>    std_1  <span class="op">=</span> X.loc[y <span class="op">==</span> <span class="dv">1</span>,].std(ddof <span class="op">=</span> <span class="dv">1</span>)</span>
+<span id="cb5-32"><a href="#cb5-32" aria-hidden="true" tabindex="-1"></a>    pdf_1  <span class="op">=</span> st.norm.pdf(x <span class="op">=</span> x, loc <span class="op">=</span> mean_1, scale <span class="op">=</span> std_1)</span>
+<span id="cb5-33"><a href="#cb5-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-34"><a href="#cb5-34" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> pdf_0, pdf_1 </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="aplicação-nos-dados-de-teste" class="level2">
+<h2 class="anchored" data-anchor-id="aplicação-nos-dados-de-teste">Aplicação nos dados de teste</h2>
+<div class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> <span class="bu">apply</span>(x:<span class="bu">dict</span>) <span class="op">-&gt;</span> <span class="bu">int</span>:</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    p_tipo_doc_y_0, p_tipo_doc_y_1 <span class="op">=</span> discrete_likelihood(</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>        x[<span class="st">"tipo_doc"</span>], </span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>        discrete_probability_distribution[<span class="st">"tipo_doc"</span>]</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>    p_certificado_valido_y_0, p_certificado_valido_y_1 <span class="op">=</span> discrete_likelihood(</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>        x[<span class="st">"certificado_valido"</span>], </span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>        discrete_probability_distribution[<span class="st">"certificado_valido"</span>]</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>    p_uso_dias_y_0, p_uso_dias_y_1 <span class="op">=</span> continuous_likelihood(</span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>        x[<span class="st">"uso_dias"</span>],</span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>        X_train[<span class="st">"uso_dias"</span>],</span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>        y_train</span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>    priori_0 <span class="op">=</span> (y_train <span class="op">==</span> <span class="dv">0</span>).<span class="bu">sum</span>()<span class="op">/</span>y_train.shape[<span class="dv">0</span>]</span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>    priori_1 <span class="op">=</span> (y_train <span class="op">==</span> <span class="dv">1</span>).<span class="bu">sum</span>()<span class="op">/</span>y_train.shape[<span class="dv">0</span>]</span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a>    likelihood_0 <span class="op">=</span> p_tipo_doc_y_0 <span class="op">*</span> p_certificado_valido_y_0 <span class="op">*</span> p_uso_dias_y_0</span>
+<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a>    likelihood_1 <span class="op">=</span> p_tipo_doc_y_1 <span class="op">*</span> p_certificado_valido_y_1 <span class="op">*</span> p_uso_dias_y_1</span>
+<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a>    posterior_0 <span class="op">=</span> likelihood_0 <span class="op">*</span> priori_0</span>
+<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a>    posterior_1 <span class="op">=</span> likelihood_1 <span class="op">*</span> priori_1</span>
+<span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> np.argmax(np.array([posterior_0, posterior_1]))   </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>y_pred_train <span class="op">=</span> []</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> x <span class="kw">in</span> X_train.to_dict(orient <span class="op">=</span> <span class="st">"records"</span>):</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    y_pred_train.append(<span class="bu">apply</span>(x))</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>y_pred_test <span class="op">=</span> []</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> x <span class="kw">in</span> X_test.to_dict(orient <span class="op">=</span> <span class="st">"records"</span>):</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>    y_pred_test.append(<span class="bu">apply</span>(x))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="avaliação-do-modelo-nos-dados-de-teste" class="level2">
+<h2 class="anchored" data-anchor-id="avaliação-do-modelo-nos-dados-de-teste">Avaliação do modelo nos dados de teste</h2>
+<div class="cell" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Matriz de confusão</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>cm  <span class="op">=</span> confusion_matrix(y_test, y_pred_test)</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Acurácia</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> acc(cm : np.ndarray) <span class="op">-&gt;</span> <span class="bu">float</span>:</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>    TN <span class="op">=</span> cm[<span class="dv">0</span>,<span class="dv">0</span>]</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>    FP <span class="op">=</span> cm[<span class="dv">0</span>,<span class="dv">1</span>]</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>    FN <span class="op">=</span> cm[<span class="dv">1</span>,<span class="dv">0</span>]</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>    TP <span class="op">=</span> cm[<span class="dv">1</span>,<span class="dv">1</span>]</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>    acc_val <span class="op">=</span> (TN <span class="op">+</span> TP)<span class="op">/</span>(TN <span class="op">+</span> FP <span class="op">+</span> FN <span class="op">+</span> TP)</span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> acc_val</span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Sensibilidade</span></span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> sens(cm : np.ndarray) <span class="op">-&gt;</span> <span class="bu">float</span>:</span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>    FN <span class="op">=</span> cm[<span class="dv">1</span>,<span class="dv">0</span>]</span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>    TP <span class="op">=</span> cm[<span class="dv">1</span>,<span class="dv">1</span>]</span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a>    sens_val <span class="op">=</span> TP<span class="op">/</span>(TP <span class="op">+</span> FN)</span>
+<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> sens_val</span>
+<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a><span class="co"># Especificidade</span></span>
+<span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> spec(cm : np.ndarray) <span class="op">-&gt;</span> <span class="bu">float</span>:</span>
+<span id="cb8-25"><a href="#cb8-25" aria-hidden="true" tabindex="-1"></a>    TN <span class="op">=</span> cm[<span class="dv">0</span>,<span class="dv">0</span>]</span>
+<span id="cb8-26"><a href="#cb8-26" aria-hidden="true" tabindex="-1"></a>    FP <span class="op">=</span> cm[<span class="dv">0</span>,<span class="dv">1</span>]</span>
+<span id="cb8-27"><a href="#cb8-27" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb8-28"><a href="#cb8-28" aria-hidden="true" tabindex="-1"></a>    spec_val <span class="op">=</span> TN<span class="op">/</span>(TN <span class="op">+</span> FP)</span>
+<span id="cb8-29"><a href="#cb8-29" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> spec_val</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell styled-output" data-execution_count="9">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Acurácia: </span><span class="sc">{</span>acc(cm)<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Sensibilidade </span><span class="sc">{</span>sens(cm)<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Especificidade </span><span class="sc">{</span>spec(cm)<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Acurácia: 0.7602739726027398
+Sensibilidade 0.6268656716417911
+Especificidade 0.8734177215189873</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="c" class="level1">
+<h1>C++</h1>
+<section id="libs-e-namespace" class="level2">
+<h2 class="anchored" data-anchor-id="libs-e-namespace">Libs e Namespace</h2>
+<div class="sourceCode" id="cb11"><pre class="sourceCode cpp code-with-copy"><code class="sourceCode cpp"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="co">// Supressao de warnings</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="pp">#pragma GCC diagnostic push                                             </span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="pp">#pragma GCC diagnostic ignored "-Wsign-compare"</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a><span class="co">// Libs</span></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span><span class="pp">  </span><span class="co">// Entrada/Saída de dados</span></span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;fstream&gt;</span><span class="pp">   </span><span class="co">// Manipulação de arquivos</span></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;vector&gt;</span><span class="pp">    </span><span class="co">// Vetores</span></span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;string&gt;</span><span class="pp">    </span><span class="co">// trabalhar com strings</span></span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;numeric&gt;</span><span class="pp">   </span><span class="co">// trabalhar com numeros</span></span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;algorithm&gt;</span><span class="pp"> </span><span class="co">// Preprocessamento de dados</span></span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;cmath&gt;</span><span class="pp">     </span><span class="co">// matemática</span></span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;math.h&gt;</span><span class="pp">    </span><span class="co">// matematica</span></span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a><span class="co">// Namespace</span></span>
+<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="constantes-e-estruturas-de-dados" class="level2">
+<h2 class="anchored" data-anchor-id="constantes-e-estruturas-de-dados">Constantes e Estruturas de dados</h2>
+<div class="sourceCode" id="cb12"><pre class="sourceCode cpp code-with-copy"><code class="sourceCode cpp"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Ìndice de início dos dados de teste</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="at">const</span> <span class="dt">int</span> starTest <span class="op">=</span> <span class="dv">900</span><span class="op">;</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="co">// Struct</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="kw">struct</span> DataFrame <span class="op">{</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>    vector<span class="op">&lt;</span>string<span class="op">&gt;</span> cols<span class="op">;</span></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>    vector<span class="op">&lt;</span>vector<span class="op">&lt;</span><span class="dt">double</span><span class="op">&gt;&gt;</span> data<span class="op">;</span></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>    DataFrame<span class="op">(</span><span class="dt">int</span> nrow<span class="op">,</span> <span class="dt">int</span> ncols<span class="op">):</span></span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>        cols<span class="op">(</span>ncols<span class="op">,</span> <span class="st">"NA"</span><span class="op">),</span></span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>        data<span class="op">(</span>nrow<span class="op">,</span> vector<span class="op">&lt;</span><span class="dt">double</span><span class="op">&gt;</span> <span class="op">(</span>ncols<span class="op">,</span> <span class="dv">0</span><span class="op">))</span> <span class="op">{}</span></span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a><span class="op">};</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="prototipação-das-funções-criadas" class="level2">
+<h2 class="anchored" data-anchor-id="prototipação-das-funções-criadas">Prototipação das funções criadas</h2>
+<div class="sourceCode" id="cb13"><pre class="sourceCode cpp code-with-copy"><code class="sourceCode cpp"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Leitura do arquivo .csv</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>ifstream read_file<span class="op">(</span>string file_path<span class="op">);</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="co">// Instancia um objeto do tipo DataFrame</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>DataFrame create_DataFrame<span class="op">(</span>vector<span class="op">&lt;</span>string<span class="op">&gt;</span> cols<span class="op">,</span> vector<span class="op">&lt;</span>vector<span class="op">&lt;</span><span class="dt">double</span><span class="op">&gt;&gt;</span> data<span class="op">);</span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a><span class="co">// Printa um dataframe</span></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> print_DataFrame<span class="op">(</span>DataFrame df<span class="op">,</span> <span class="dt">int</span> n<span class="op">,</span> string where <span class="op">=</span> <span class="st">"top"</span><span class="op">);</span></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a><span class="co">// Reliza o slice em vetorores 1D</span></span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>vector<span class="op">&lt;</span><span class="dt">double</span><span class="op">&gt;</span> slice<span class="op">(</span>vector<span class="op">&lt;</span><span class="dt">double</span><span class="op">&gt;</span> v<span class="op">,</span> <span class="dt">int</span> start<span class="op">,</span> <span class="dt">int</span> end<span class="op">);</span></span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a><span class="co">// Calcula uma tabela de frequências para a feature certificado_valido</span></span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>vector<span class="op">&lt;</span>vector<span class="op">&lt;</span><span class="dt">double</span><span class="op">&gt;&gt;</span> get_distribution_certificado_valido<span class="op">(</span>DataFrame df<span class="op">,</span> vector<span class="op">&lt;</span>vector<span class="op">&lt;</span><span class="dt">double</span><span class="op">&gt;&gt;</span> tab<span class="op">);</span></span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a><span class="co">// Calcula uma tabela de frequências para a feature tipo_doc</span></span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>vector<span class="op">&lt;</span>vector<span class="op">&lt;</span><span class="dt">double</span><span class="op">&gt;&gt;</span> get_distribution_tipo_doc<span class="op">(</span>DataFrame df<span class="op">,</span> vector<span class="op">&lt;</span>vector<span class="op">&lt;</span><span class="dt">double</span><span class="op">&gt;&gt;</span> tab<span class="op">);</span></span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a><span class="co">// Calcula a média para a váriável target classe quando y = 0 e quando y = 1</span></span>
+<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a>vector<span class="op">&lt;</span><span class="dt">double</span><span class="op">&gt;</span>  calc_mean<span class="op">(</span>DataFrame df<span class="op">);</span></span>
+<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a><span class="co">// Calcula o desvio padrão para a váriável target classe quando y = 0 e quando y = 1</span></span>
+<span id="cb13-23"><a href="#cb13-23" aria-hidden="true" tabindex="-1"></a>vector<span class="op">&lt;</span><span class="dt">double</span><span class="op">&gt;</span> calc_std<span class="op">(</span>DataFrame df<span class="op">,</span> vector<span class="op">&lt;</span><span class="dt">double</span><span class="op">&gt;</span> mean<span class="op">);</span></span>
+<span id="cb13-24"><a href="#cb13-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-25"><a href="#cb13-25" aria-hidden="true" tabindex="-1"></a><span class="co">// Encapsula a execução das funções </span></span>
+<span id="cb13-26"><a href="#cb13-26" aria-hidden="true" tabindex="-1"></a><span class="co">// --&gt; get_distribution_certificado_valido</span></span>
+<span id="cb13-27"><a href="#cb13-27" aria-hidden="true" tabindex="-1"></a><span class="co">// --&gt; get_distribution_tipo_doc</span></span>
+<span id="cb13-28"><a href="#cb13-28" aria-hidden="true" tabindex="-1"></a><span class="co">// --&gt; calc_mean</span></span>
+<span id="cb13-29"><a href="#cb13-29" aria-hidden="true" tabindex="-1"></a><span class="co">// --&gt; calc_std</span></span>
+<span id="cb13-30"><a href="#cb13-30" aria-hidden="true" tabindex="-1"></a><span class="co">// Gerando um vetor de vetores do tipo double que representa o modelo treinado</span></span>
+<span id="cb13-31"><a href="#cb13-31" aria-hidden="true" tabindex="-1"></a>vector<span class="op">&lt;</span>vector<span class="op">&lt;</span>vector<span class="op">&lt;</span><span class="dt">double</span><span class="op">&gt;&gt;&gt;</span> fit<span class="op">(</span>DataFrame df<span class="op">);</span></span>
+<span id="cb13-32"><a href="#cb13-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-33"><a href="#cb13-33" aria-hidden="true" tabindex="-1"></a><span class="co">// Calcula as verossimilhanças P(certificado_valido = x | classe = y)</span></span>
+<span id="cb13-34"><a href="#cb13-34" aria-hidden="true" tabindex="-1"></a><span class="dt">double</span> likelihood_certificado_valido<span class="op">(</span>vector<span class="op">&lt;</span>vector<span class="op">&lt;</span>vector<span class="op">&lt;</span><span class="dt">double</span><span class="op">&gt;&gt;&gt;</span> probs<span class="op">,</span> <span class="dt">int</span> y<span class="op">,</span> <span class="dt">double</span> val_x<span class="op">);</span></span>
+<span id="cb13-35"><a href="#cb13-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-36"><a href="#cb13-36" aria-hidden="true" tabindex="-1"></a><span class="co">// Calcula as verossimilhanças P(tipo_doc = x | classe = y)</span></span>
+<span id="cb13-37"><a href="#cb13-37" aria-hidden="true" tabindex="-1"></a><span class="dt">double</span> likelihood_tipo_doc<span class="op">(</span>vector<span class="op">&lt;</span>vector<span class="op">&lt;</span>vector<span class="op">&lt;</span><span class="dt">double</span><span class="op">&gt;&gt;&gt;</span> probs<span class="op">,</span> <span class="dt">int</span> y<span class="op">,</span> <span class="dt">double</span> val_x<span class="op">);</span></span>
+<span id="cb13-38"><a href="#cb13-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-39"><a href="#cb13-39" aria-hidden="true" tabindex="-1"></a><span class="co">// Calcula as verossimilhanças P(uso_dias = x | classe = y)</span></span>
+<span id="cb13-40"><a href="#cb13-40" aria-hidden="true" tabindex="-1"></a><span class="dt">double</span> likelihood_uso_dias<span class="op">(</span>vector<span class="op">&lt;</span>vector<span class="op">&lt;</span>vector<span class="op">&lt;</span><span class="dt">double</span><span class="op">&gt;&gt;&gt;</span> probs<span class="op">,</span> <span class="dt">int</span> y<span class="op">,</span> <span class="dt">double</span> val_x<span class="op">);</span></span>
+<span id="cb13-41"><a href="#cb13-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-42"><a href="#cb13-42" aria-hidden="true" tabindex="-1"></a><span class="co">// Calcula as probabilidades à priori P(classe = 0) e P(classe = 1) </span></span>
+<span id="cb13-43"><a href="#cb13-43" aria-hidden="true" tabindex="-1"></a>vector<span class="op">&lt;</span><span class="dt">double</span><span class="op">&gt;</span> priori<span class="op">(</span>DataFrame df<span class="op">);</span></span>
+<span id="cb13-44"><a href="#cb13-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-45"><a href="#cb13-45" aria-hidden="true" tabindex="-1"></a><span class="co">// Aplica o modelo na base de testes</span></span>
+<span id="cb13-46"><a href="#cb13-46" aria-hidden="true" tabindex="-1"></a>vector<span class="op">&lt;</span><span class="dt">double</span><span class="op">&gt;</span> apply_model<span class="op">(</span>DataFrame df_test<span class="op">,</span> DataFrame df_train<span class="op">,</span> vector<span class="op">&lt;</span>vector<span class="op">&lt;</span>vector<span class="op">&lt;</span><span class="dt">double</span><span class="op">&gt;&gt;&gt;</span> probs<span class="op">);</span></span>
+<span id="cb13-47"><a href="#cb13-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-48"><a href="#cb13-48" aria-hidden="true" tabindex="-1"></a><span class="co">// Avalia a performance do modelo obtido</span></span>
+<span id="cb13-49"><a href="#cb13-49" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> evaluate<span class="op">(</span>vector<span class="op">&lt;</span><span class="dt">double</span><span class="op">&gt;</span> y_true<span class="op">,</span> vector<span class="op">&lt;</span><span class="dt">double</span><span class="op">&gt;</span> y_pred<span class="op">);</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="main" class="level2">
+<h2 class="anchored" data-anchor-id="main">Main</h2>
+<div class="sourceCode" id="cb14"><pre class="sourceCode cpp code-with-copy"><code class="sourceCode cpp"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>    cout <span class="op">&lt;&lt;</span> endl <span class="op">&lt;&lt;</span><span class="st">"#################### Naive Bayes #########################"</span> <span class="op">&lt;&lt;</span> endl <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>    <span class="co">//------------------------------Leitura da base de dados------------------------------------</span></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>    ifstream inputFile<span class="op">;</span></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>    inputFile <span class="op">=</span> read_file<span class="op">(</span><span class="st">"source/project7/dataset.csv"</span><span class="op">);</span></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>    <span class="co">//-------------------------------Declaração das Vars ---------------------------------------</span></span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Variáveis escalares do tipo double para tratar os valores de cada coluna</span></span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>    <span class="dt">double</span> idVal<span class="op">;</span></span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>    <span class="dt">double</span> tipo_docVal<span class="op">;</span></span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>    <span class="dt">double</span> classeVal<span class="op">;</span></span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a>    <span class="dt">double</span> certificado_validoVal<span class="op">;</span></span>
+<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a>    <span class="dt">double</span> uso_diasVal<span class="op">;</span></span>
+<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Variáveis do tipo vetor para todos os elementos de cada coluna do dataset</span></span>
+<span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a>    vector<span class="op">&lt;</span><span class="dt">double</span><span class="op">&gt;</span> id<span class="op">;</span></span>
+<span id="cb14-19"><a href="#cb14-19" aria-hidden="true" tabindex="-1"></a>    vector<span class="op">&lt;</span><span class="dt">double</span><span class="op">&gt;</span> tipo_doc<span class="op">;</span>            </span>
+<span id="cb14-20"><a href="#cb14-20" aria-hidden="true" tabindex="-1"></a>    vector<span class="op">&lt;</span><span class="dt">double</span><span class="op">&gt;</span> classe<span class="op">;</span>      </span>
+<span id="cb14-21"><a href="#cb14-21" aria-hidden="true" tabindex="-1"></a>    vector<span class="op">&lt;</span><span class="dt">double</span><span class="op">&gt;</span> certificado_valido<span class="op">;</span>      </span>
+<span id="cb14-22"><a href="#cb14-22" aria-hidden="true" tabindex="-1"></a>    vector<span class="op">&lt;</span><span class="dt">double</span><span class="op">&gt;</span> uso_dias<span class="op">;</span></span>
+<span id="cb14-23"><a href="#cb14-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-24"><a href="#cb14-24" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Variável para armazenar o cabeçalho do arquivo</span></span>
+<span id="cb14-25"><a href="#cb14-25" aria-hidden="true" tabindex="-1"></a>    string header<span class="op">;</span></span>
+<span id="cb14-26"><a href="#cb14-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-27"><a href="#cb14-27" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Variável para armazenar cada célula do arquivo csv</span></span>
+<span id="cb14-28"><a href="#cb14-28" aria-hidden="true" tabindex="-1"></a>    string cell<span class="op">;</span></span>
+<span id="cb14-29"><a href="#cb14-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-30"><a href="#cb14-30" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Pegar a primeira linha do aqruivo csv</span></span>
+<span id="cb14-31"><a href="#cb14-31" aria-hidden="true" tabindex="-1"></a>    getline<span class="op">(</span>inputFile<span class="op">,</span> header<span class="op">);</span></span>
+<span id="cb14-32"><a href="#cb14-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-33"><a href="#cb14-33" aria-hidden="true" tabindex="-1"></a>    <span class="co">//-----------------------------Loop de Carga e Limpeza dos Dados-----------------------------</span></span>
+<span id="cb14-34"><a href="#cb14-34" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Loop de carga e limpeza inicial dos dados</span></span>
+<span id="cb14-35"><a href="#cb14-35" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span><span class="op">(</span>inputFile<span class="op">.</span>good<span class="op">())</span> <span class="op">{</span></span>
+<span id="cb14-36"><a href="#cb14-36" aria-hidden="true" tabindex="-1"></a>                </span>
+<span id="cb14-37"><a href="#cb14-37" aria-hidden="true" tabindex="-1"></a>        <span class="co">// Leitura do primeiro elemento da linha (coluna id)</span></span>
+<span id="cb14-38"><a href="#cb14-38" aria-hidden="true" tabindex="-1"></a>        getline<span class="op">(</span>inputFile<span class="op">,</span> cell<span class="op">,</span> <span class="ch">','</span><span class="op">);</span>          </span>
+<span id="cb14-39"><a href="#cb14-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-40"><a href="#cb14-40" aria-hidden="true" tabindex="-1"></a>        <span class="co">// Remove aspas     </span></span>
+<span id="cb14-41"><a href="#cb14-41" aria-hidden="true" tabindex="-1"></a>        cell<span class="op">.</span>erase<span class="op">(</span>remove<span class="op">(</span>cell<span class="op">.</span>begin<span class="op">(),</span> cell<span class="op">.</span>end<span class="op">(),</span> <span class="ch">'</span><span class="sc">\"</span><span class="ch">'</span> <span class="op">),</span>cell<span class="op">.</span>end<span class="op">());</span> </span>
+<span id="cb14-42"><a href="#cb14-42" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb14-43"><a href="#cb14-43" aria-hidden="true" tabindex="-1"></a>        <span class="co">// Agora seguimos fazendo a leitura somente das células com valores</span></span>
+<span id="cb14-44"><a href="#cb14-44" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span><span class="op">(!</span>cell<span class="op">.</span>empty<span class="op">())</span> <span class="op">{</span>                             </span>
+<span id="cb14-45"><a href="#cb14-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-46"><a href="#cb14-46" aria-hidden="true" tabindex="-1"></a>            idVal <span class="op">=</span> stod<span class="op">(</span>cell<span class="op">);</span>   <span class="co">// str to double  </span></span>
+<span id="cb14-47"><a href="#cb14-47" aria-hidden="true" tabindex="-1"></a>            id<span class="op">.</span>push_back<span class="op">(</span>idVal<span class="op">);</span>  <span class="co">// Append do valor de x no vetor                  </span></span>
+<span id="cb14-48"><a href="#cb14-48" aria-hidden="true" tabindex="-1"></a>                            </span>
+<span id="cb14-49"><a href="#cb14-49" aria-hidden="true" tabindex="-1"></a>            <span class="co">// Leitura da coluna tipo_doc</span></span>
+<span id="cb14-50"><a href="#cb14-50" aria-hidden="true" tabindex="-1"></a>            getline<span class="op">(</span>inputFile<span class="op">,</span> cell<span class="op">,</span> <span class="ch">','</span><span class="op">);</span></span>
+<span id="cb14-51"><a href="#cb14-51" aria-hidden="true" tabindex="-1"></a>            tipo_docVal <span class="op">=</span> stod<span class="op">(</span>cell<span class="op">);</span>               </span>
+<span id="cb14-52"><a href="#cb14-52" aria-hidden="true" tabindex="-1"></a>            tipo_doc<span class="op">.</span>push_back<span class="op">(</span>tipo_docVal<span class="op">);</span>        </span>
+<span id="cb14-53"><a href="#cb14-53" aria-hidden="true" tabindex="-1"></a>                </span>
+<span id="cb14-54"><a href="#cb14-54" aria-hidden="true" tabindex="-1"></a>            <span class="co">// Leitura da coluna classe </span></span>
+<span id="cb14-55"><a href="#cb14-55" aria-hidden="true" tabindex="-1"></a>            getline<span class="op">(</span>inputFile<span class="op">,</span> cell<span class="op">,</span> <span class="ch">','</span><span class="op">);</span>      </span>
+<span id="cb14-56"><a href="#cb14-56" aria-hidden="true" tabindex="-1"></a>            classeVal <span class="op">=</span> stod<span class="op">(</span>cell<span class="op">);</span>     </span>
+<span id="cb14-57"><a href="#cb14-57" aria-hidden="true" tabindex="-1"></a>            classe<span class="op">.</span>push_back<span class="op">(</span>classeVal<span class="op">);</span>    </span>
+<span id="cb14-58"><a href="#cb14-58" aria-hidden="true" tabindex="-1"></a>            </span>
+<span id="cb14-59"><a href="#cb14-59" aria-hidden="true" tabindex="-1"></a>            <span class="co">// Leitura da coluna certificado_valido </span></span>
+<span id="cb14-60"><a href="#cb14-60" aria-hidden="true" tabindex="-1"></a>            getline<span class="op">(</span>inputFile<span class="op">,</span> cell<span class="op">,</span> <span class="ch">','</span><span class="op">);</span>      </span>
+<span id="cb14-61"><a href="#cb14-61" aria-hidden="true" tabindex="-1"></a>            certificado_validoVal <span class="op">=</span> stod<span class="op">(</span>cell<span class="op">);</span>             </span>
+<span id="cb14-62"><a href="#cb14-62" aria-hidden="true" tabindex="-1"></a>            certificado_valido<span class="op">.</span>push_back<span class="op">(</span>certificado_validoVal<span class="op">);</span>                </span>
+<span id="cb14-63"><a href="#cb14-63" aria-hidden="true" tabindex="-1"></a>                </span>
+<span id="cb14-64"><a href="#cb14-64" aria-hidden="true" tabindex="-1"></a>            <span class="co">// Leitura da coluna uso_dias</span></span>
+<span id="cb14-65"><a href="#cb14-65" aria-hidden="true" tabindex="-1"></a>            getline<span class="op">(</span>inputFile<span class="op">,</span> cell<span class="op">);</span>                       </span>
+<span id="cb14-66"><a href="#cb14-66" aria-hidden="true" tabindex="-1"></a>            uso_diasVal <span class="op">=</span> stod<span class="op">(</span>cell<span class="op">);</span>               </span>
+<span id="cb14-67"><a href="#cb14-67" aria-hidden="true" tabindex="-1"></a>            uso_dias<span class="op">.</span>push_back<span class="op">(</span>uso_diasVal<span class="op">);</span>                    </span>
+<span id="cb14-68"><a href="#cb14-68" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
+<span id="cb14-69"><a href="#cb14-69" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span> <span class="op">{</span></span>
+<span id="cb14-70"><a href="#cb14-70" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-71"><a href="#cb14-71" aria-hidden="true" tabindex="-1"></a>            <span class="co">// Se linha vazia, finaliza o loop                                          </span></span>
+<span id="cb14-72"><a href="#cb14-72" aria-hidden="true" tabindex="-1"></a>            <span class="cf">break</span><span class="op">;</span></span>
+<span id="cb14-73"><a href="#cb14-73" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span>   </span>
+<span id="cb14-74"><a href="#cb14-74" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb14-75"><a href="#cb14-75" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-76"><a href="#cb14-76" aria-hidden="true" tabindex="-1"></a>    <span class="co">//--------------------------------Criação dos DataFrames--------------------------------</span></span>
+<span id="cb14-77"><a href="#cb14-77" aria-hidden="true" tabindex="-1"></a>    vector<span class="op">&lt;</span>string<span class="op">&gt;</span> cols <span class="op">=</span> <span class="op">{</span><span class="st">"id"</span><span class="op">,</span><span class="st">"certificado_valido"</span><span class="op">,</span> <span class="st">"classe"</span><span class="op">,</span> <span class="st">"tipo_doc"</span><span class="op">,</span> <span class="st">"uso_dias"</span><span class="op">};</span></span>
+<span id="cb14-78"><a href="#cb14-78" aria-hidden="true" tabindex="-1"></a>    vector<span class="op">&lt;</span>vector<span class="op">&lt;</span><span class="dt">double</span><span class="op">&gt;&gt;</span> data <span class="op">=</span> <span class="op">{</span>id<span class="op">,</span> certificado_valido<span class="op">,</span> classe<span class="op">,</span> tipo_doc<span class="op">,</span> uso_dias<span class="op">};</span></span>
+<span id="cb14-79"><a href="#cb14-79" aria-hidden="true" tabindex="-1"></a>    DataFrame df<span class="op">(</span>id<span class="op">.</span>size<span class="op">(),</span> cols<span class="op">.</span>size<span class="op">());</span></span>
+<span id="cb14-80"><a href="#cb14-80" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-81"><a href="#cb14-81" aria-hidden="true" tabindex="-1"></a>    df <span class="op">=</span> create_DataFrame<span class="op">(</span>cols<span class="op">,</span> data<span class="op">);</span></span>
+<span id="cb14-82"><a href="#cb14-82" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb14-83"><a href="#cb14-83" aria-hidden="true" tabindex="-1"></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"#------------Dataframe - primeiras 5 linhas------------#"</span>  <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb14-84"><a href="#cb14-84" aria-hidden="true" tabindex="-1"></a>    print_DataFrame<span class="op">(</span>df<span class="op">,</span> <span class="dv">5</span><span class="op">);</span></span>
+<span id="cb14-85"><a href="#cb14-85" aria-hidden="true" tabindex="-1"></a>    cout <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb14-86"><a href="#cb14-86" aria-hidden="true" tabindex="-1"></a>    <span class="co">//cout &lt;&lt; "#-------------Dataframe - últimas 5 linhas-------------#"  &lt;&lt; endl;</span></span>
+<span id="cb14-87"><a href="#cb14-87" aria-hidden="true" tabindex="-1"></a>    <span class="co">//print_DataFrame(df, 5, "bottom");</span></span>
+<span id="cb14-88"><a href="#cb14-88" aria-hidden="true" tabindex="-1"></a>    cout <span class="op">&lt;&lt;</span> endl <span class="op">&lt;&lt;</span><span class="st">"======================================================="</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb14-89"><a href="#cb14-89" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-90"><a href="#cb14-90" aria-hidden="true" tabindex="-1"></a>    <span class="co">//Treino</span></span>
+<span id="cb14-91"><a href="#cb14-91" aria-hidden="true" tabindex="-1"></a>    vector<span class="op">&lt;</span>vector<span class="op">&lt;</span><span class="dt">double</span><span class="op">&gt;&gt;</span> data_train<span class="op">;</span></span>
+<span id="cb14-92"><a href="#cb14-92" aria-hidden="true" tabindex="-1"></a>    DataFrame df_train<span class="op">(</span>starTest<span class="op">,</span> cols<span class="op">.</span>size<span class="op">());</span></span>
+<span id="cb14-93"><a href="#cb14-93" aria-hidden="true" tabindex="-1"></a>    data_train <span class="op">=</span> <span class="op">{</span></span>
+<span id="cb14-94"><a href="#cb14-94" aria-hidden="true" tabindex="-1"></a>        slice<span class="op">(</span>id<span class="op">,</span>                 <span class="dv">0</span><span class="op">,</span> starTest<span class="op">),</span> </span>
+<span id="cb14-95"><a href="#cb14-95" aria-hidden="true" tabindex="-1"></a>        slice<span class="op">(</span>certificado_valido<span class="op">,</span> <span class="dv">0</span><span class="op">,</span> starTest<span class="op">),</span> </span>
+<span id="cb14-96"><a href="#cb14-96" aria-hidden="true" tabindex="-1"></a>        slice<span class="op">(</span>classe<span class="op">,</span>             <span class="dv">0</span><span class="op">,</span> starTest<span class="op">),</span> </span>
+<span id="cb14-97"><a href="#cb14-97" aria-hidden="true" tabindex="-1"></a>        slice<span class="op">(</span>tipo_doc<span class="op">,</span>           <span class="dv">0</span><span class="op">,</span> starTest<span class="op">),</span> </span>
+<span id="cb14-98"><a href="#cb14-98" aria-hidden="true" tabindex="-1"></a>        slice<span class="op">(</span>uso_dias<span class="op">,</span>           <span class="dv">0</span><span class="op">,</span> starTest<span class="op">)</span></span>
+<span id="cb14-99"><a href="#cb14-99" aria-hidden="true" tabindex="-1"></a>    <span class="op">};</span></span>
+<span id="cb14-100"><a href="#cb14-100" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-101"><a href="#cb14-101" aria-hidden="true" tabindex="-1"></a>    df_train <span class="op">=</span> create_DataFrame<span class="op">(</span>cols<span class="op">,</span> data_train<span class="op">);</span></span>
+<span id="cb14-102"><a href="#cb14-102" aria-hidden="true" tabindex="-1"></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"#---------Dataframe Treino - primeiras 5 linhas---------#"</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb14-103"><a href="#cb14-103" aria-hidden="true" tabindex="-1"></a>    print_DataFrame<span class="op">(</span>df_train<span class="op">,</span> <span class="dv">5</span><span class="op">);</span></span>
+<span id="cb14-104"><a href="#cb14-104" aria-hidden="true" tabindex="-1"></a>    cout <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb14-105"><a href="#cb14-105" aria-hidden="true" tabindex="-1"></a>    <span class="co">//cout &lt;&lt; "#----------Dataframe Treino - últimas 5 linhas----------#"&lt;&lt; endl;</span></span>
+<span id="cb14-106"><a href="#cb14-106" aria-hidden="true" tabindex="-1"></a>    <span class="co">//print_DataFrame(df_train, 5, "bottom");</span></span>
+<span id="cb14-107"><a href="#cb14-107" aria-hidden="true" tabindex="-1"></a>    cout <span class="op">&lt;&lt;</span> endl <span class="op">&lt;&lt;</span><span class="st">"======================================================="</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb14-108"><a href="#cb14-108" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-109"><a href="#cb14-109" aria-hidden="true" tabindex="-1"></a>    <span class="co">//Teste</span></span>
+<span id="cb14-110"><a href="#cb14-110" aria-hidden="true" tabindex="-1"></a>    vector<span class="op">&lt;</span>vector<span class="op">&lt;</span><span class="dt">double</span><span class="op">&gt;&gt;</span> data_test<span class="op">;</span></span>
+<span id="cb14-111"><a href="#cb14-111" aria-hidden="true" tabindex="-1"></a>    DataFrame df_test<span class="op">(</span>id<span class="op">.</span>size<span class="op">()</span> <span class="op">-</span> starTest<span class="op">,</span> cols<span class="op">.</span>size<span class="op">());</span></span>
+<span id="cb14-112"><a href="#cb14-112" aria-hidden="true" tabindex="-1"></a>    data_test <span class="op">=</span> <span class="op">{</span></span>
+<span id="cb14-113"><a href="#cb14-113" aria-hidden="true" tabindex="-1"></a>        slice<span class="op">(</span>id<span class="op">,</span>                 starTest<span class="op">,</span> id<span class="op">.</span>size<span class="op">()),</span> </span>
+<span id="cb14-114"><a href="#cb14-114" aria-hidden="true" tabindex="-1"></a>        slice<span class="op">(</span>certificado_valido<span class="op">,</span> starTest<span class="op">,</span> id<span class="op">.</span>size<span class="op">()),</span> </span>
+<span id="cb14-115"><a href="#cb14-115" aria-hidden="true" tabindex="-1"></a>        slice<span class="op">(</span>classe<span class="op">,</span>             starTest<span class="op">,</span> id<span class="op">.</span>size<span class="op">()),</span> </span>
+<span id="cb14-116"><a href="#cb14-116" aria-hidden="true" tabindex="-1"></a>        slice<span class="op">(</span>tipo_doc<span class="op">,</span>           starTest<span class="op">,</span> id<span class="op">.</span>size<span class="op">()),</span> </span>
+<span id="cb14-117"><a href="#cb14-117" aria-hidden="true" tabindex="-1"></a>        slice<span class="op">(</span>uso_dias<span class="op">,</span>           starTest<span class="op">,</span> id<span class="op">.</span>size<span class="op">())</span></span>
+<span id="cb14-118"><a href="#cb14-118" aria-hidden="true" tabindex="-1"></a>    <span class="op">};</span></span>
+<span id="cb14-119"><a href="#cb14-119" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-120"><a href="#cb14-120" aria-hidden="true" tabindex="-1"></a>    df_test <span class="op">=</span> create_DataFrame<span class="op">(</span>cols<span class="op">,</span> data_test<span class="op">);</span>                    </span>
+<span id="cb14-121"><a href="#cb14-121" aria-hidden="true" tabindex="-1"></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"#---------Dataframe Teste - primeiras 5 linhas---------#"</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb14-122"><a href="#cb14-122" aria-hidden="true" tabindex="-1"></a>    print_DataFrame<span class="op">(</span>df_test<span class="op">,</span> <span class="dv">5</span><span class="op">);</span></span>
+<span id="cb14-123"><a href="#cb14-123" aria-hidden="true" tabindex="-1"></a>    cout <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb14-124"><a href="#cb14-124" aria-hidden="true" tabindex="-1"></a>    <span class="co">//cout &lt;&lt; "#---------Dataframe Teste - últimas 5 linhas----------#"  &lt;&lt; endl;</span></span>
+<span id="cb14-125"><a href="#cb14-125" aria-hidden="true" tabindex="-1"></a>    <span class="co">//print_DataFrame(df_test, 5, "bottom");</span></span>
+<span id="cb14-126"><a href="#cb14-126" aria-hidden="true" tabindex="-1"></a>    cout <span class="op">&lt;&lt;</span> endl <span class="op">&lt;&lt;</span><span class="st">"======================================================="</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb14-127"><a href="#cb14-127" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-128"><a href="#cb14-128" aria-hidden="true" tabindex="-1"></a>    <span class="co">//------------------------------Treina Modelo---------------------------------------</span></span>
+<span id="cb14-129"><a href="#cb14-129" aria-hidden="true" tabindex="-1"></a>    vector<span class="op">&lt;</span>vector<span class="op">&lt;</span>vector<span class="op">&lt;</span><span class="dt">double</span><span class="op">&gt;&gt;&gt;</span> probs<span class="op">;</span></span>
+<span id="cb14-130"><a href="#cb14-130" aria-hidden="true" tabindex="-1"></a>    probs <span class="op">=</span> fit<span class="op">(</span>df_train<span class="op">);</span></span>
+<span id="cb14-131"><a href="#cb14-131" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-132"><a href="#cb14-132" aria-hidden="true" tabindex="-1"></a>    <span class="co">//------------------------------Aplica Modelo---------------------------------------</span></span>
+<span id="cb14-133"><a href="#cb14-133" aria-hidden="true" tabindex="-1"></a>    vector<span class="op">&lt;</span><span class="dt">double</span><span class="op">&gt;</span> y_pred <span class="op">=</span> apply_model<span class="op">(</span>df_test<span class="op">,</span> df_train<span class="op">,</span> probs<span class="op">);</span></span>
+<span id="cb14-134"><a href="#cb14-134" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-135"><a href="#cb14-135" aria-hidden="true" tabindex="-1"></a>    <span class="co">//------------------------------Avaliação-------------------------------------------</span></span>
+<span id="cb14-136"><a href="#cb14-136" aria-hidden="true" tabindex="-1"></a>    vector<span class="op">&lt;</span><span class="dt">double</span><span class="op">&gt;</span> y_true<span class="op">;</span></span>
+<span id="cb14-137"><a href="#cb14-137" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span><span class="op">(</span><span class="kw">auto</span> row<span class="op">:</span> df_test<span class="op">.</span>data<span class="op">)</span> <span class="op">{</span>y_true<span class="op">.</span>push_back<span class="op">(</span>row<span class="op">.</span>at<span class="op">(</span><span class="dv">2</span><span class="op">));};</span></span>
+<span id="cb14-138"><a href="#cb14-138" aria-hidden="true" tabindex="-1"></a>    evaluate<span class="op">(</span>y_true<span class="op">,</span> y_pred<span class="op">);</span></span>
+<span id="cb14-139"><a href="#cb14-139" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-140"><a href="#cb14-140" aria-hidden="true" tabindex="-1"></a>    cout <span class="op">&lt;&lt;</span> endl <span class="op">&lt;&lt;</span><span class="st">"##########################################################"</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb14-141"><a href="#cb14-141" aria-hidden="true" tabindex="-1"></a><span class="op">};</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="funções" class="level2">
+<h2 class="anchored" data-anchor-id="funções">Funções</h2>
+<section id="read_file" class="level3">
+<h3 class="anchored" data-anchor-id="read_file">read_file</h3>
+<div class="sourceCode" id="cb15"><pre class="sourceCode cpp code-with-copy"><code class="sourceCode cpp"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>ifstream read_file<span class="op">(</span>string file_path<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>    ifstream inputFile<span class="op">;</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>    inputFile<span class="op">.</span>open<span class="op">(</span>file_path<span class="op">);</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Verifica se há algum erro</span></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span><span class="op">(!</span>inputFile<span class="op">.</span>is_open<span class="op">())</span> <span class="op">{</span></span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>        cout <span class="op">&lt;&lt;</span> <span class="st">"Falha ao abrir o arquivo"</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> inputFile<span class="op">;</span></span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a><span class="op">};</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="create_dataframe" class="level3">
+<h3 class="anchored" data-anchor-id="create_dataframe">create_DataFrame</h3>
+<div class="sourceCode" id="cb16"><pre class="sourceCode cpp code-with-copy"><code class="sourceCode cpp"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>DataFrame create_DataFrame<span class="op">(</span>vector<span class="op">&lt;</span>string<span class="op">&gt;</span> cols<span class="op">,</span> vector<span class="op">&lt;</span>vector<span class="op">&lt;</span><span class="dt">double</span><span class="op">&gt;&gt;</span> data<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> nrows<span class="op">,</span> ncols<span class="op">;</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>    nrows <span class="op">=</span> data<span class="op">.</span>at<span class="op">(</span><span class="dv">0</span><span class="op">).</span>size<span class="op">();</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>    ncols <span class="op">=</span> cols<span class="op">.</span>size<span class="op">();</span></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>    DataFrame df<span class="op">(</span>nrows<span class="op">,</span> ncols<span class="op">);</span></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> ncols<span class="op">;</span> i<span class="op">++)</span> <span class="op">{</span></span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>        df<span class="op">.</span>cols<span class="op">.</span>at<span class="op">(</span>i<span class="op">)</span> <span class="op">=</span> cols<span class="op">.</span>at<span class="op">(</span>i<span class="op">);</span>  </span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> ncols<span class="op">;</span> i<span class="op">++)</span> <span class="op">{</span></span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> j <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> j <span class="op">&lt;</span> nrows<span class="op">;</span> j<span class="op">++)</span> <span class="op">{</span></span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a>            df<span class="op">.</span>data<span class="op">.</span>at<span class="op">(</span>j<span class="op">).</span>at<span class="op">(</span>i<span class="op">)</span> <span class="op">=</span> data<span class="op">.</span>at<span class="op">(</span>i<span class="op">).</span>at<span class="op">(</span>j<span class="op">);</span></span>
+<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
+<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-19"><a href="#cb16-19" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> df<span class="op">;</span></span>
+<span id="cb16-20"><a href="#cb16-20" aria-hidden="true" tabindex="-1"></a><span class="op">};</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="print_dataframe" class="level3">
+<h3 class="anchored" data-anchor-id="print_dataframe">print_DataFrame</h3>
+<div class="sourceCode" id="cb17"><pre class="sourceCode cpp code-with-copy"><code class="sourceCode cpp"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> print_DataFrame<span class="op">(</span>DataFrame df<span class="op">,</span> <span class="dt">int</span> n<span class="op">,</span> string where<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>    <span class="co">// header</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span><span class="op">(</span><span class="kw">auto</span> var<span class="op">:</span> df<span class="op">.</span>cols<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>        cout <span class="op">&lt;&lt;</span> var <span class="op">&lt;&lt;</span> <span class="st">"   "</span><span class="op">;</span></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>    cout <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span><span class="op">(</span>where <span class="op">==</span> <span class="st">"top"</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>        <span class="co">// row</span></span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> n<span class="op">;</span> i<span class="op">++)</span> <span class="op">{</span></span>
+<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a>            cout <span class="op">&lt;&lt;</span> </span>
+<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a>                df<span class="op">.</span>data<span class="op">.</span>at<span class="op">(</span>i<span class="op">).</span>at<span class="op">(</span><span class="dv">0</span><span class="op">)</span> <span class="op">&lt;&lt;</span> <span class="st">"             "</span> <span class="op">&lt;&lt;</span></span>
+<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a>                df<span class="op">.</span>data<span class="op">.</span>at<span class="op">(</span>i<span class="op">).</span>at<span class="op">(</span><span class="dv">1</span><span class="op">)</span> <span class="op">&lt;&lt;</span> <span class="st">"            "</span> <span class="op">&lt;&lt;</span></span>
+<span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a>                df<span class="op">.</span>data<span class="op">.</span>at<span class="op">(</span>i<span class="op">).</span>at<span class="op">(</span><span class="dv">2</span><span class="op">)</span> <span class="op">&lt;&lt;</span> <span class="st">"        "</span> <span class="op">&lt;&lt;</span></span>
+<span id="cb17-17"><a href="#cb17-17" aria-hidden="true" tabindex="-1"></a>                df<span class="op">.</span>data<span class="op">.</span>at<span class="op">(</span>i<span class="op">).</span>at<span class="op">(</span><span class="dv">3</span><span class="op">)</span> <span class="op">&lt;&lt;</span> <span class="st">"         "</span> <span class="op">&lt;&lt;</span></span>
+<span id="cb17-18"><a href="#cb17-18" aria-hidden="true" tabindex="-1"></a>                df<span class="op">.</span>data<span class="op">.</span>at<span class="op">(</span>i<span class="op">).</span>at<span class="op">(</span><span class="dv">4</span><span class="op">)</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb17-19"><a href="#cb17-19" aria-hidden="true" tabindex="-1"></a>            </span>
+<span id="cb17-20"><a href="#cb17-20" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
+<span id="cb17-21"><a href="#cb17-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-22"><a href="#cb17-22" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb17-23"><a href="#cb17-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-24"><a href="#cb17-24" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span><span class="op">(</span>where <span class="op">==</span> <span class="st">"bottom"</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb17-25"><a href="#cb17-25" aria-hidden="true" tabindex="-1"></a>        <span class="dt">int</span> start <span class="op">=</span> df<span class="op">.</span>data<span class="op">.</span>size<span class="op">()</span> <span class="op">-</span> n<span class="op">;</span></span>
+<span id="cb17-26"><a href="#cb17-26" aria-hidden="true" tabindex="-1"></a>        <span class="co">// row</span></span>
+<span id="cb17-27"><a href="#cb17-27" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> start<span class="op">;</span> i <span class="op">&lt;</span> df<span class="op">.</span>data<span class="op">.</span>size<span class="op">();</span> i<span class="op">++)</span> <span class="op">{</span></span>
+<span id="cb17-28"><a href="#cb17-28" aria-hidden="true" tabindex="-1"></a>            cout <span class="op">&lt;&lt;</span> </span>
+<span id="cb17-29"><a href="#cb17-29" aria-hidden="true" tabindex="-1"></a>                df<span class="op">.</span>data<span class="op">.</span>at<span class="op">(</span>i<span class="op">).</span>at<span class="op">(</span><span class="dv">0</span><span class="op">)</span> <span class="op">&lt;&lt;</span> <span class="st">"             "</span> <span class="op">&lt;&lt;</span></span>
+<span id="cb17-30"><a href="#cb17-30" aria-hidden="true" tabindex="-1"></a>                df<span class="op">.</span>data<span class="op">.</span>at<span class="op">(</span>i<span class="op">).</span>at<span class="op">(</span><span class="dv">1</span><span class="op">)</span> <span class="op">&lt;&lt;</span> <span class="st">"            "</span> <span class="op">&lt;&lt;</span></span>
+<span id="cb17-31"><a href="#cb17-31" aria-hidden="true" tabindex="-1"></a>                df<span class="op">.</span>data<span class="op">.</span>at<span class="op">(</span>i<span class="op">).</span>at<span class="op">(</span><span class="dv">2</span><span class="op">)</span> <span class="op">&lt;&lt;</span> <span class="st">"        "</span> <span class="op">&lt;&lt;</span></span>
+<span id="cb17-32"><a href="#cb17-32" aria-hidden="true" tabindex="-1"></a>                df<span class="op">.</span>data<span class="op">.</span>at<span class="op">(</span>i<span class="op">).</span>at<span class="op">(</span><span class="dv">3</span><span class="op">)</span> <span class="op">&lt;&lt;</span> <span class="st">"         "</span> <span class="op">&lt;&lt;</span></span>
+<span id="cb17-33"><a href="#cb17-33" aria-hidden="true" tabindex="-1"></a>                df<span class="op">.</span>data<span class="op">.</span>at<span class="op">(</span>i<span class="op">).</span>at<span class="op">(</span><span class="dv">4</span><span class="op">)</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb17-34"><a href="#cb17-34" aria-hidden="true" tabindex="-1"></a>            </span>
+<span id="cb17-35"><a href="#cb17-35" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
+<span id="cb17-36"><a href="#cb17-36" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb17-37"><a href="#cb17-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-38"><a href="#cb17-38" aria-hidden="true" tabindex="-1"></a><span class="op">};</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="slice" class="level3">
+<h3 class="anchored" data-anchor-id="slice">slice</h3>
+<div class="sourceCode" id="cb18"><pre class="sourceCode cpp code-with-copy"><code class="sourceCode cpp"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>vector<span class="op">&lt;</span><span class="dt">double</span><span class="op">&gt;</span> slice<span class="op">(</span>vector<span class="op">&lt;</span><span class="dt">double</span><span class="op">&gt;</span> v<span class="op">,</span> <span class="dt">int</span> start<span class="op">,</span> <span class="dt">int</span> end<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Verifica se os índices são válidos</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="op">(</span>start <span class="op">&lt;</span> <span class="dv">0</span> <span class="op">||</span> end <span class="op">&gt;</span> v<span class="op">.</span>size<span class="op">()</span> <span class="op">||</span> start <span class="op">&gt;</span> end<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>        <span class="cf">throw</span> out_of_range<span class="op">(</span><span class="st">"Invalid slice indices"</span><span class="op">);</span></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> vector<span class="op">&lt;</span><span class="dt">double</span><span class="op">&gt;(</span>v<span class="op">.</span>begin<span class="op">()</span> <span class="op">+</span> start<span class="op">,</span> v<span class="op">.</span>begin<span class="op">()</span> <span class="op">+</span> end<span class="op">);</span></span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="get_distribution_certificado_valido" class="level3">
+<h3 class="anchored" data-anchor-id="get_distribution_certificado_valido">get_distribution_certificado_valido</h3>
+<div class="sourceCode" id="cb19"><pre class="sourceCode cpp code-with-copy"><code class="sourceCode cpp"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>vector<span class="op">&lt;</span>vector<span class="op">&lt;</span><span class="dt">double</span><span class="op">&gt;&gt;</span> get_distribution_certificado_valido<span class="op">(</span>DataFrame df<span class="op">,</span> vector<span class="op">&lt;</span>vector<span class="op">&lt;</span><span class="dt">double</span><span class="op">&gt;&gt;</span> tab<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> <span class="op">(</span><span class="kw">auto</span> row<span class="op">:</span> df<span class="op">.</span>data<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span><span class="op">(</span>row<span class="op">.</span>at<span class="op">(</span><span class="dv">1</span><span class="op">)</span> <span class="op">==</span> <span class="dv">0</span> <span class="op">&amp;&amp;</span> row<span class="op">.</span>at<span class="op">(</span><span class="dv">2</span><span class="op">)</span> <span class="op">==</span> <span class="dv">0</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>            tab<span class="op">.</span>at<span class="op">(</span><span class="dv">0</span><span class="op">).</span>at<span class="op">(</span><span class="dv">0</span><span class="op">)++;</span></span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span><span class="op">(</span>row<span class="op">.</span>at<span class="op">(</span><span class="dv">1</span><span class="op">)</span> <span class="op">==</span> <span class="dv">1</span> <span class="op">&amp;&amp;</span> row<span class="op">.</span>at<span class="op">(</span><span class="dv">2</span><span class="op">)</span> <span class="op">==</span> <span class="dv">0</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>            tab<span class="op">.</span>at<span class="op">(</span><span class="dv">0</span><span class="op">).</span>at<span class="op">(</span><span class="dv">1</span><span class="op">)++;</span></span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span><span class="op">(</span>row<span class="op">.</span>at<span class="op">(</span><span class="dv">1</span><span class="op">)</span> <span class="op">==</span> <span class="dv">0</span> <span class="op">&amp;&amp;</span> row<span class="op">.</span>at<span class="op">(</span><span class="dv">2</span><span class="op">)</span> <span class="op">==</span> <span class="dv">1</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a>            tab<span class="op">.</span>at<span class="op">(</span><span class="dv">1</span><span class="op">).</span>at<span class="op">(</span><span class="dv">0</span><span class="op">)++;</span></span>
+<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
+<span id="cb19-16"><a href="#cb19-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-17"><a href="#cb19-17" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span><span class="op">(</span>row<span class="op">.</span>at<span class="op">(</span><span class="dv">1</span><span class="op">)</span> <span class="op">==</span> <span class="dv">1</span> <span class="op">&amp;&amp;</span> row<span class="op">.</span>at<span class="op">(</span><span class="dv">2</span><span class="op">)</span> <span class="op">==</span> <span class="dv">1</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb19-18"><a href="#cb19-18" aria-hidden="true" tabindex="-1"></a>            tab<span class="op">.</span>at<span class="op">(</span><span class="dv">1</span><span class="op">).</span>at<span class="op">(</span><span class="dv">1</span><span class="op">)++;</span></span>
+<span id="cb19-19"><a href="#cb19-19" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
+<span id="cb19-20"><a href="#cb19-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-21"><a href="#cb19-21" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb19-22"><a href="#cb19-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-23"><a href="#cb19-23" aria-hidden="true" tabindex="-1"></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Distribuição da feature certificado_valido"</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb19-24"><a href="#cb19-24" aria-hidden="true" tabindex="-1"></a>    tab<span class="op">.</span>at<span class="op">(</span><span class="dv">0</span><span class="op">).</span>at<span class="op">(</span><span class="dv">0</span><span class="op">)</span> <span class="op">=</span> tab<span class="op">.</span>at<span class="op">(</span><span class="dv">0</span><span class="op">).</span>at<span class="op">(</span><span class="dv">0</span><span class="op">)</span> <span class="op">/</span> <span class="op">(</span>tab<span class="op">.</span>at<span class="op">(</span><span class="dv">0</span><span class="op">).</span>at<span class="op">(</span><span class="dv">0</span><span class="op">)</span> <span class="op">+</span> tab<span class="op">.</span>at<span class="op">(</span><span class="dv">0</span><span class="op">).</span>at<span class="op">(</span><span class="dv">1</span><span class="op">));</span> </span>
+<span id="cb19-25"><a href="#cb19-25" aria-hidden="true" tabindex="-1"></a>    tab<span class="op">.</span>at<span class="op">(</span><span class="dv">0</span><span class="op">).</span>at<span class="op">(</span><span class="dv">1</span><span class="op">)</span> <span class="op">=</span> <span class="dv">1</span> <span class="op">-</span> tab<span class="op">.</span>at<span class="op">(</span><span class="dv">0</span><span class="op">).</span>at<span class="op">(</span><span class="dv">0</span><span class="op">);</span></span>
+<span id="cb19-26"><a href="#cb19-26" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb19-27"><a href="#cb19-27" aria-hidden="true" tabindex="-1"></a>    tab<span class="op">.</span>at<span class="op">(</span><span class="dv">1</span><span class="op">).</span>at<span class="op">(</span><span class="dv">0</span><span class="op">)</span> <span class="op">=</span> tab<span class="op">.</span>at<span class="op">(</span><span class="dv">1</span><span class="op">).</span>at<span class="op">(</span><span class="dv">0</span><span class="op">)</span> <span class="op">/</span> <span class="op">(</span>tab<span class="op">.</span>at<span class="op">(</span><span class="dv">1</span><span class="op">).</span>at<span class="op">(</span><span class="dv">1</span><span class="op">)</span> <span class="op">+</span> tab<span class="op">.</span>at<span class="op">(</span><span class="dv">1</span><span class="op">).</span>at<span class="op">(</span><span class="dv">0</span><span class="op">));</span> </span>
+<span id="cb19-28"><a href="#cb19-28" aria-hidden="true" tabindex="-1"></a>    tab<span class="op">.</span>at<span class="op">(</span><span class="dv">1</span><span class="op">).</span>at<span class="op">(</span><span class="dv">1</span><span class="op">)</span> <span class="op">=</span> <span class="dv">1</span> <span class="op">-</span> tab<span class="op">.</span>at<span class="op">(</span><span class="dv">1</span><span class="op">).</span>at<span class="op">(</span><span class="dv">0</span><span class="op">);</span></span>
+<span id="cb19-29"><a href="#cb19-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-30"><a href="#cb19-30" aria-hidden="true" tabindex="-1"></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"        x = 0     x = 1"</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb19-31"><a href="#cb19-31" aria-hidden="true" tabindex="-1"></a>    cout <span class="op">&lt;&lt;</span><span class="st">"y = 0 "</span><span class="op">&lt;&lt;</span>tab<span class="op">.</span>at<span class="op">(</span><span class="dv">0</span><span class="op">).</span>at<span class="op">(</span><span class="dv">0</span><span class="op">)</span> <span class="op">&lt;&lt;</span> <span class="st">" "</span><span class="op">;</span></span>
+<span id="cb19-32"><a href="#cb19-32" aria-hidden="true" tabindex="-1"></a>    cout <span class="op">&lt;&lt;</span> tab<span class="op">.</span>at<span class="op">(</span><span class="dv">0</span><span class="op">).</span>at<span class="op">(</span><span class="dv">1</span><span class="op">)</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb19-33"><a href="#cb19-33" aria-hidden="true" tabindex="-1"></a>    cout <span class="op">&lt;&lt;</span><span class="st">"y = 1 "</span><span class="op">&lt;&lt;</span>tab<span class="op">.</span>at<span class="op">(</span><span class="dv">1</span><span class="op">).</span>at<span class="op">(</span><span class="dv">0</span><span class="op">)</span> <span class="op">&lt;&lt;</span> <span class="st">" "</span><span class="op">;</span></span>
+<span id="cb19-34"><a href="#cb19-34" aria-hidden="true" tabindex="-1"></a>    cout <span class="op">&lt;&lt;</span> tab<span class="op">.</span>at<span class="op">(</span><span class="dv">1</span><span class="op">).</span>at<span class="op">(</span><span class="dv">1</span><span class="op">)</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb19-35"><a href="#cb19-35" aria-hidden="true" tabindex="-1"></a>    cout <span class="op">&lt;&lt;</span> endl <span class="op">&lt;&lt;</span><span class="st">"======================================================="</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb19-36"><a href="#cb19-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-37"><a href="#cb19-37" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> tab<span class="op">;</span></span>
+<span id="cb19-38"><a href="#cb19-38" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="get_distribution_tipo_doc" class="level3">
+<h3 class="anchored" data-anchor-id="get_distribution_tipo_doc">get_distribution_tipo_doc</h3>
+<div class="sourceCode" id="cb20"><pre class="sourceCode cpp code-with-copy"><code class="sourceCode cpp"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>vector<span class="op">&lt;</span>vector<span class="op">&lt;</span><span class="dt">double</span><span class="op">&gt;&gt;</span> get_distribution_tipo_doc<span class="op">(</span>DataFrame df<span class="op">,</span> vector<span class="op">&lt;</span>vector<span class="op">&lt;</span><span class="dt">double</span><span class="op">&gt;&gt;</span> tab<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> <span class="op">(</span><span class="kw">auto</span> row<span class="op">:</span> df<span class="op">.</span>data<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span><span class="op">(</span>row<span class="op">.</span>at<span class="op">(</span><span class="dv">3</span><span class="op">)</span> <span class="op">==</span> <span class="dv">1</span> <span class="op">&amp;&amp;</span> row<span class="op">.</span>at<span class="op">(</span><span class="dv">2</span><span class="op">)</span> <span class="op">==</span> <span class="dv">0</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>            tab<span class="op">.</span>at<span class="op">(</span><span class="dv">0</span><span class="op">).</span>at<span class="op">(</span><span class="dv">0</span><span class="op">)++;</span></span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span><span class="op">(</span>row<span class="op">.</span>at<span class="op">(</span><span class="dv">3</span><span class="op">)</span> <span class="op">==</span> <span class="dv">2</span> <span class="op">&amp;&amp;</span> row<span class="op">.</span>at<span class="op">(</span><span class="dv">2</span><span class="op">)</span> <span class="op">==</span> <span class="dv">0</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>            tab<span class="op">.</span>at<span class="op">(</span><span class="dv">0</span><span class="op">).</span>at<span class="op">(</span><span class="dv">1</span><span class="op">)++;</span></span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
+<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span><span class="op">(</span>row<span class="op">.</span>at<span class="op">(</span><span class="dv">3</span><span class="op">)</span> <span class="op">==</span> <span class="dv">3</span> <span class="op">&amp;&amp;</span> row<span class="op">.</span>at<span class="op">(</span><span class="dv">2</span><span class="op">)</span> <span class="op">==</span> <span class="dv">0</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a>            tab<span class="op">.</span>at<span class="op">(</span><span class="dv">0</span><span class="op">).</span>at<span class="op">(</span><span class="dv">2</span><span class="op">)++;</span></span>
+<span id="cb20-15"><a href="#cb20-15" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
+<span id="cb20-16"><a href="#cb20-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-17"><a href="#cb20-17" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span><span class="op">(</span>row<span class="op">.</span>at<span class="op">(</span><span class="dv">3</span><span class="op">)</span> <span class="op">==</span> <span class="dv">1</span> <span class="op">&amp;&amp;</span> row<span class="op">.</span>at<span class="op">(</span><span class="dv">2</span><span class="op">)</span> <span class="op">==</span> <span class="dv">1</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb20-18"><a href="#cb20-18" aria-hidden="true" tabindex="-1"></a>            tab<span class="op">.</span>at<span class="op">(</span><span class="dv">1</span><span class="op">).</span>at<span class="op">(</span><span class="dv">0</span><span class="op">)++;</span></span>
+<span id="cb20-19"><a href="#cb20-19" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
+<span id="cb20-20"><a href="#cb20-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-21"><a href="#cb20-21" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span><span class="op">(</span>row<span class="op">.</span>at<span class="op">(</span><span class="dv">3</span><span class="op">)</span> <span class="op">==</span> <span class="dv">2</span> <span class="op">&amp;&amp;</span> row<span class="op">.</span>at<span class="op">(</span><span class="dv">2</span><span class="op">)</span> <span class="op">==</span> <span class="dv">1</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb20-22"><a href="#cb20-22" aria-hidden="true" tabindex="-1"></a>            tab<span class="op">.</span>at<span class="op">(</span><span class="dv">1</span><span class="op">).</span>at<span class="op">(</span><span class="dv">1</span><span class="op">)++;</span></span>
+<span id="cb20-23"><a href="#cb20-23" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
+<span id="cb20-24"><a href="#cb20-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-25"><a href="#cb20-25" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span><span class="op">(</span>row<span class="op">.</span>at<span class="op">(</span><span class="dv">3</span><span class="op">)</span> <span class="op">==</span> <span class="dv">3</span> <span class="op">&amp;&amp;</span> row<span class="op">.</span>at<span class="op">(</span><span class="dv">2</span><span class="op">)</span> <span class="op">==</span> <span class="dv">1</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb20-26"><a href="#cb20-26" aria-hidden="true" tabindex="-1"></a>            tab<span class="op">.</span>at<span class="op">(</span><span class="dv">1</span><span class="op">).</span>at<span class="op">(</span><span class="dv">2</span><span class="op">)++;</span></span>
+<span id="cb20-27"><a href="#cb20-27" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
+<span id="cb20-28"><a href="#cb20-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-29"><a href="#cb20-29" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb20-30"><a href="#cb20-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-31"><a href="#cb20-31" aria-hidden="true" tabindex="-1"></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Distribuição da feature tipo_doc"</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb20-32"><a href="#cb20-32" aria-hidden="true" tabindex="-1"></a>    <span class="dt">double</span> sum<span class="op">;</span></span>
+<span id="cb20-33"><a href="#cb20-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-34"><a href="#cb20-34" aria-hidden="true" tabindex="-1"></a>    sum <span class="op">=</span> <span class="op">(</span>tab<span class="op">.</span>at<span class="op">(</span><span class="dv">0</span><span class="op">).</span>at<span class="op">(</span><span class="dv">0</span><span class="op">)</span> <span class="op">+</span> tab<span class="op">.</span>at<span class="op">(</span><span class="dv">0</span><span class="op">).</span>at<span class="op">(</span><span class="dv">1</span><span class="op">)</span> <span class="op">+</span> tab<span class="op">.</span>at<span class="op">(</span><span class="dv">0</span><span class="op">).</span>at<span class="op">(</span><span class="dv">2</span><span class="op">));</span></span>
+<span id="cb20-35"><a href="#cb20-35" aria-hidden="true" tabindex="-1"></a>    tab<span class="op">.</span>at<span class="op">(</span><span class="dv">0</span><span class="op">).</span>at<span class="op">(</span><span class="dv">0</span><span class="op">)</span> <span class="op">=</span> tab<span class="op">.</span>at<span class="op">(</span><span class="dv">0</span><span class="op">).</span>at<span class="op">(</span><span class="dv">0</span><span class="op">)</span> <span class="op">/</span> sum<span class="op">;</span></span>
+<span id="cb20-36"><a href="#cb20-36" aria-hidden="true" tabindex="-1"></a>    tab<span class="op">.</span>at<span class="op">(</span><span class="dv">0</span><span class="op">).</span>at<span class="op">(</span><span class="dv">1</span><span class="op">)</span> <span class="op">=</span> tab<span class="op">.</span>at<span class="op">(</span><span class="dv">0</span><span class="op">).</span>at<span class="op">(</span><span class="dv">1</span><span class="op">)</span> <span class="op">/</span> sum<span class="op">;</span></span>
+<span id="cb20-37"><a href="#cb20-37" aria-hidden="true" tabindex="-1"></a>    tab<span class="op">.</span>at<span class="op">(</span><span class="dv">0</span><span class="op">).</span>at<span class="op">(</span><span class="dv">2</span><span class="op">)</span> <span class="op">=</span> tab<span class="op">.</span>at<span class="op">(</span><span class="dv">0</span><span class="op">).</span>at<span class="op">(</span><span class="dv">2</span><span class="op">)</span> <span class="op">/</span> sum<span class="op">;</span> </span>
+<span id="cb20-38"><a href="#cb20-38" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb20-39"><a href="#cb20-39" aria-hidden="true" tabindex="-1"></a>    sum <span class="op">=</span> <span class="op">(</span>tab<span class="op">.</span>at<span class="op">(</span><span class="dv">1</span><span class="op">).</span>at<span class="op">(</span><span class="dv">0</span><span class="op">)</span> <span class="op">+</span> tab<span class="op">.</span>at<span class="op">(</span><span class="dv">1</span><span class="op">).</span>at<span class="op">(</span><span class="dv">1</span><span class="op">)</span> <span class="op">+</span> tab<span class="op">.</span>at<span class="op">(</span><span class="dv">1</span><span class="op">).</span>at<span class="op">(</span><span class="dv">2</span><span class="op">));</span> </span>
+<span id="cb20-40"><a href="#cb20-40" aria-hidden="true" tabindex="-1"></a>    tab<span class="op">.</span>at<span class="op">(</span><span class="dv">1</span><span class="op">).</span>at<span class="op">(</span><span class="dv">0</span><span class="op">)</span> <span class="op">=</span> tab<span class="op">.</span>at<span class="op">(</span><span class="dv">1</span><span class="op">).</span>at<span class="op">(</span><span class="dv">0</span><span class="op">)</span> <span class="op">/</span> sum<span class="op">;</span></span>
+<span id="cb20-41"><a href="#cb20-41" aria-hidden="true" tabindex="-1"></a>    tab<span class="op">.</span>at<span class="op">(</span><span class="dv">1</span><span class="op">).</span>at<span class="op">(</span><span class="dv">1</span><span class="op">)</span> <span class="op">=</span> tab<span class="op">.</span>at<span class="op">(</span><span class="dv">1</span><span class="op">).</span>at<span class="op">(</span><span class="dv">1</span><span class="op">)</span> <span class="op">/</span> sum<span class="op">;</span> </span>
+<span id="cb20-42"><a href="#cb20-42" aria-hidden="true" tabindex="-1"></a>    tab<span class="op">.</span>at<span class="op">(</span><span class="dv">1</span><span class="op">).</span>at<span class="op">(</span><span class="dv">2</span><span class="op">)</span> <span class="op">=</span> tab<span class="op">.</span>at<span class="op">(</span><span class="dv">1</span><span class="op">).</span>at<span class="op">(</span><span class="dv">2</span><span class="op">)</span> <span class="op">/</span> sum<span class="op">;</span> </span>
+<span id="cb20-43"><a href="#cb20-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-44"><a href="#cb20-44" aria-hidden="true" tabindex="-1"></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"        x = 1     x = 2    x = 3"</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb20-45"><a href="#cb20-45" aria-hidden="true" tabindex="-1"></a>    cout <span class="op">&lt;&lt;</span><span class="st">"y = 0 "</span><span class="op">&lt;&lt;</span>tab<span class="op">.</span>at<span class="op">(</span><span class="dv">0</span><span class="op">).</span>at<span class="op">(</span><span class="dv">0</span><span class="op">)</span> <span class="op">&lt;&lt;</span> <span class="st">" "</span><span class="op">;</span></span>
+<span id="cb20-46"><a href="#cb20-46" aria-hidden="true" tabindex="-1"></a>    cout <span class="op">&lt;&lt;</span> tab<span class="op">.</span>at<span class="op">(</span><span class="dv">0</span><span class="op">).</span>at<span class="op">(</span><span class="dv">1</span><span class="op">)</span> <span class="op">&lt;&lt;</span> <span class="st">" "</span><span class="op">;</span></span>
+<span id="cb20-47"><a href="#cb20-47" aria-hidden="true" tabindex="-1"></a>    cout <span class="op">&lt;&lt;</span> tab<span class="op">.</span>at<span class="op">(</span><span class="dv">0</span><span class="op">).</span>at<span class="op">(</span><span class="dv">2</span><span class="op">)</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb20-48"><a href="#cb20-48" aria-hidden="true" tabindex="-1"></a>    cout <span class="op">&lt;&lt;</span><span class="st">"y = 1 "</span><span class="op">&lt;&lt;</span>tab<span class="op">.</span>at<span class="op">(</span><span class="dv">1</span><span class="op">).</span>at<span class="op">(</span><span class="dv">0</span><span class="op">)</span> <span class="op">&lt;&lt;</span> <span class="st">" "</span><span class="op">;</span></span>
+<span id="cb20-49"><a href="#cb20-49" aria-hidden="true" tabindex="-1"></a>    cout <span class="op">&lt;&lt;</span> tab<span class="op">.</span>at<span class="op">(</span><span class="dv">1</span><span class="op">).</span>at<span class="op">(</span><span class="dv">1</span><span class="op">)</span> <span class="op">&lt;&lt;</span> <span class="st">" "</span><span class="op">;</span></span>
+<span id="cb20-50"><a href="#cb20-50" aria-hidden="true" tabindex="-1"></a>    cout <span class="op">&lt;&lt;</span> tab<span class="op">.</span>at<span class="op">(</span><span class="dv">1</span><span class="op">).</span>at<span class="op">(</span><span class="dv">2</span><span class="op">)</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb20-51"><a href="#cb20-51" aria-hidden="true" tabindex="-1"></a>    cout <span class="op">&lt;&lt;</span> endl <span class="op">&lt;&lt;</span><span class="st">"======================================================="</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb20-52"><a href="#cb20-52" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-53"><a href="#cb20-53" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> tab<span class="op">;</span></span>
+<span id="cb20-54"><a href="#cb20-54" aria-hidden="true" tabindex="-1"></a><span class="op">};</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="calc_mean" class="level3">
+<h3 class="anchored" data-anchor-id="calc_mean">calc_mean</h3>
+<div class="sourceCode" id="cb21"><pre class="sourceCode cpp code-with-copy"><code class="sourceCode cpp"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>vector<span class="op">&lt;</span><span class="dt">double</span><span class="op">&gt;</span> calc_mean<span class="op">(</span>DataFrame df<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>    vector<span class="op">&lt;</span><span class="dt">double</span><span class="op">&gt;</span> mean_uso_dias<span class="op">(</span><span class="dv">2</span><span class="op">,</span><span class="dv">0</span><span class="op">);</span></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>    <span class="dt">double</span> sum_0<span class="op">,</span> sum_1<span class="op">;</span></span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> cnt_0<span class="op">,</span> cnt_1<span class="op">;</span></span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>    sum_0 <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>    sum_1 <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>    cnt_0 <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>    cnt_1 <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span><span class="op">(</span><span class="kw">auto</span> row<span class="op">:</span> df<span class="op">.</span>data<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span><span class="op">(</span>row<span class="op">.</span>at<span class="op">(</span><span class="dv">2</span><span class="op">)</span> <span class="op">==</span> <span class="dv">0</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a>            sum_0 <span class="op">+=</span> row<span class="op">.</span>at<span class="op">(</span><span class="dv">4</span><span class="op">);</span></span>
+<span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a>            cnt_0<span class="op">++;</span></span>
+<span id="cb21-16"><a href="#cb21-16" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
+<span id="cb21-17"><a href="#cb21-17" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span><span class="op">(</span>row<span class="op">.</span>at<span class="op">(</span><span class="dv">2</span><span class="op">)</span> <span class="op">==</span> <span class="dv">1</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb21-18"><a href="#cb21-18" aria-hidden="true" tabindex="-1"></a>            sum_1 <span class="op">+=</span> row<span class="op">.</span>at<span class="op">(</span><span class="dv">4</span><span class="op">);</span></span>
+<span id="cb21-19"><a href="#cb21-19" aria-hidden="true" tabindex="-1"></a>            cnt_1<span class="op">++;</span></span>
+<span id="cb21-20"><a href="#cb21-20" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
+<span id="cb21-21"><a href="#cb21-21" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb21-22"><a href="#cb21-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-23"><a href="#cb21-23" aria-hidden="true" tabindex="-1"></a>    mean_uso_dias<span class="op">.</span>at<span class="op">(</span><span class="dv">0</span><span class="op">)</span> <span class="op">=</span> sum_0<span class="op">/</span>cnt_0<span class="op">;</span></span>
+<span id="cb21-24"><a href="#cb21-24" aria-hidden="true" tabindex="-1"></a>    mean_uso_dias<span class="op">.</span>at<span class="op">(</span><span class="dv">1</span><span class="op">)</span> <span class="op">=</span> sum_1<span class="op">/</span>cnt_1<span class="op">;</span></span>
+<span id="cb21-25"><a href="#cb21-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-26"><a href="#cb21-26" aria-hidden="true" tabindex="-1"></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Médias da feature uso_dias"</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb21-27"><a href="#cb21-27" aria-hidden="true" tabindex="-1"></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"y = 0     y = 1"</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb21-28"><a href="#cb21-28" aria-hidden="true" tabindex="-1"></a>    cout <span class="op">&lt;&lt;</span> mean_uso_dias<span class="op">.</span>at<span class="op">(</span><span class="dv">0</span><span class="op">)</span> <span class="op">&lt;&lt;</span><span class="st">" "</span><span class="op">;</span></span>
+<span id="cb21-29"><a href="#cb21-29" aria-hidden="true" tabindex="-1"></a>    cout <span class="op">&lt;&lt;</span> mean_uso_dias<span class="op">.</span>at<span class="op">(</span><span class="dv">1</span><span class="op">)</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb21-30"><a href="#cb21-30" aria-hidden="true" tabindex="-1"></a>    cout <span class="op">&lt;&lt;</span> endl <span class="op">&lt;&lt;</span><span class="st">"======================================================="</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb21-31"><a href="#cb21-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-32"><a href="#cb21-32" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> mean_uso_dias<span class="op">;</span></span>
+<span id="cb21-33"><a href="#cb21-33" aria-hidden="true" tabindex="-1"></a><span class="op">};</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="calc_std" class="level3">
+<h3 class="anchored" data-anchor-id="calc_std">calc_std</h3>
+<div class="sourceCode" id="cb22"><pre class="sourceCode cpp code-with-copy"><code class="sourceCode cpp"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>vector<span class="op">&lt;</span><span class="dt">double</span><span class="op">&gt;</span> calc_std<span class="op">(</span>DataFrame df<span class="op">,</span> vector<span class="op">&lt;</span><span class="dt">double</span><span class="op">&gt;</span> mean<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>    vector<span class="op">&lt;</span><span class="dt">double</span><span class="op">&gt;</span> std_uso_dias<span class="op">(</span><span class="dv">2</span><span class="op">,</span><span class="dv">0</span><span class="op">);</span></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>    <span class="dt">double</span> sum_0<span class="op">,</span> sum_1<span class="op">;</span></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> cnt_0<span class="op">,</span> cnt_1<span class="op">;</span></span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>    sum_0 <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>    sum_1 <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>    cnt_0 <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a>    cnt_1 <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span><span class="op">(</span><span class="kw">auto</span> row<span class="op">:</span> df<span class="op">.</span>data<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span><span class="op">(</span>row<span class="op">.</span>at<span class="op">(</span><span class="dv">2</span><span class="op">)</span> <span class="op">==</span> <span class="dv">0</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb22-14"><a href="#cb22-14" aria-hidden="true" tabindex="-1"></a>            sum_0 <span class="op">+=</span> pow<span class="op">((</span>row<span class="op">.</span>at<span class="op">(</span><span class="dv">4</span><span class="op">)</span> <span class="op">-</span> mean<span class="op">.</span>at<span class="op">(</span><span class="dv">0</span><span class="op">)),</span> <span class="dv">2</span><span class="op">);</span></span>
+<span id="cb22-15"><a href="#cb22-15" aria-hidden="true" tabindex="-1"></a>            cnt_0<span class="op">++;</span></span>
+<span id="cb22-16"><a href="#cb22-16" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
+<span id="cb22-17"><a href="#cb22-17" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span><span class="op">(</span>row<span class="op">.</span>at<span class="op">(</span><span class="dv">2</span><span class="op">)</span> <span class="op">==</span> <span class="dv">1</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb22-18"><a href="#cb22-18" aria-hidden="true" tabindex="-1"></a>            sum_1 <span class="op">+=</span> pow<span class="op">((</span>row<span class="op">.</span>at<span class="op">(</span><span class="dv">4</span><span class="op">)</span> <span class="op">-</span> mean<span class="op">.</span>at<span class="op">(</span><span class="dv">1</span><span class="op">)),</span> <span class="dv">2</span><span class="op">);</span></span>
+<span id="cb22-19"><a href="#cb22-19" aria-hidden="true" tabindex="-1"></a>            cnt_1<span class="op">++;</span></span>
+<span id="cb22-20"><a href="#cb22-20" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
+<span id="cb22-21"><a href="#cb22-21" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb22-22"><a href="#cb22-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-23"><a href="#cb22-23" aria-hidden="true" tabindex="-1"></a>    std_uso_dias<span class="op">.</span>at<span class="op">(</span><span class="dv">0</span><span class="op">)</span> <span class="op">=</span> sqrt<span class="op">(</span>sum_0<span class="op">/(</span>cnt_0 <span class="op">-</span> <span class="dv">1</span><span class="op">));</span></span>
+<span id="cb22-24"><a href="#cb22-24" aria-hidden="true" tabindex="-1"></a>    std_uso_dias<span class="op">.</span>at<span class="op">(</span><span class="dv">1</span><span class="op">)</span> <span class="op">=</span> sqrt<span class="op">(</span>sum_1<span class="op">/(</span>cnt_1 <span class="op">-</span> <span class="dv">1</span><span class="op">));</span></span>
+<span id="cb22-25"><a href="#cb22-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-26"><a href="#cb22-26" aria-hidden="true" tabindex="-1"></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Desvio padrão da feature uso_dias"</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb22-27"><a href="#cb22-27" aria-hidden="true" tabindex="-1"></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"y = 0     y = 1"</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb22-28"><a href="#cb22-28" aria-hidden="true" tabindex="-1"></a>    cout <span class="op">&lt;&lt;</span> std_uso_dias<span class="op">.</span>at<span class="op">(</span><span class="dv">0</span><span class="op">)</span> <span class="op">&lt;&lt;</span><span class="st">" "</span><span class="op">;</span></span>
+<span id="cb22-29"><a href="#cb22-29" aria-hidden="true" tabindex="-1"></a>    cout <span class="op">&lt;&lt;</span> std_uso_dias<span class="op">.</span>at<span class="op">(</span><span class="dv">1</span><span class="op">)</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb22-30"><a href="#cb22-30" aria-hidden="true" tabindex="-1"></a>    cout <span class="op">&lt;&lt;</span> endl <span class="op">&lt;&lt;</span><span class="st">"======================================================="</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb22-31"><a href="#cb22-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-32"><a href="#cb22-32" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> std_uso_dias<span class="op">;</span></span>
+<span id="cb22-33"><a href="#cb22-33" aria-hidden="true" tabindex="-1"></a><span class="op">};</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="fit" class="level3">
+<h3 class="anchored" data-anchor-id="fit">fit</h3>
+<div class="sourceCode" id="cb23"><pre class="sourceCode cpp code-with-copy"><code class="sourceCode cpp"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>vector<span class="op">&lt;</span>vector<span class="op">&lt;</span>vector<span class="op">&lt;</span><span class="dt">double</span><span class="op">&gt;&gt;&gt;</span> fit<span class="op">(</span>DataFrame df<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>    <span class="co">// ------------------------- Discretas ------------------------------------</span></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>    vector<span class="op">&lt;</span>vector<span class="op">&lt;</span><span class="dt">double</span><span class="op">&gt;&gt;</span>  probability_distribution_certificado_valido<span class="op">(</span><span class="dv">2</span><span class="op">,</span> vector<span class="op">&lt;</span><span class="dt">double</span><span class="op">&gt;(</span><span class="dv">2</span><span class="op">,</span><span class="dv">0</span><span class="op">));</span> <span class="co">// 2 x 2</span></span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>    vector<span class="op">&lt;</span>vector<span class="op">&lt;</span><span class="dt">double</span><span class="op">&gt;&gt;</span>  probability_distribution_tipo_doc<span class="op">(</span><span class="dv">2</span><span class="op">,</span> vector<span class="op">&lt;</span><span class="dt">double</span><span class="op">&gt;(</span><span class="dv">3</span><span class="op">,</span><span class="dv">0</span><span class="op">));</span>           <span class="co">// 2 x 3</span></span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>    <span class="co">// --&gt; certificado_valido</span></span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>    probability_distribution_certificado_valido <span class="op">=</span> get_distribution_certificado_valido<span class="op">(</span></span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>        df<span class="op">,</span> </span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>        probability_distribution_certificado_valido</span>
+<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a>    <span class="op">);</span></span>
+<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a>    <span class="co">// --&gt; tipo_doc</span></span>
+<span id="cb23-14"><a href="#cb23-14" aria-hidden="true" tabindex="-1"></a>    probability_distribution_tipo_doc <span class="op">=</span> get_distribution_tipo_doc<span class="op">(</span></span>
+<span id="cb23-15"><a href="#cb23-15" aria-hidden="true" tabindex="-1"></a>        df<span class="op">,</span> </span>
+<span id="cb23-16"><a href="#cb23-16" aria-hidden="true" tabindex="-1"></a>        probability_distribution_tipo_doc</span>
+<span id="cb23-17"><a href="#cb23-17" aria-hidden="true" tabindex="-1"></a>    <span class="op">);</span></span>
+<span id="cb23-18"><a href="#cb23-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-19"><a href="#cb23-19" aria-hidden="true" tabindex="-1"></a>    <span class="co">// ------------------------- Contínuas ------------------------------------</span></span>
+<span id="cb23-20"><a href="#cb23-20" aria-hidden="true" tabindex="-1"></a>    vector<span class="op">&lt;</span><span class="dt">double</span><span class="op">&gt;</span> mean_uso_dias<span class="op">(</span><span class="dv">2</span><span class="op">,</span><span class="dv">0</span><span class="op">);</span>                                                 <span class="co">// 1x2 </span></span>
+<span id="cb23-21"><a href="#cb23-21" aria-hidden="true" tabindex="-1"></a>    vector<span class="op">&lt;</span><span class="dt">double</span><span class="op">&gt;</span> std_uso_dias<span class="op">(</span><span class="dv">2</span><span class="op">,</span><span class="dv">0</span><span class="op">);</span>                                                  <span class="co">// 1x2</span></span>
+<span id="cb23-22"><a href="#cb23-22" aria-hidden="true" tabindex="-1"></a>    vector<span class="op">&lt;</span>vector<span class="op">&lt;</span><span class="dt">double</span><span class="op">&gt;&gt;</span>  probability_distribution_uso_dias<span class="op">(</span><span class="dv">2</span><span class="op">,</span> vector<span class="op">&lt;</span><span class="dt">double</span><span class="op">&gt;(</span><span class="dv">2</span><span class="op">,</span><span class="dv">0</span><span class="op">));</span> <span class="co">// 2 x 2</span></span>
+<span id="cb23-23"><a href="#cb23-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-24"><a href="#cb23-24" aria-hidden="true" tabindex="-1"></a>    <span class="co">// --&gt; uso_dias</span></span>
+<span id="cb23-25"><a href="#cb23-25" aria-hidden="true" tabindex="-1"></a>    mean_uso_dias                     <span class="op">=</span> calc_mean<span class="op">(</span>df<span class="op">);</span></span>
+<span id="cb23-26"><a href="#cb23-26" aria-hidden="true" tabindex="-1"></a>    std_uso_dias                      <span class="op">=</span> calc_std<span class="op">(</span>df<span class="op">,</span> mean_uso_dias<span class="op">);</span></span>
+<span id="cb23-27"><a href="#cb23-27" aria-hidden="true" tabindex="-1"></a>    probability_distribution_uso_dias <span class="op">=</span> <span class="op">{</span></span>
+<span id="cb23-28"><a href="#cb23-28" aria-hidden="true" tabindex="-1"></a>        mean_uso_dias<span class="op">,</span></span>
+<span id="cb23-29"><a href="#cb23-29" aria-hidden="true" tabindex="-1"></a>        std_uso_dias</span>
+<span id="cb23-30"><a href="#cb23-30" aria-hidden="true" tabindex="-1"></a>    <span class="op">};</span></span>
+<span id="cb23-31"><a href="#cb23-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-32"><a href="#cb23-32" aria-hidden="true" tabindex="-1"></a>    <span class="co">// ------------------------- Resultado ------------------------------------</span></span>
+<span id="cb23-33"><a href="#cb23-33" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb23-34"><a href="#cb23-34" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Result</span></span>
+<span id="cb23-35"><a href="#cb23-35" aria-hidden="true" tabindex="-1"></a>    vector<span class="op">&lt;</span>vector<span class="op">&lt;</span>vector<span class="op">&lt;</span><span class="dt">double</span><span class="op">&gt;&gt;&gt;</span> probs<span class="op">;</span></span>
+<span id="cb23-36"><a href="#cb23-36" aria-hidden="true" tabindex="-1"></a>    probs <span class="op">=</span> <span class="op">{</span></span>
+<span id="cb23-37"><a href="#cb23-37" aria-hidden="true" tabindex="-1"></a>        probability_distribution_certificado_valido<span class="op">,</span></span>
+<span id="cb23-38"><a href="#cb23-38" aria-hidden="true" tabindex="-1"></a>        probability_distribution_tipo_doc<span class="op">,</span></span>
+<span id="cb23-39"><a href="#cb23-39" aria-hidden="true" tabindex="-1"></a>        probability_distribution_uso_dias</span>
+<span id="cb23-40"><a href="#cb23-40" aria-hidden="true" tabindex="-1"></a>    <span class="op">};</span></span>
+<span id="cb23-41"><a href="#cb23-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-42"><a href="#cb23-42" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> probs<span class="op">;</span></span>
+<span id="cb23-43"><a href="#cb23-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-44"><a href="#cb23-44" aria-hidden="true" tabindex="-1"></a><span class="op">};</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="likelihood_certificado_valido" class="level3">
+<h3 class="anchored" data-anchor-id="likelihood_certificado_valido">likelihood_certificado_valido</h3>
+<div class="sourceCode" id="cb24"><pre class="sourceCode cpp code-with-copy"><code class="sourceCode cpp"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="dt">double</span> likelihood_certificado_valido<span class="op">(</span>vector<span class="op">&lt;</span>vector<span class="op">&lt;</span>vector<span class="op">&lt;</span><span class="dt">double</span><span class="op">&gt;&gt;&gt;</span> probs<span class="op">,</span> <span class="dt">int</span> y<span class="op">,</span> <span class="dt">double</span> val_x<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> probs<span class="op">.</span>at<span class="op">(</span><span class="dv">0</span><span class="op">).</span>at<span class="op">(</span>y<span class="op">).</span>at<span class="op">(</span>val_x<span class="op">);</span></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a><span class="op">};</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="likelihood_tipo_doc" class="level3">
+<h3 class="anchored" data-anchor-id="likelihood_tipo_doc">likelihood_tipo_doc</h3>
+<div class="sourceCode" id="cb25"><pre class="sourceCode cpp code-with-copy"><code class="sourceCode cpp"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="dt">double</span> likelihood_tipo_doc<span class="op">(</span>vector<span class="op">&lt;</span>vector<span class="op">&lt;</span>vector<span class="op">&lt;</span><span class="dt">double</span><span class="op">&gt;&gt;&gt;</span> probs<span class="op">,</span> <span class="dt">int</span> y<span class="op">,</span> <span class="dt">double</span> val_x<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> probs<span class="op">.</span>at<span class="op">(</span><span class="dv">1</span><span class="op">).</span>at<span class="op">(</span>y<span class="op">).</span>at<span class="op">(</span>val_x<span class="op">-</span><span class="dv">1</span><span class="op">);</span></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="likelihood_uso_dias" class="level3">
+<h3 class="anchored" data-anchor-id="likelihood_uso_dias">likelihood_uso_dias</h3>
+<div class="sourceCode" id="cb26"><pre class="sourceCode cpp code-with-copy"><code class="sourceCode cpp"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="dt">double</span> likelihood_uso_dias<span class="op">(</span>vector<span class="op">&lt;</span>vector<span class="op">&lt;</span>vector<span class="op">&lt;</span><span class="dt">double</span><span class="op">&gt;&gt;&gt;</span> probs<span class="op">,</span> <span class="dt">int</span> y<span class="op">,</span> <span class="dt">double</span> val_x<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">double</span> mean<span class="op">,</span> std<span class="op">,</span> var<span class="op">,</span> den<span class="op">,</span> num<span class="op">,</span> pdf<span class="op">;</span></span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>    mean <span class="op">=</span> probs<span class="op">.</span>at<span class="op">(</span><span class="dv">2</span><span class="op">).</span>at<span class="op">(</span><span class="dv">0</span><span class="op">).</span>at<span class="op">(</span>y<span class="op">);</span></span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>    std  <span class="op">=</span> probs<span class="op">.</span>at<span class="op">(</span><span class="dv">2</span><span class="op">).</span>at<span class="op">(</span><span class="dv">1</span><span class="op">).</span>at<span class="op">(</span>y<span class="op">);</span></span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>    var  <span class="op">=</span> pow<span class="op">(</span>std<span class="op">,</span> <span class="dv">2</span><span class="op">);</span></span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Gaussian</span></span>
+<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a>    den <span class="op">=</span> sqrt<span class="op">((</span><span class="dv">2</span> <span class="op">*</span> M_PI <span class="op">*</span> var<span class="op">));</span></span>
+<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a>    num <span class="op">=</span> exp<span class="op">(-</span>pow<span class="op">((</span>val_x<span class="op">-</span> mean<span class="op">),</span> <span class="dv">2</span><span class="op">)</span>  <span class="op">/(</span><span class="dv">2</span><span class="op">*</span>var<span class="op">));</span></span>
+<span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a>    pdf <span class="op">=</span> num<span class="op">/</span>den<span class="op">;</span></span>
+<span id="cb26-13"><a href="#cb26-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-14"><a href="#cb26-14" aria-hidden="true" tabindex="-1"></a>    <span class="co">//cout &lt;&lt;"y = "&lt;&lt;y&lt;&lt; "| valor =  " &lt;&lt; val_x &lt;&lt; "| mean = " &lt;&lt; mean &lt;&lt; "| std = " &lt;&lt; std &lt;&lt; "| pdf = " &lt;&lt; pdf &lt;&lt; endl;</span></span>
+<span id="cb26-15"><a href="#cb26-15" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> pdf<span class="op">;</span></span>
+<span id="cb26-16"><a href="#cb26-16" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="priori" class="level3">
+<h3 class="anchored" data-anchor-id="priori">priori</h3>
+<div class="sourceCode" id="cb27"><pre class="sourceCode cpp code-with-copy"><code class="sourceCode cpp"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>vector<span class="op">&lt;</span><span class="dt">double</span><span class="op">&gt;</span> priori<span class="op">(</span>DataFrame df<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>    vector<span class="op">&lt;</span><span class="dt">double</span><span class="op">&gt;</span> priori<span class="op">(</span><span class="dv">2</span><span class="op">,</span><span class="dv">0</span><span class="op">);</span></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>    <span class="dt">double</span> cnt_0<span class="op">,</span> cnt_1<span class="op">;</span></span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>    cnt_0 <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>    cnt_1 <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span><span class="op">(</span><span class="kw">auto</span> row<span class="op">:</span> df<span class="op">.</span>data<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span><span class="op">(</span>row<span class="op">.</span>at<span class="op">(</span><span class="dv">2</span><span class="op">)</span> <span class="op">==</span> <span class="dv">0</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a>            cnt_0<span class="op">++;</span></span>
+<span id="cb27-12"><a href="#cb27-12" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
+<span id="cb27-13"><a href="#cb27-13" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span><span class="op">(</span>row<span class="op">.</span>at<span class="op">(</span><span class="dv">2</span><span class="op">)</span> <span class="op">==</span> <span class="dv">1</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb27-14"><a href="#cb27-14" aria-hidden="true" tabindex="-1"></a>            cnt_1<span class="op">++;</span></span>
+<span id="cb27-15"><a href="#cb27-15" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
+<span id="cb27-16"><a href="#cb27-16" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb27-17"><a href="#cb27-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-18"><a href="#cb27-18" aria-hidden="true" tabindex="-1"></a>    priori <span class="op">=</span> <span class="op">{</span></span>
+<span id="cb27-19"><a href="#cb27-19" aria-hidden="true" tabindex="-1"></a>        cnt_0<span class="op">/</span>df<span class="op">.</span>data<span class="op">.</span>size<span class="op">(),</span></span>
+<span id="cb27-20"><a href="#cb27-20" aria-hidden="true" tabindex="-1"></a>        cnt_1<span class="op">/</span>df<span class="op">.</span>data<span class="op">.</span>size<span class="op">()</span></span>
+<span id="cb27-21"><a href="#cb27-21" aria-hidden="true" tabindex="-1"></a>    <span class="op">};</span></span>
+<span id="cb27-22"><a href="#cb27-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-23"><a href="#cb27-23" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> priori<span class="op">;</span></span>
+<span id="cb27-24"><a href="#cb27-24" aria-hidden="true" tabindex="-1"></a><span class="op">};</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="apply_model" class="level3">
+<h3 class="anchored" data-anchor-id="apply_model">apply_model</h3>
+<div class="sourceCode" id="cb28"><pre class="sourceCode cpp code-with-copy"><code class="sourceCode cpp"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>vector<span class="op">&lt;</span><span class="dt">double</span><span class="op">&gt;</span> apply_model<span class="op">(</span>DataFrame df_test<span class="op">,</span> DataFrame df_train<span class="op">,</span> vector<span class="op">&lt;</span>vector<span class="op">&lt;</span>vector<span class="op">&lt;</span><span class="dt">double</span><span class="op">&gt;&gt;&gt;</span> probs<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>    <span class="co">//posteriori   </span></span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>    <span class="dt">double</span> posterior_0<span class="op">,</span> posterior_1<span class="op">;</span></span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>    <span class="co">//piori</span></span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>    vector<span class="op">&lt;</span><span class="dt">double</span><span class="op">&gt;</span> priori_all <span class="op">=</span> priori<span class="op">(</span>df_train<span class="op">);</span></span>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a>    <span class="dt">double</span> priori_0<span class="op">,</span> priori_1<span class="op">;</span></span>
+<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a>    priori_0 <span class="op">=</span> priori_all<span class="op">.</span>at<span class="op">(</span><span class="dv">0</span><span class="op">);</span></span>
+<span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a>    priori_1 <span class="op">=</span> priori_all<span class="op">.</span>at<span class="op">(</span><span class="dv">1</span><span class="op">);</span></span>
+<span id="cb28-12"><a href="#cb28-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-13"><a href="#cb28-13" aria-hidden="true" tabindex="-1"></a>    <span class="co">//Verossimilhança</span></span>
+<span id="cb28-14"><a href="#cb28-14" aria-hidden="true" tabindex="-1"></a>    <span class="dt">double</span> p_tipo_doc_y_0<span class="op">,</span> p_tipo_doc_y_1<span class="op">;</span></span>
+<span id="cb28-15"><a href="#cb28-15" aria-hidden="true" tabindex="-1"></a>    <span class="dt">double</span> p_certificado_valido_y_0<span class="op">,</span> p_certificado_valido_y_1<span class="op">;</span></span>
+<span id="cb28-16"><a href="#cb28-16" aria-hidden="true" tabindex="-1"></a>    <span class="dt">double</span> p_uso_dias_y_0<span class="op">,</span> p_uso_dias_y_1<span class="op">;</span></span>
+<span id="cb28-17"><a href="#cb28-17" aria-hidden="true" tabindex="-1"></a>    <span class="dt">double</span> likelihood_0<span class="op">,</span>likelihood_1<span class="op">;</span></span>
+<span id="cb28-18"><a href="#cb28-18" aria-hidden="true" tabindex="-1"></a>    <span class="dt">double</span> val_x<span class="op">,</span> y<span class="op">;</span></span>
+<span id="cb28-19"><a href="#cb28-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-20"><a href="#cb28-20" aria-hidden="true" tabindex="-1"></a>    <span class="co">// pred</span></span>
+<span id="cb28-21"><a href="#cb28-21" aria-hidden="true" tabindex="-1"></a>    vector<span class="op">&lt;</span><span class="dt">double</span><span class="op">&gt;</span> y_pred<span class="op">;</span></span>
+<span id="cb28-22"><a href="#cb28-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-23"><a href="#cb28-23" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Calcula</span></span>
+<span id="cb28-24"><a href="#cb28-24" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> <span class="op">(</span><span class="kw">auto</span> row<span class="op">:</span> df_test<span class="op">.</span>data<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb28-25"><a href="#cb28-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-26"><a href="#cb28-26" aria-hidden="true" tabindex="-1"></a>        <span class="co">// certificado_valido</span></span>
+<span id="cb28-27"><a href="#cb28-27" aria-hidden="true" tabindex="-1"></a>        val_x <span class="op">=</span> row<span class="op">.</span>at<span class="op">(</span><span class="dv">1</span><span class="op">);</span></span>
+<span id="cb28-28"><a href="#cb28-28" aria-hidden="true" tabindex="-1"></a>        p_certificado_valido_y_0 <span class="op">=</span> likelihood_certificado_valido<span class="op">(</span>probs<span class="op">,</span> <span class="dv">0</span><span class="op">,</span> val_x<span class="op">);</span></span>
+<span id="cb28-29"><a href="#cb28-29" aria-hidden="true" tabindex="-1"></a>        p_certificado_valido_y_1 <span class="op">=</span> likelihood_certificado_valido<span class="op">(</span>probs<span class="op">,</span> <span class="dv">1</span><span class="op">,</span> val_x<span class="op">);</span></span>
+<span id="cb28-30"><a href="#cb28-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-31"><a href="#cb28-31" aria-hidden="true" tabindex="-1"></a>        <span class="co">// tipo_doc</span></span>
+<span id="cb28-32"><a href="#cb28-32" aria-hidden="true" tabindex="-1"></a>        val_x <span class="op">=</span> row<span class="op">.</span>at<span class="op">(</span><span class="dv">3</span><span class="op">);</span></span>
+<span id="cb28-33"><a href="#cb28-33" aria-hidden="true" tabindex="-1"></a>        p_tipo_doc_y_0 <span class="op">=</span> likelihood_tipo_doc<span class="op">(</span>probs<span class="op">,</span> <span class="dv">0</span><span class="op">,</span> val_x<span class="op">);</span></span>
+<span id="cb28-34"><a href="#cb28-34" aria-hidden="true" tabindex="-1"></a>        p_tipo_doc_y_1 <span class="op">=</span> likelihood_tipo_doc<span class="op">(</span>probs<span class="op">,</span> <span class="dv">1</span><span class="op">,</span> val_x<span class="op">);</span></span>
+<span id="cb28-35"><a href="#cb28-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-36"><a href="#cb28-36" aria-hidden="true" tabindex="-1"></a>        <span class="co">// uso_dias</span></span>
+<span id="cb28-37"><a href="#cb28-37" aria-hidden="true" tabindex="-1"></a>        val_x <span class="op">=</span> row<span class="op">.</span>at<span class="op">(</span><span class="dv">4</span><span class="op">);</span></span>
+<span id="cb28-38"><a href="#cb28-38" aria-hidden="true" tabindex="-1"></a>        p_uso_dias_y_0 <span class="op">=</span> likelihood_uso_dias<span class="op">(</span>probs<span class="op">,</span> <span class="dv">0</span><span class="op">,</span> val_x<span class="op">);</span></span>
+<span id="cb28-39"><a href="#cb28-39" aria-hidden="true" tabindex="-1"></a>        p_uso_dias_y_1 <span class="op">=</span> likelihood_uso_dias<span class="op">(</span>probs<span class="op">,</span> <span class="dv">1</span><span class="op">,</span> val_x<span class="op">);</span></span>
+<span id="cb28-40"><a href="#cb28-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-41"><a href="#cb28-41" aria-hidden="true" tabindex="-1"></a>        likelihood_0 <span class="op">=</span> p_certificado_valido_y_0 <span class="op">*</span> p_tipo_doc_y_0 <span class="op">*</span> p_uso_dias_y_0<span class="op">;</span></span>
+<span id="cb28-42"><a href="#cb28-42" aria-hidden="true" tabindex="-1"></a>        likelihood_1 <span class="op">=</span> p_certificado_valido_y_1 <span class="op">*</span> p_tipo_doc_y_1 <span class="op">*</span> p_uso_dias_y_1<span class="op">;</span></span>
+<span id="cb28-43"><a href="#cb28-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-44"><a href="#cb28-44" aria-hidden="true" tabindex="-1"></a>        posterior_0 <span class="op">=</span> likelihood_0 <span class="op">*</span> priori_0<span class="op">;</span></span>
+<span id="cb28-45"><a href="#cb28-45" aria-hidden="true" tabindex="-1"></a>        posterior_1 <span class="op">=</span> likelihood_1 <span class="op">*</span> priori_1<span class="op">;</span></span>
+<span id="cb28-46"><a href="#cb28-46" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-47"><a href="#cb28-47" aria-hidden="true" tabindex="-1"></a>        <span class="co">// normaliza</span></span>
+<span id="cb28-48"><a href="#cb28-48" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span><span class="op">(</span>posterior_0 <span class="op">&gt;</span> posterior_1<span class="op">){</span></span>
+<span id="cb28-49"><a href="#cb28-49" aria-hidden="true" tabindex="-1"></a>            y_pred<span class="op">.</span>push_back<span class="op">(</span><span class="dv">0</span><span class="op">);</span></span>
+<span id="cb28-50"><a href="#cb28-50" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span> <span class="cf">else</span> <span class="op">{</span></span>
+<span id="cb28-51"><a href="#cb28-51" aria-hidden="true" tabindex="-1"></a>            y_pred<span class="op">.</span>push_back<span class="op">(</span><span class="dv">1</span><span class="op">);</span></span>
+<span id="cb28-52"><a href="#cb28-52" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
+<span id="cb28-53"><a href="#cb28-53" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb28-54"><a href="#cb28-54" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> y_pred<span class="op">;</span></span>
+<span id="cb28-55"><a href="#cb28-55" aria-hidden="true" tabindex="-1"></a><span class="op">};</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="evaluate" class="level3">
+<h3 class="anchored" data-anchor-id="evaluate">evaluate</h3>
+<div class="sourceCode" id="cb29"><pre class="sourceCode cpp code-with-copy"><code class="sourceCode cpp"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> evaluate<span class="op">(</span>vector<span class="op">&lt;</span><span class="dt">double</span><span class="op">&gt;</span> y_true<span class="op">,</span> vector<span class="op">&lt;</span><span class="dt">double</span><span class="op">&gt;</span> y_pred<span class="op">){</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">double</span> tp <span class="op">=</span> <span class="dv">0</span><span class="op">,</span> tn <span class="op">=</span> <span class="dv">0</span><span class="op">,</span> fp <span class="op">=</span> <span class="dv">0</span><span class="op">,</span> fn <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> y_pred<span class="op">.</span>size<span class="op">();</span> i<span class="op">++)</span> <span class="op">{</span></span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span><span class="op">(</span>y_true<span class="op">.</span>at<span class="op">(</span>i<span class="op">)</span> <span class="op">==</span> <span class="dv">1</span> <span class="op">&amp;&amp;</span> y_pred<span class="op">.</span>at<span class="op">(</span>i<span class="op">)</span> <span class="op">==</span> <span class="dv">1</span><span class="op">){</span></span>
+<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a>            tp<span class="op">++;</span></span>
+<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
+<span id="cb29-10"><a href="#cb29-10" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span><span class="op">(</span>y_true<span class="op">.</span>at<span class="op">(</span>i<span class="op">)</span> <span class="op">==</span> <span class="dv">1</span> <span class="op">&amp;&amp;</span> y_pred<span class="op">.</span>at<span class="op">(</span>i<span class="op">)</span> <span class="op">==</span> <span class="dv">0</span><span class="op">){</span></span>
+<span id="cb29-11"><a href="#cb29-11" aria-hidden="true" tabindex="-1"></a>            fn<span class="op">++;</span></span>
+<span id="cb29-12"><a href="#cb29-12" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
+<span id="cb29-13"><a href="#cb29-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-14"><a href="#cb29-14" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span><span class="op">(</span>y_true<span class="op">.</span>at<span class="op">(</span>i<span class="op">)</span> <span class="op">==</span> <span class="dv">0</span> <span class="op">&amp;&amp;</span> y_pred<span class="op">.</span>at<span class="op">(</span>i<span class="op">)</span> <span class="op">==</span> <span class="dv">1</span><span class="op">){</span></span>
+<span id="cb29-15"><a href="#cb29-15" aria-hidden="true" tabindex="-1"></a>            fp<span class="op">++;</span></span>
+<span id="cb29-16"><a href="#cb29-16" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
+<span id="cb29-17"><a href="#cb29-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-18"><a href="#cb29-18" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span><span class="op">(</span>y_true<span class="op">.</span>at<span class="op">(</span>i<span class="op">)</span> <span class="op">==</span> <span class="dv">0</span> <span class="op">&amp;&amp;</span> y_pred<span class="op">.</span>at<span class="op">(</span>i<span class="op">)</span> <span class="op">==</span> <span class="dv">0</span><span class="op">){</span></span>
+<span id="cb29-19"><a href="#cb29-19" aria-hidden="true" tabindex="-1"></a>            tn<span class="op">++;</span></span>
+<span id="cb29-20"><a href="#cb29-20" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
+<span id="cb29-21"><a href="#cb29-21" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb29-22"><a href="#cb29-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-23"><a href="#cb29-23" aria-hidden="true" tabindex="-1"></a>    <span class="dt">double</span> acc  <span class="op">=</span> <span class="op">(</span>tp <span class="op">+</span> tn<span class="op">)/(</span>tp <span class="op">+</span> tn <span class="op">+</span> fp <span class="op">+</span> fn<span class="op">);</span></span>
+<span id="cb29-24"><a href="#cb29-24" aria-hidden="true" tabindex="-1"></a>    <span class="dt">double</span> sens <span class="op">=</span> tp<span class="op">/(</span>tp <span class="op">+</span> fn<span class="op">);</span></span>
+<span id="cb29-25"><a href="#cb29-25" aria-hidden="true" tabindex="-1"></a>    <span class="dt">double</span> spec <span class="op">=</span> tn<span class="op">/(</span>tn <span class="op">+</span> fp<span class="op">);</span></span>
+<span id="cb29-26"><a href="#cb29-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-27"><a href="#cb29-27" aria-hidden="true" tabindex="-1"></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Avaliação do Modelo"</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb29-28"><a href="#cb29-28" aria-hidden="true" tabindex="-1"></a>    cout <span class="op">&lt;&lt;</span> <span class="st">"Acurácia: "</span> <span class="op">&lt;&lt;</span> acc   <span class="op">&lt;&lt;</span> endl </span>
+<span id="cb29-29"><a href="#cb29-29" aria-hidden="true" tabindex="-1"></a>    <span class="op">&lt;&lt;</span> <span class="st">"Sensibilidade: "</span> <span class="op">&lt;&lt;</span> sens  <span class="op">&lt;&lt;</span> endl </span>
+<span id="cb29-30"><a href="#cb29-30" aria-hidden="true" tabindex="-1"></a>    <span class="op">&lt;&lt;</span><span class="st">"Especificidade: "</span> <span class="op">&lt;&lt;</span> spec  <span class="op">&lt;&lt;</span> endl<span class="op">;</span> </span>
+<span id="cb29-31"><a href="#cb29-31" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+</section>
+<section id="output" class="level2">
+<h2 class="anchored" data-anchor-id="output">Output</h2>
+<div class="cell styled-output" data-execution_count="10">
+<div class="cell-output cell-output-stdout">
+<pre><code>
+#################### Naive Bayes #########################
+
+#------------Dataframe - primeiras 5 linhas------------#
+id   certificado_valido   classe   tipo_doc   uso_dias   
+738             1            0        3         19
+868             0            1        3         22
+971             1            1        3         20
+938             0            0        3         1
+456             1            0        2         63
+
+
+=======================================================
+#---------Dataframe Treino - primeiras 5 linhas---------#
+id   certificado_valido   classe   tipo_doc   uso_dias   
+738             1            0        3         19
+868             0            1        3         22
+971             1            1        3         20
+938             0            0        3         1
+456             1            0        2         63
+
+
+=======================================================
+#---------Dataframe Teste - primeiras 5 linhas---------#
+id   certificado_valido   classe   tipo_doc   uso_dias   
+654             0            1        3         13
+870             1            0        3         28
+143             1            0        1         46
+731             1            0        3         27
+171             1            1        1         49
+
+
+=======================================================
+Distribuição da feature certificado_valido
+        x = 0     x = 1
+y = 0 0.159259 0.840741
+y = 1 0.694444 0.305556
+
+=======================================================
+Distribuição da feature tipo_doc
+        x = 1     x = 2    x = 3
+y = 0 0.168519 0.22037 0.611111
+y = 1 0.416667 0.263889 0.319444
+
+=======================================================
+Médias da feature uso_dias
+y = 0     y = 1
+30.4168 28.9206
+
+=======================================================
+Desvio padrão da feature uso_dias
+y = 0     y = 1
+14.2118 15.0907
+
+=======================================================
+Avaliação do Modelo
+Acurácia: 0.760274
+Sensibilidade: 0.626866
+Especificidade: 0.873418
+
+##########################################################
+</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="conclusão" class="level1">
+<h1>Conclusão</h1>
+<p>
+Como demonstrado, implementamos o mesmo modelo em ambas as linguagens sem o uso de pacotes.
+</p>
+<p>
+Observamos que desenvolver em C++ é significativamente mais trabalhoso em comparação com Python. No entanto, para aplicações que exigem alta performance, pode ser necessário optar por C++ em vez de Python.
+</p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
+    <div class="nav-footer-center">Copyright 2024</div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
+
+
+
+</body></html>
