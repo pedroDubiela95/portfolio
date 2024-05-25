@@ -153,7 +153,7 @@ services:
       - "80:80"
 ```
 
-# EC2 (AWS):
+# EC2 (AWS)
 ## Criação da máquina EC2
 <p>Não entraremos no detalhe de como criar uma máquina EC2, visto que já existem inúmeros tutoriais. </p>
 <p>Desta forma deixamos uma excelente referência disponível em <https://www.youtube.com/watch?v=a6nU5NTHJDM&list=PLOF5f9_x-OYUaqJar6EKRAonJNSHDFZUm&index=9></p>
